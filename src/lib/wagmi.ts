@@ -39,10 +39,7 @@ const connectors = connectorsForWallets(
 	],
 	{
 		appName: APP_NAME,
-		projectId:
-			process.env.WALLET_CONNECT_PROJECT_ID ||
-			process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID ||
-			'd4f234136ca6a7efeed7abf93474125b',
+		projectId: 'd4f234136ca6a7efeed7abf93474125b',
 		appDescription: APP_DESCRIPTION,
 		appUrl: APP_URL,
 		appIcon: 'https://efp.app/logo.png',
