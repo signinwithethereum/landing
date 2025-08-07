@@ -5,9 +5,7 @@ export default function AddToApp() {
     <section className="py-24">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-5xl font-bold text-white">
-            Add it to your app
-          </h2>
+          <h2 className="text-5xl font-bold text-white">Add it to your app</h2>
         </div>
 
         <div className="grid gap-6 max-w-lg mx-auto">
@@ -42,7 +40,9 @@ export default function AddToApp() {
                 height={24}
                 className="w-12 h-12 rounded-sm"
               />
-              <span className="text-white font-semibold text-xl">TypeScript</span>
+              <span className="text-white font-semibold text-xl">
+                TypeScript
+              </span>
             </div>
             <div className=" border-2 border-accent flex items-center justify-center rounded-lg px-8 py-5 transition-colors gap-4 hover:bg-accent/40 cursor-pointer">
               <Image
@@ -82,7 +82,10 @@ export default function AddToApp() {
               href="#"
               className="inline-block text-accent hover:text-white transition-colors font-medium group"
             >
-              View all docs <span className="inline-block group-hover:translate-x-1 transition-transform">→</span>
+              View all docs{" "}
+              <span className="inline-block group-hover:translate-x-1 transition-transform">
+                →
+              </span>
             </a>
           </div>
         </div>

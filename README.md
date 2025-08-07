@@ -31,12 +31,14 @@ This is the official landing page for Sign in with Ethereum (SIWE), built with N
 ### Getting Started
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/ethereumfollowprotocol/siwe-landing.git
 cd siwe-landing
 ```
 
 2. Install dependencies:
+
 ```bash
 bun install
 # or
@@ -44,6 +46,7 @@ npm install
 ```
 
 3. Start the development server:
+
 ```bash
 bun dev
 # or
@@ -87,6 +90,7 @@ src/
 ## 🎨 Assets
 
 All visual assets are stored in `/public/assets/` and include:
+
 - SIWE logo and branding
 - Ethereum key illustration
 - Feature icons

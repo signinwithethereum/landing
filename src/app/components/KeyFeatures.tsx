@@ -47,7 +47,9 @@ export default function KeyFeatures() {
                 <h3 className="text-xl font-bold text-white mb-1">
                   Open EIP-4361 <br /> community standard
                 </h3>
-                <button className="bg-accent w-36 py-2 font-bold rounded-md text-sm text-white hover:bg-accent/80 transition-all active:scale-95 cursor-pointer">Read the spec</button>
+                <button className="bg-accent w-36 py-2 font-bold rounded-md text-sm text-white hover:bg-accent/80 transition-all active:scale-95 cursor-pointer">
+                  Read the spec
+                </button>
               </div>
             </div>
             <div className="flex items-start space-x-4">
@@ -62,11 +64,15 @@ export default function KeyFeatures() {
               </div>
               <div className="flex flex-col gap-2">
                 <h3 className="text-xl font-bold text-white mb-1">
-                  Enrich your apps UX<br />
+                  Enrich your apps UX
+                  <br />
                   with onchain data
                 </h3>
                 <p className="text-accent flex items-center gap-1 group cursor-pointer hover:text-white transition-colors">
-                  Learn more<span className="inline-block group-hover:translate-x-1 transition-transform">→</span>
+                  Learn more
+                  <span className="inline-block group-hover:translate-x-1 transition-transform">
+                    →
+                  </span>
                 </p>
               </div>
             </div>
@@ -82,11 +88,15 @@ export default function KeyFeatures() {
               </div>
               <div className="flex flex-col gap-2">
                 <h3 className="text-xl font-bold text-white mb-1">
-                  Works with crypto<br />
+                  Works with crypto
+                  <br />
                   and non-crypto apps
                 </h3>
                 <p className="text-accent flex items-center gap-1 group cursor-pointer hover:text-white transition-colors">
-                  Learn more<span className="inline-block group-hover:translate-x-1 transition-transform">→</span>
+                  Learn more
+                  <span className="inline-block group-hover:translate-x-1 transition-transform">
+                    →
+                  </span>
                 </p>
               </div>
             </div>

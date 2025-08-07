@@ -1,4 +1,9 @@
-import { Avatar, fetchAccount, HeaderImage, ProfileStats } from "ethereum-identity-kit";
+import {
+  Avatar,
+  fetchAccount,
+  HeaderImage,
+  ProfileStats,
+} from "ethereum-identity-kit";
 import Image from "next/image";
 import { useAccount } from "wagmi";
 import { useQuery } from "@tanstack/react-query";
@@ -11,7 +16,10 @@ const steps = [
     mockup: {
       wallets: [
         { name: "MetaMask", icon: "assets/icons/wallets/metamask.png" },
-        { name: "WalletConnect", icon: "assets/icons/wallets/walletconnect.png" },
+        {
+          name: "WalletConnect",
+          icon: "assets/icons/wallets/walletconnect.png",
+        },
         { name: "Rainbow Wallet", icon: "assets/icons/wallets/rainbow.png" },
         { name: "Coinbase Wallet", icon: "assets/icons/wallets/coinbase.png" },
         { name: "Trust Wallet", icon: "assets/icons/wallets/trust.png" },
@@ -25,41 +33,56 @@ const steps = [
         { name: "Exodus", icon: "assets/icons/wallets/exodus.png" },
         { name: "AlphaWallet", icon: "assets/icons/wallets/alpha.png" },
         { name: "Zerion", icon: "assets/icons/wallets/zerion.png" },
-      ]
-    }
+      ],
+    },
   },
   {
     icon: "sign.svg",
     title: "Sign a message",
     description: "Sign a short message",
+    mockup: {
+      message: "Hello from SIWE!",
+      url: "https://siwe.com",
+      network: "Ethereum",
+      account: "vitalik.eth",
+      chainId: "1",
+    },
   },
   {
     icon: "authentication.svg",
     title: "You're authenticated",
     description: "Your connections follow you.",
-  }
+    mockup: {
+      message: "Hello from SIWE!",
+      url: "https://siwe.com",
+      network: "Ethereum",
+      account: "vitalik.eth",
+      chainId: "1",
+    },
+  },
 ];
 
 export default function HowItWorks() {
-  const { address } = useAccount()
-  const { data: account } = useQuery({
-    queryKey: ['user', address],
+  const { address } = useAccount();
+  const { data: account, isLoading: accountIsLoading } = useQuery({
+    queryKey: ["user", address],
     queryFn: () => {
-      return fetchAccount(address || "vitalik.eth")
+      return fetchAccount(address || "vitalik.eth");
     },
-  })
+  });
 
   return (
     <section className="py-24">
       <div className="max-w-6xl mx-auto flex items-center flex-col gap-10 px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-4">
-          <h2 className="text-5xl font-bold text-white">
-            How it works
-          </h2>
+          <h2 className="text-5xl font-bold text-white">How it works</h2>
         </div>
         <div className="flex flex-row gap-10 max-w-[1040px] flex-wrap justify-center">
           {steps.map((step, index) => (
-            <div key={index} className="w-80 bg-background shadow-accent rounded-lg p-6 h-[350px] flex flex-col gap-4">
+            <div
+              key={index}
+              className="w-80 bg-background shadow-accent rounded-lg p-6 h-[350px] flex flex-col gap-4"
+            >
               <div className="flex flex-row gap-4 items-start">
                 <div className="pt-1">
                   <Image
@@ -71,9 +94,7 @@ export default function HowItWorks() {
                   />
                 </div>
                 <div className="flex flex-col items-start gap-1">
-                  <p className="text-xl font-bold text-white">
-                    {step.title}
-                  </p>
+                  <p className="text-xl font-bold text-white">{step.title}</p>
                   <p className="text-gray-400 text-sm text-left">
                     {step.description}
                   </p>
@@ -87,18 +108,40 @@ export default function HowItWorks() {
                       {/* Original list */}
                       <div className="space-y-6">
                         {step.mockup.wallets?.map((wallet, i) => (
-                          <div key={`original-${i}`} className="flex items-center transition-colors gap-4">
-                            <Image src={wallet.icon} alt={wallet.name} width={30} height={30} className="rounded-sm" />
-                            <span className="text-white text-lg font-semibold">{wallet.name}</span>
+                          <div
+                            key={`original-${i}`}
+                            className="flex items-center transition-colors gap-4"
+                          >
+                            <Image
+                              src={wallet.icon}
+                              alt={wallet.name}
+                              width={30}
+                              height={30}
+                              className="rounded-sm"
+                            />
+                            <span className="text-white text-lg font-semibold">
+                              {wallet.name}
+                            </span>
                           </div>
                         ))}
                       </div>
                       {/* Duplicate list for seamless loop */}
                       <div className="space-y-6 mt-3">
                         {step.mockup.wallets?.map((wallet, i) => (
-                          <div key={`duplicate-${i}`} className="flex items-center transition-colors gap-4">
-                            <Image src={wallet.icon} alt={wallet.name} width={30} height={30} className="rounded-sm" />
-                            <span className="text-white text-lg font-semibold">{wallet.name}</span>
+                          <div
+                            key={`duplicate-${i}`}
+                            className="flex items-center transition-colors gap-4"
+                          >
+                            <Image
+                              src={wallet.icon}
+                              alt={wallet.name}
+                              width={30}
+                              height={30}
+                              className="rounded-sm"
+                            />
+                            <span className="text-white text-lg font-semibold">
+                              {wallet.name}
+                            </span>
                           </div>
                         ))}
                       </div>
@@ -140,7 +183,14 @@ export default function HowItWorks() {
               )}
               {index === 2 && (
                 <div className="flex flex-col bg-[#333] rounded-md relative p-4 overflow-hidden h-[232px] items-start pt-8 gap-2">
-                  <HeaderImage key={account?.ens.records?.header} src={account?.ens.records?.header} fallback="https://efp.app/assets/art/default-header.svg" alt="Ethereum" className="mr-2 w-full max-h-20 absolute top-0 left-0 object-cover" isLoading={false} style={{ height: "80px" }} />
+                  <HeaderImage
+                    // @ts-expect-error Missing types in EIK
+                    key={account?.ens?.records?.header}
+                    // @ts-expect-error Missing types in EIK
+                    src={account?.ens?.records?.header}
+                    isLoaded={!accountIsLoading}
+                    style={{ height: "80px" }}
+                  />
                   <div className="flex flex-row gap-2 relative z-10">
                     <Avatar
                       address={address}
@@ -150,17 +200,25 @@ export default function HowItWorks() {
                     />
                   </div>
                   <div className="flex flex-col gap-2 items-start relative z-10">
-                    <p className="text-white text-lg font-bold">{account?.ens?.name || "vitalik.eth"}</p>
-                    <ProfileStats addressOrName={address || "vitalik.eth"} containerDirection="row" statsDirection="row" gap="12px" fontSize="md" />
+                    <p className="text-white text-lg font-bold">
+                      {account?.ens?.name || "vitalik.eth"}
+                    </p>
+                    <ProfileStats
+                      addressOrName={address || "vitalik.eth"}
+                      containerDirection="row"
+                      statsDirection="row"
+                      gap="12px"
+                      fontSize="md"
+                    />
                     <p className="text-sm line-clamp-2 overflow-ellipsis">
+                      {/* @ts-expect-error Missing types in EIK */}
                       {account?.ens.records?.description}
                     </p>
                   </div>
                 </div>
               )}
             </div>
-          ))
-          }
+          ))}
           {/* <div className="w-80 bg-background shadow-accent rounded-lg p-6 items-center flex flex-col gap-4">
             <div className="flex flex-row items-center gap-3">
               <Image
@@ -177,8 +235,8 @@ export default function HowItWorks() {
               Read the spec
             </button>
           </div> */}
-        </div >
-      </div >
-    </section >
+        </div>
+      </div>
+    </section>
   );
 }

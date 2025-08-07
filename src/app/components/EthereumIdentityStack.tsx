@@ -12,13 +12,19 @@ export default function EthereumIdentityStack() {
             Ethereum identity stack
           </h3>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            <strong className="text-white">SIWE</strong> is complementary with <strong className="text-white">ENS</strong>, <strong className="text-white">EFP</strong> and other Ethereum identity primitives.
+            <strong className="text-white">SIWE</strong> is complementary with{" "}
+            <strong className="text-white">ENS</strong>,{" "}
+            <strong className="text-white">EFP</strong> and other Ethereum
+            identity primitives.
           </p>
           <a
             href="#"
             className="inline-block mt-4 text-accent hover:text-white transition-colors font-medium group"
           >
-            Learn more <span className="inline-block group-hover:translate-x-1 transition-transform">→</span>
+            Learn more{" "}
+            <span className="inline-block group-hover:translate-x-1 transition-transform">
+              →
+            </span>
           </a>
         </div>
 

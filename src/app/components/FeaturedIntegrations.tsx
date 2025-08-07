@@ -4,7 +4,7 @@ const wallets = [
   { name: "MetaMask", logo: "metamask.png" },
   { name: "Rainbow", logo: "rainbow.png" },
   { name: "Frame", logo: "frame.png" },
-  { name: "WalletConnect", logo: "walletconnect.png" }
+  { name: "WalletConnect", logo: "walletconnect.png" },
 ];
 
 const apps = [
@@ -12,7 +12,7 @@ const apps = [
   { name: "Tally", logo: "tally.png" },
   { name: "Superfluid", logo: "superfluid.png" },
   { name: "1inch", logo: "1inch.png" },
-  { name: "Ceramic", logo: "ceramic.png" }
+  { name: "Ceramic", logo: "ceramic.png" },
 ];
 
 export default function FeaturedIntegrations() {
@@ -35,7 +35,10 @@ export default function FeaturedIntegrations() {
               {/* Original list */}
               <div className="flex gap-20 min-w-max">
                 {wallets.map((wallet, index) => (
-                  <div key={`wallet-original-${index}`} className="flex-shrink-0">
+                  <div
+                    key={`wallet-original-${index}`}
+                    className="flex-shrink-0"
+                  >
                     <Image
                       unoptimized
                       src={`/assets/integrations/wallets/${wallet.logo}`}
@@ -50,7 +53,10 @@ export default function FeaturedIntegrations() {
               {/* Duplicate list for seamless loop */}
               <div className="flex gap-20 min-w-max ml-20">
                 {wallets.map((wallet, index) => (
-                  <div key={`wallet-duplicate-${index}`} className="flex-shrink-0">
+                  <div
+                    key={`wallet-duplicate-${index}`}
+                    className="flex-shrink-0"
+                  >
                     <Image
                       src={`/assets/integrations/wallets/${wallet.logo}`}
                       alt={wallet.name}

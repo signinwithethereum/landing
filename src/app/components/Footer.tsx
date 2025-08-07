@@ -22,7 +22,10 @@ export default function Footer() {
                 height={100}
                 className="w-8 h-auto"
               />
-              <p className="text-gray-400 text-sm leading-tight">A project of the <br /><u>Ethereum Identity Foundation</u></p>
+              <p className="text-gray-400 text-sm leading-tight">
+                A project of the <br />
+                <u>Ethereum Identity Foundation</u>
+              </p>
             </div>
           </div>
 
