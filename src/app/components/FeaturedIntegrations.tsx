@@ -1,10 +1,13 @@
 import Image from "next/image";
 
 const wallets = [
-  { name: "MetaMask", logo: "metamask.png" },
+  { name: "MetaMask", logo: "metamask.svg" },
   { name: "Rainbow", logo: "rainbow.png" },
   { name: "Frame", logo: "frame.png" },
   { name: "WalletConnect", logo: "walletconnect.png" },
+  { name: "Dynamic", logo: "dynamic.png" },
+  { name: "Gnosis", logo: "gnosis.png" },
+  { name: "taho", logo: "taho.png" },
 ];
 
 const apps = [
@@ -13,6 +16,11 @@ const apps = [
   { name: "Superfluid", logo: "superfluid.png" },
   { name: "1inch", logo: "1inch.png" },
   { name: "Ceramic", logo: "ceramic.png" },
+  { name: "galaxe", logo: "galaxe.svg" },
+  { name: "oncyber", logo: "oncyber.png" },
+  { name: "radicle", logo: "radicle.png" },
+  { name: "unlock protocol", logo: "unlock-protocol.svg" },
+  { name: "yup", logo: "yup.svg" },
 ];
 
 export default function FeaturedIntegrations() {

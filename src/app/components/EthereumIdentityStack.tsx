@@ -12,9 +12,9 @@ export default function EthereumIdentityStack() {
             Ethereum identity stack
           </h3>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            <strong className="text-white">SIWE</strong> is complementary with{" "}
-            <strong className="text-white">ENS</strong>,{" "}
-            <strong className="text-white">EFP</strong> and other Ethereum
+            <strong>SIWE</strong> is complementary with{" "}
+            <strong>ENS</strong>,{" "}
+            <strong>EFP</strong> and other Ethereum
             identity primitives.
           </p>
           <a
@@ -32,7 +32,7 @@ export default function EthereumIdentityStack() {
           {/* ENS Card */}
           <div className="bg-background cursor-pointer hover:-translate-y-2 hover:bg-[#11292E] rounded-xl w-[360px] h-[200px] p-8 transition-all flex flex-col items-center justify-center gap-6 shadow-accent">
             <Image
-              src="/assets/ens-logo.png"
+              src="/assets/ens-logo.svg"
               alt="ENS Logo"
               width={200}
               height={90}
@@ -46,7 +46,7 @@ export default function EthereumIdentityStack() {
           {/* EFP Card */}
           <div className="bg-background cursor-pointer hover:-translate-y-2 hover:bg-[#11292E] rounded-xl w-[360px] h-[200px] p-8 transition-all flex flex-col items-center justify-center gap-6 shadow-accent">
             <Image
-              src="/assets/efp-logo.png"
+              src="/assets/efp-logo.svg"
               alt="EFP Logo"
               width={200}
               height={90}

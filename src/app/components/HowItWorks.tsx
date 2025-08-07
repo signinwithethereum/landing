@@ -15,13 +15,13 @@ const steps = [
     description: "You can use any wallet provider",
     mockup: {
       wallets: [
-        { name: "MetaMask", icon: "assets/icons/wallets/metamask.png" },
+        { name: "MetaMask", icon: "assets/icons/wallets/metamask.svg" },
         {
           name: "WalletConnect",
           icon: "assets/icons/wallets/walletconnect.png",
         },
         { name: "Rainbow Wallet", icon: "assets/icons/wallets/rainbow.png" },
-        { name: "Coinbase Wallet", icon: "assets/icons/wallets/coinbase.png" },
+        { name: "Base App", icon: "assets/icons/wallets/baseapp.jpg" },
         { name: "Trust Wallet", icon: "assets/icons/wallets/trust.png" },
         { name: "Ledger", icon: "assets/icons/wallets/ledger.png" },
         { name: "Rabby Wallet", icon: "assets/icons/wallets/rabby.png" },
@@ -104,7 +104,7 @@ export default function HowItWorks() {
                 // Wallet selection mockup
                 <div>
                   <div className="bg-[#333333] rounded-md p-4 max-h-[232px] overflow-hidden">
-                    <div className="animate-infinite-scroll">
+                    <div className="animate-infinite-scroll flex flex-col gap-3">
                       {/* Original list */}
                       <div className="space-y-6">
                         {step.mockup.wallets?.map((wallet, i) => (
@@ -188,7 +188,7 @@ export default function HowItWorks() {
                     key={account?.ens?.records?.header}
                     // @ts-expect-error Missing types in EIK
                     src={account?.ens?.records?.header}
-                    isLoaded={!accountIsLoading}
+                    isLoaded={accountIsLoading}
                     style={{ height: "80px" }}
                   />
                   <div className="flex flex-row gap-2 relative z-10">
@@ -219,7 +219,7 @@ export default function HowItWorks() {
               )}
             </div>
           ))}
-          {/* <div className="w-80 bg-background shadow-accent rounded-lg p-6 items-center flex flex-col gap-4">
+          <div className="w-80 bg-background shadow-accent rounded-lg p-6 items-center flex flex-col gap-4">
             <div className="flex flex-row items-center gap-3">
               <Image
                 src="/assets/icons/open-standard.svg"
@@ -230,11 +230,11 @@ export default function HowItWorks() {
               />
               <p className="text-white font-bold text-2xl">Open standard</p>
             </div>
-            <p className="text-center"><b>SIWE</b> is defined by the open community standard <b>EIP 4361</b>.</p>
-            <button className=" bg-accent active:scale-95 hover:opacity-90 transition-all rounded-sm h-[54px] font-bold text-lg w-44">
+            <p className="text-center text-sm"><b>SIWE</b> is defined by the open community standard <b>EIP 4361</b>.</p>
+            <button className="cursor-pointer bg-accent active:scale-95 hover:opacity-90 transition-all rounded-sm py-2 font-bold w-full">
               Read the spec
             </button>
-          </div> */}
+          </div>
         </div>
       </div>
     </section>

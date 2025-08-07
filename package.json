@@ -37,6 +37,9 @@
 		"typescript": "^5",
 		"@types/bun": "latest"
 	},
+	"optionalDependencies": {
+		"lightningcss": "^1.29.0"
+	},
 	"module": "index.ts",
 	"type": "module"
 }
