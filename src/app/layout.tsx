@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title:
-    "Sign in with Ethereum - Open standard for authentication with Ethereum accounts",
+    "Sign in with Ethereum",
   description:
     "Sign in with Ethereum is an open standard for authentication with Ethereum accounts. Works with crypto and non-crypto apps. Easily integrate with libraries.",
   keywords: [
@@ -31,9 +31,7 @@ export const metadata: Metadata = {
     "web3",
     "wallet",
   ],
-  authors: [{ name: "Ethereum Follow Protocol" }],
-  viewport: "width=device-width, initial-scale=1",
-  themeColor: "#0a0a0a",
+  authors: [{ name: "Ethereum Identity Foundation" }],
 };
 
 export default function RootLayout({
