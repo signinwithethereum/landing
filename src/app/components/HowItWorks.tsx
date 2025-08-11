@@ -39,7 +39,7 @@ const steps = [
   {
     icon: "sign.svg",
     title: "Sign a message",
-    description: "Sign a short message",
+    description: "Following EIP-4361 standard",
     mockup: {
       message: "Hello from SIWE!",
       url: "https://siwe.com",
@@ -51,7 +51,7 @@ const steps = [
   {
     icon: "authentication.svg",
     title: "You're authenticated",
-    description: "Your connections follow you.",
+    description: "Your onchain ENS profile and EFP connections follow you.",
     mockup: {
       message: "Hello from SIWE!",
       url: "https://siwe.com",
@@ -83,19 +83,19 @@ export default function HowItWorks() {
               key={index}
               className="w-80 bg-background shadow-accent rounded-lg p-6 h-[350px] flex flex-col gap-4"
             >
-              <div className="flex flex-row gap-4 items-start">
+              <div className="flex flex-row gap-4 items-start h-[60px]">
                 <div className="pt-1">
                   <Image
                     src={`/assets/icons/${step.icon}`}
                     alt={step.title}
                     width={24}
                     height={24}
-                    className="w-12 h-auto"
+                    className="min-w-12 h-auto"
                   />
                 </div>
-                <div className="flex flex-col items-start gap-1">
+                <div className={`flex flex-col h-full items-start ${index === 2 ? 'gap-0.5' : 'gap-1'}`}>
                   <p className="text-xl font-bold text-white">{step.title}</p>
-                  <p className="text-gray-400 text-sm text-left">
+                  <p className="text-gray-400 text-sm leading-[18px] text-left">
                     {step.description}
                   </p>
                 </div>

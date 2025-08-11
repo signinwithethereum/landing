@@ -187,6 +187,10 @@ html {
 	animation: infiniteScroll 30s linear infinite;
 }
 
+.animate-infinite-scroll:hover {
+	animation-play-state: paused;
+}
+
 /* Horizontal infinite scroll animations */
 @keyframes infiniteScrollLeft {
 	0% {
@@ -210,8 +214,16 @@ html {
 	animation: infiniteScrollLeft 40s linear infinite;
 }
 
+.animate-infinite-scroll-left:hover {
+	animation-play-state: paused;
+}
+
 .animate-infinite-scroll-right {
 	animation: infiniteScrollRight 40s linear infinite;
+}
+
+.animate-infinite-scroll-right:hover {
+	animation-play-state: paused;
 }
 
 /* Gradient overlay for infinite scroll */
@@ -296,4 +308,14 @@ html {
 		/* Changed from 50% */ rgba(34, 34, 34, 0.4) 60%,
 		/* Changed from 70% */ transparent 100%
 	);
+}
+
+.gradient-background {
+	background: linear-gradient(135deg, #00d4aa, #4ade80);
+}
+
+@media screen and (max-width: 781px) {
+	.gradient-background {
+		background: #00d4aa;
+	}
 }

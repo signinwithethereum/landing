@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-gray-800 py-10 relative overflow-hidden shadow-footer">
+    <footer className="border-t border-gray-800 py-10 relative overflow-hidden bg-background shadow-footer z-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-center space-y-8 sm:space-y-0">
           {/* Logo and branding */}

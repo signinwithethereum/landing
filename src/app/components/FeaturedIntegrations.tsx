@@ -25,7 +25,7 @@ const apps = [
 
 export default function FeaturedIntegrations() {
   return (
-    <section className="py-24">
+    <section className="pb-24 pt-48 [background-image:linear-gradient(transparent,#222222,#222222,#222222)]">
       <div className="">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-white mb-4">
