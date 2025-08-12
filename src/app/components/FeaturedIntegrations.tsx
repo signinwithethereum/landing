@@ -25,23 +25,23 @@ const apps = [
 
 export default function FeaturedIntegrations() {
   return (
-    <section className="pb-24 pt-48 [background-image:linear-gradient(transparent,#222222,#222222,#222222)]">
+    <section className="pb-12 sm:pb-24 pt-20 sm:pt-48 [background-image:linear-gradient(transparent,#222222,#222222,#222222)]">
       <div className="">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">
+        <div className="text-center mb-10 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white sm:mb-4">
             Featured Integrations
           </h2>
         </div>
 
         {/* Wallets Section */}
-        <div className="mb-20">
+        <div className="mb-10 sm:mb-20">
           <h3 className="text-2xl font-semibold text-white text-center mb-8">
             Wallets
           </h3>
           <div className="gradient-overlay-horizontal overflow-visible">
-            <div className="animate-infinite-scroll-left flex whitespace-nowrap px-80">
+            <div className="animate-infinite-scroll-left flex whitespace-nowrap px-40 sm:px-80">
               {/* Original list */}
-              <div className="flex gap-20 min-w-max">
+              <div className="flex gap-10 sm:gap-20 min-w-max">
                 {wallets.map((wallet, index) => (
                   <div
                     key={`wallet-original-${index}`}
@@ -53,13 +53,13 @@ export default function FeaturedIntegrations() {
                       alt={wallet.name}
                       width={80}
                       height={80}
-                      className="w-auto h-20 max-w-[230px] object-contain"
+                      className="w-auto h-14 sm:h-20 max-w-[230px] object-contain"
                     />
                   </div>
                 ))}
               </div>
               {/* Duplicate list for seamless loop */}
-              <div className="flex gap-20 min-w-max ml-20">
+              <div className="flex gap-10 sm:gap-20 min-w-max ml-20">
                 {wallets.map((wallet, index) => (
                   <div
                     key={`wallet-duplicate-${index}`}
@@ -70,7 +70,7 @@ export default function FeaturedIntegrations() {
                       alt={wallet.name}
                       width={80}
                       height={80}
-                      className="w-auto h-20 max-w-[230px] object-contain"
+                      className="w-auto h-14 sm:h-20 max-w-[230px] object-contain"
                     />
                   </div>
                 ))}
@@ -80,14 +80,14 @@ export default function FeaturedIntegrations() {
         </div>
 
         {/* Apps Section */}
-        <div className="mb-12">
+        <div className="mb-0 sm:mb-12">
           <h3 className="text-2xl font-semibold text-white text-center mb-8">
             Apps
           </h3>
           <div className="gradient-overlay-horizontal">
-            <div className="animate-infinite-scroll-right flex whitespace-nowrap px-80">
+            <div className="animate-infinite-scroll-right flex whitespace-nowrap px-40 sm:px-80">
               {/* Original list */}
-              <div className="flex gap-20 min-w-max">
+              <div className="flex gap-10 sm:gap-20 min-w-max">
                 {apps.map((app, index) => (
                   <div key={`app-original-${index}`} className="flex-shrink-0">
                     <Image
@@ -96,13 +96,13 @@ export default function FeaturedIntegrations() {
                       alt={app.name}
                       width={80}
                       height={80}
-                      className="w-auto h-20 max-w-[230px] object-contain"
+                      className="w-auto h-14 sm:h-20 max-w-[230px] object-contain"
                     />
                   </div>
                 ))}
               </div>
               {/* Duplicate list for seamless loop */}
-              <div className="flex gap-20 min-w-max ml-20">
+              <div className="flex gap-10 sm:gap-20 min-w-max ml-20">
                 {apps.map((app, index) => (
                   <div key={`app-duplicate-${index}`} className="flex-shrink-0">
                     <Image
@@ -110,7 +110,7 @@ export default function FeaturedIntegrations() {
                       alt={app.name}
                       width={80}
                       height={80}
-                      className="w-auto h-20 max-w-[230px] object-contain"
+                      className="w-auto h-14 sm:h-20 max-w-[230px] object-contain"
                     />
                   </div>
                 ))}

@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function KeyFeatures() {
   return (
-    <section className="py-12">
+    <section className="py-6 sm:py-12">
       <div className="max-w-6xl mx-auto w-fit px-4 sm:px-6 lg:px-8">
         <div className="flex flex-row gap-52 items-center">
           {/* Left side - Ethereum logo with key */}
@@ -32,7 +32,7 @@ export default function KeyFeatures() {
           </div>
 
           {/* Right side - Features list */}
-          <div className="flex flex-col gap-[92px] pt-5">
+          <div className="flex flex-col gap-16 sm:gap-[90px] pt-4">
             <div className="flex items-start space-x-4">
               <div className="flex pt-2 items-center justify-center">
                 <Image
@@ -40,7 +40,7 @@ export default function KeyFeatures() {
                   alt="Person"
                   width={40}
                   height={40}
-                  className="w-8 h-auto"
+                  className="w-10 h-auto"
                 />
               </div>
               <div className="flex flex-col gap-1">
@@ -49,12 +49,15 @@ export default function KeyFeatures() {
                   <br />
                   with onchain data
                 </h3>
-                <p className="text-accent flex items-center gap-1 group cursor-pointer hover:text-white transition-colors">
+                <a
+                  href="#ethidentitystack"
+                  className="text-accent flex items-center gap-1 group cursor-pointer hover:text-white transition-colors"
+                >
                   Learn more
                   <span className="inline-block group-hover:translate-x-1 transition-transform">
                     →
                   </span>
-                </p>
+                </a>
               </div>
             </div>
             <div className="flex items-start space-x-4">
@@ -64,7 +67,7 @@ export default function KeyFeatures() {
                   alt="Authentication"
                   width={40}
                   height={40}
-                  className="w-8 h-auto"
+                  className="w-10 h-auto"
                 />
               </div>
               <div className="flex flex-col gap-1">
@@ -73,12 +76,16 @@ export default function KeyFeatures() {
                   <br />
                   and non-crypto apps
                 </h3>
-                <p className="text-accent flex items-center gap-1 group cursor-pointer hover:text-white transition-colors">
+                <a
+                  href="https://docs.siwe.xyz/"
+                  target="_blank"
+                  className="text-accent flex items-center gap-1 group cursor-pointer hover:text-white transition-colors"
+                >
                   Learn more
                   <span className="inline-block group-hover:translate-x-1 transition-transform">
                     →
                   </span>
-                </p>
+                </a>
               </div>
             </div>
             <div className="flex items-start space-x-4">
@@ -88,7 +95,7 @@ export default function KeyFeatures() {
                   alt="Person"
                   width={40}
                   height={40}
-                  className="w-8 h-auto"
+                  className="w-10 h-auto"
                 />
               </div>
               <div className="flex flex-col gap-1">
@@ -97,12 +104,16 @@ export default function KeyFeatures() {
                   <br />
                   with libraries
                 </h3>
-                <p className="text-accent flex items-center gap-1 group cursor-pointer hover:text-white transition-colors">
+                <a
+                  href="https://ethidentitykit.com"
+                  target="_blank"
+                  className="text-accent flex items-center gap-1 group cursor-pointer hover:text-white transition-colors"
+                >
                   Learn more
                   <span className="inline-block group-hover:translate-x-1 transition-transform">
                     →
                   </span>
-                </p>
+                </a>
               </div>
             </div>
           </div>

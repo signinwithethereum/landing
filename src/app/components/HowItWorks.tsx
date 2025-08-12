@@ -72,11 +72,9 @@ export default function HowItWorks() {
   });
 
   return (
-    <section className="py-24">
-      <div className="max-w-6xl mx-auto flex items-center flex-col gap-10 px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-4">
-          <h2 className="text-5xl font-bold text-white">How it works</h2>
-        </div>
+    <section className="py-12 sm:py-24">
+      <div className="max-w-6xl mx-auto flex items-center flex-col gap-6 sm:gap-10 px-4 sm:px-6 lg:px-8">
+        <h2 className="text-3xl sm:text-5xl font-bold text-white">How it works</h2>
         <div className="flex flex-row gap-10 max-w-[1040px] flex-wrap justify-center">
           {steps.map((step, index) => (
             <div
@@ -231,9 +229,11 @@ export default function HowItWorks() {
               <p className="text-white font-bold text-2xl">Open standard</p>
             </div>
             <p className="text-center text-sm"><b>SIWE</b> is defined by the open community standard <b>EIP 4361</b>.</p>
-            <button className="cursor-pointer bg-accent active:scale-95 hover:opacity-90 transition-all rounded-sm py-2 font-bold w-full">
-              Read the spec
-            </button>
+            <a href="https://eips.ethereum.org/EIPS/eip-4361" target="_blank" className="w-full block">
+              <button className="cursor-pointer bg-accent active:scale-95 hover:opacity-90 transition-all rounded-sm py-2 font-bold w-full">
+                Read the spec
+              </button>
+            </a>
           </div>
         </div>
       </div>

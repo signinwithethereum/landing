@@ -2,11 +2,11 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-gray-800 py-10 relative overflow-hidden bg-background shadow-footer z-20">
+    <footer className="border-t border-gray-800 py-10 text-center sm:text-start relative overflow-hidden bg-background shadow-footer z-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row justify-between items-center space-y-8 sm:space-y-0">
+        <div className="flex flex-col-reverse sm:flex-row justify-between items-center gap-10">
           {/* Logo and branding */}
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-5 justify-center items-center sm:items-start">
             <Image
               src="/assets/logo.svg"
               alt="Sign in with Ethereum"
@@ -14,7 +14,7 @@ export default function Footer() {
               height={24}
               className="w-32 h-auto"
             />
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-2 mt-6 sm:mt-0">
               <Image
                 src="/assets/eif-logo.svg"
                 alt="Ethereum Identity Foundation"
@@ -22,15 +22,20 @@ export default function Footer() {
                 height={100}
                 className="w-8 h-auto"
               />
-              <p className="text-gray-400 text-sm leading-tight">
+              <p className="text-gray-400 text-start text-sm leading-tight">
                 A project of the <br />
-                <u>Ethereum Identity Foundation</u>
+                <a
+                  href="https://ethid.org/"
+                  className="text-gray-400 hover:text-white transition-colors underline"
+                >
+                  Ethereum Identity Foundation
+                </a>
               </p>
             </div>
           </div>
 
           {/* Navigation Links */}
-          <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-8">
+          <div className="flex flex-col sm:flex-row gap-6 sm:gap-8">
             <div>
               <h4 className="text-white font-medium mb-3">Developers</h4>
               <ul className="space-y-2">
@@ -44,7 +49,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <a
-                    href="https://docs.login.xyz/"
+                    href="https://docs.siwe.xyz/"
                     className="text-gray-400 hover:text-white transition-colors"
                   >
                     Documentation

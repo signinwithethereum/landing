@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function Header() {
   return (
     <header className="z-20 relative">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center py-6">
           {/* Logo */}
           <Image
@@ -11,41 +11,26 @@ export default function Header() {
             alt="Sign in with Ethereum"
             width={300}
             height={100}
-            className="w-32 h-auto"
+            className="w-24 sm:w-32 h-auto"
           />
 
           {/* Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="flex items-center space-x-6 sm:space-x-8 pr-1">
             <a
-              href="https://docs.login.xyz/"
+              href="https://eips.ethereum.org/EIPS/eip-4361"
+              target="_blank"
               className="text-gray-400 hover:text-white transition-colors font-medium"
             >
-              Learn more
+              EIP-4361
             </a>
             <a
-              href="https://docs.login.xyz/"
+              href="https://docs.siwe.xyz/"
+              target="_blank"
               className="text-gray-400 hover:text-white transition-colors font-medium"
             >
               Docs
             </a>
           </nav>
-
-          {/* Mobile menu button */}
-          <button className="md:hidden text-gray-400 hover:text-white transition-colors">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </button>
         </div>
       </div>
     </header>

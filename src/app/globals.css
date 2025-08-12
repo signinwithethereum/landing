@@ -145,6 +145,7 @@ html {
 	display: flex;
 	align-items: center;
 	gap: 10px;
+	margin: 0 !important;
 	box-shadow: none !important;
 	border: none !important;
 }
@@ -194,24 +195,25 @@ html {
 /* Horizontal infinite scroll animations */
 @keyframes infiniteScrollLeft {
 	0% {
-		transform: translateX(-15%);
+		transform: translateX(-5.075%);
 	}
 	100% {
-		transform: translateX(-150.5%);
+		transform: translateX(-48.5%);
 	}
 }
 
 @keyframes infiniteScrollRight {
 	0% {
-		transform: translateX(-210%);
+		transform: translateX(-50%);
 	}
 	100% {
-		transform: translateX(-20%);
+		transform: translateX(-4.85%);
 	}
 }
 
 .animate-infinite-scroll-left {
-	animation: infiniteScrollLeft 40s linear infinite;
+	width: fit-content;
+	animation: infiniteScrollLeft 35s linear infinite;
 }
 
 .animate-infinite-scroll-left:hover {
@@ -219,7 +221,8 @@ html {
 }
 
 .animate-infinite-scroll-right {
-	animation: infiniteScrollRight 40s linear infinite;
+	width: fit-content;
+	animation: infiniteScrollRight 35s linear infinite;
 }
 
 .animate-infinite-scroll-right:hover {

@@ -30,7 +30,7 @@ export default function Hero() {
   });
 
   return (
-    <section className="py-24 lg:py-32">
+    <section className="py-12 sm:py-24 lg:py-32">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="max-w-4xl mx-auto flex flex-col gap-3">
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight">
@@ -116,7 +116,7 @@ export default function Hero() {
                   openConnectModal?.();
                 }}
               />
-              <div className="flex flex-col gap-2 absolute -top-4 -left-[99px]">
+              <div className="hidden sm:flex flex-col gap-2 absolute -top-4 -left-[99px]">
                 <svg
                   width="100"
                   height="60"
