@@ -1,26 +1,26 @@
 import Image from "next/image";
 
 const wallets = [
-  { name: "MetaMask", logo: "metamask.svg" },
-  { name: "Rainbow", logo: "rainbow.png" },
-  { name: "Frame", logo: "frame.png" },
-  { name: "WalletConnect", logo: "walletconnect.png" },
-  { name: "Dynamic", logo: "dynamic.png" },
-  { name: "Gnosis", logo: "gnosis.png" },
-  { name: "taho", logo: "taho.png" },
+  { name: "MetaMask", logo: "metamask.svg", link: "https://metamask.io/" },
+  { name: "Rainbow", logo: "rainbow.png", link: "https://rainbow.me/" },
+  { name: "Frame", logo: "frame.png", link: "https://frame.sh/" },
+  { name: "WalletConnect", logo: "walletconnect.png", link: "https://walletconnect.com/" },
+  { name: "Dynamic", logo: "dynamic.png", link: "https://dynamic.xyz/" },
+  { name: "Gnosis", logo: "gnosis.png", link: "https://safe.global/" },
+  { name: "taho", logo: "taho.png", link: "https://taho.xyz/" },
 ];
 
 const apps = [
-  { name: "Snapshot", logo: "snapshot.png" },
-  { name: "Tally", logo: "tally.png" },
-  { name: "Superfluid", logo: "superfluid.png" },
-  { name: "1inch", logo: "1inch.png" },
-  { name: "Ceramic", logo: "ceramic.png" },
-  { name: "galaxe", logo: "galaxe.svg" },
-  { name: "oncyber", logo: "oncyber.png" },
-  { name: "radicle", logo: "radicle.png" },
-  { name: "unlock protocol", logo: "unlock-protocol.svg" },
-  { name: "yup", logo: "yup.svg" },
+  { name: "Snapshot", logo: "snapshot.png", link: "https://snapshot.org/" },
+  { name: "Tally", logo: "tally.png", link: "https://tally.xyz/" },
+  { name: "Superfluid", logo: "superfluid.png", link: "https://superfluid.finance/" },
+  { name: "1inch", logo: "1inch.png", link: "https://1inch.io/" },
+  { name: "Ceramic", logo: "ceramic.png", link: "https://ceramic.network/" },
+  { name: "galaxe", logo: "galaxe.svg", link: "https://galxe.xyz/" },
+  { name: "oncyber", logo: "oncyber.png", link: "https://cyber.xyz/" },
+  { name: "radicle", logo: "radicle.png", link: "https://radicle.xyz/" },
+  { name: "unlock protocol", logo: "unlock-protocol.svg", link: "https://unlock-protocol.com/" },
+  { name: "yup", logo: "yup.svg", link: "https://yup.io/" },
 ];
 
 export default function FeaturedIntegrations() {
@@ -43,9 +43,11 @@ export default function FeaturedIntegrations() {
               {/* Original list */}
               <div className="flex gap-10 sm:gap-20 min-w-max">
                 {wallets.map((wallet, index) => (
-                  <div
+                  <a
+                    href={wallet.link}
+                    target="_blank"
                     key={`wallet-original-${index}`}
-                    className="flex-shrink-0"
+                    className="block flex-shrink-0 cursor-pointer"
                   >
                     <Image
                       unoptimized
@@ -55,15 +57,17 @@ export default function FeaturedIntegrations() {
                       height={80}
                       className="w-auto h-14 sm:h-20 max-w-[230px] object-contain"
                     />
-                  </div>
+                  </a>
                 ))}
               </div>
               {/* Duplicate list for seamless loop */}
               <div className="flex gap-10 sm:gap-20 min-w-max ml-20">
                 {wallets.map((wallet, index) => (
-                  <div
+                  <a
+                    href={wallet.link}
+                    target="_blank"
                     key={`wallet-duplicate-${index}`}
-                    className="flex-shrink-0"
+                    className="block flex-shrink-0 cursor-pointer"
                   >
                     <Image
                       src={`/assets/integrations/wallets/${wallet.logo}`}
@@ -72,7 +76,7 @@ export default function FeaturedIntegrations() {
                       height={80}
                       className="w-auto h-14 sm:h-20 max-w-[230px] object-contain"
                     />
-                  </div>
+                  </a>
                 ))}
               </div>
             </div>
@@ -89,7 +93,7 @@ export default function FeaturedIntegrations() {
               {/* Original list */}
               <div className="flex gap-10 sm:gap-20 min-w-max">
                 {apps.map((app, index) => (
-                  <div key={`app-original-${index}`} className="flex-shrink-0">
+                  <a href={app.link} target="_blank" key={`app-original-${index}`} className="block flex-shrink-0 cursor-pointer">
                     <Image
                       unoptimized
                       src={`/assets/integrations/apps/${app.logo}`}
@@ -98,13 +102,13 @@ export default function FeaturedIntegrations() {
                       height={80}
                       className="w-auto h-14 sm:h-20 max-w-[230px] object-contain"
                     />
-                  </div>
+                  </a>
                 ))}
               </div>
               {/* Duplicate list for seamless loop */}
               <div className="flex gap-10 sm:gap-20 min-w-max ml-20">
                 {apps.map((app, index) => (
-                  <div key={`app-duplicate-${index}`} className="flex-shrink-0">
+                  <a href={app.link} target="_blank" key={`app-duplicate-${index}`} className="block flex-shrink-0 cursor-pointer">
                     <Image
                       src={`/assets/integrations/apps/${app.logo}`}
                       alt={app.name}
@@ -112,7 +116,7 @@ export default function FeaturedIntegrations() {
                       height={80}
                       className="w-auto h-14 sm:h-20 max-w-[230px] object-contain"
                     />
-                  </div>
+                  </a>
                 ))}
               </div>
             </div>
