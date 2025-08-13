@@ -50,7 +50,7 @@ export default function KeyFeatures() {
                   with onchain data
                 </h3>
                 <a
-                  href="https://docs.siwe.xyz/quickstart/resolve-onchain-holdings"
+                  href="https://docs.siwe.xyz/quickstart/retrieve-onchain-data"
                   className="text-accent flex items-center gap-1 group cursor-pointer hover:text-white transition-colors"
                 >
                   Learn more
