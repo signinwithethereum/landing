@@ -105,7 +105,7 @@ export default function KeyFeatures() {
                   with libraries
                 </h3>
                 <a
-                  href="https://ethidentitykit.com"
+                  href="https://docs.siwe.xyz/libraries/"
                   target="_blank"
                   className="text-accent flex items-center gap-1 group cursor-pointer hover:text-white transition-colors"
                 >
