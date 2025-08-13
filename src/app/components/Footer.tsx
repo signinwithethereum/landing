@@ -35,7 +35,7 @@ export default function Footer() {
           </div>
 
           {/* Navigation Links */}
-          <div className="flex flex-col sm:flex-row gap-6 sm:gap-8">
+          <div className="flex flex-col sm:flex-row gap-6 sm:gap-12">
             <div>
               <h4 className="text-white font-medium mb-3">Developers</h4>
               <ul className="space-y-2">
@@ -62,10 +62,10 @@ export default function Footer() {
               <ul className="space-y-2">
                 <li>
                   <a
-                    href="mailto:contact@ethfollow.xyz"
+                    href="mailto:contact@siwe.xyz"
                     className="text-gray-400 hover:text-white transition-colors"
                   >
-                    contact@ethfollow.xyz
+                    contact@siwe.xyz
                   </a>
                 </li>
               </ul>
