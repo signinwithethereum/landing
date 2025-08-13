@@ -139,6 +139,7 @@ html {
 .sign-in-with-ethereum-button,
 .dark .sign-in-with-ethereum-button {
 	background-color: #00becc !important;
+	color: var(--background) !important;
 	cursor: pointer;
 	padding: 12px 32px !important;
 	border-radius: 5px;
@@ -156,7 +157,6 @@ html {
 
 .sign-in-with-ethereum-button:hover {
 	background-color: #00becccc !important;
-	color: #fff !important;
 }
 
 .sign-in-with-ethereum-button:active {
@@ -321,4 +321,8 @@ html {
 	.gradient-background {
 		background: #00d4aa;
 	}
+}
+
+.pause-animation-on-hover:hover {
+	animation-play-state: paused;
 }

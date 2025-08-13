@@ -5,40 +5,40 @@ import {
   ProfileStats,
 } from "ethereum-identity-kit";
 import Image from "next/image";
-import { useAccount } from "wagmi";
 import { useQuery } from "@tanstack/react-query";
 
 const steps = [
   {
     icon: "wallet.svg",
-    title: "Connect your wallet",
+    title: "1. Connect your wallet",
     description: "You can use any wallet provider",
     mockup: {
       wallets: [
-        { name: "MetaMask", icon: "assets/icons/wallets/metamask.svg" },
+        { name: "MetaMask", icon: "assets/icons/wallets/metamask.svg", link: "https://metamask.io/" },
         {
           name: "WalletConnect",
           icon: "assets/icons/wallets/walletconnect.png",
+          link: "https://walletconnect.com/"
         },
-        { name: "Rainbow Wallet", icon: "assets/icons/wallets/rainbow.png" },
-        { name: "Base App", icon: "assets/icons/wallets/baseapp.jpg" },
-        { name: "Trust Wallet", icon: "assets/icons/wallets/trust.png" },
-        { name: "Ledger", icon: "assets/icons/wallets/ledger.png" },
-        { name: "Rabby Wallet", icon: "assets/icons/wallets/rabby.png" },
-        { name: "Phantom", icon: "assets/icons/wallets/phantom.svg" },
-        { name: "Safe", icon: "assets/icons/wallets/safe.png" },
-        { name: "Ambire Wallet", icon: "assets/icons/wallets/ambire.png" },
-        { name: "Trezor", icon: "assets/icons/wallets/trezor.png" },
-        { name: "OKX Wallet", icon: "assets/icons/wallets/okx.png" },
-        { name: "Exodus", icon: "assets/icons/wallets/exodus.png" },
-        { name: "AlphaWallet", icon: "assets/icons/wallets/alpha.png" },
-        { name: "Zerion", icon: "assets/icons/wallets/zerion.png" },
+        { name: "Rainbow Wallet", icon: "assets/icons/wallets/rainbow.png", link: "https://rainbow.me/" },
+        { name: "Base App", icon: "assets/icons/wallets/baseapp.jpg", link: "https://base.org/" },
+        { name: "Trust Wallet", icon: "assets/icons/wallets/trust.png", link: "https://trustwallet.com/" },
+        { name: "Ledger", icon: "assets/icons/wallets/ledger.png", link: "https://www.ledger.com/" },
+        { name: "Rabby Wallet", icon: "assets/icons/wallets/rabby.png", link: "https://rabby.io/" },
+        { name: "Phantom", icon: "assets/icons/wallets/phantom.svg", link: "https://phantom.app/" },
+        { name: "Safe", icon: "assets/icons/wallets/safe.png", link: "https://safe.global/" },
+        { name: "Ambire Wallet", icon: "assets/icons/wallets/ambire.png", link: "https://ambire.com/" },
+        { name: "Trezor", icon: "assets/icons/wallets/trezor.png", link: "https://trezor.io/" },
+        { name: "OKX Wallet", icon: "assets/icons/wallets/okx.png", link: "https://www.okx.com/" },
+        { name: "Exodus", icon: "assets/icons/wallets/exodus.png", link: "https://www.exodus.com/" },
+        { name: "AlphaWallet", icon: "assets/icons/wallets/alpha.png", link: "https://alphawallet.com/" },
+        { name: "Zerion", icon: "assets/icons/wallets/zerion.png", link: "https://zerion.io/" },
       ],
     },
   },
   {
     icon: "sign.svg",
-    title: "Sign a message",
+    title: "2. Sign a message",
     description: "Following EIP-4361 standard",
     mockup: {
       message: "Hello from SIWE!",
@@ -50,7 +50,7 @@ const steps = [
   },
   {
     icon: "authentication.svg",
-    title: "You're authenticated",
+    title: "3. You're authenticated",
     description: "Your onchain ENS profile and EFP connections follow you.",
     mockup: {
       message: "Hello from SIWE!",
@@ -63,11 +63,11 @@ const steps = [
 ];
 
 export default function HowItWorks() {
-  const { address } = useAccount();
+  const accountName = "cottons.eth";
   const { data: account, isLoading: accountIsLoading } = useQuery({
-    queryKey: ["user", address],
+    queryKey: ["user", accountName],
     queryFn: () => {
-      return fetchAccount(address || "vitalik.eth");
+      return fetchAccount(accountName);
     },
   });
 
@@ -92,7 +92,7 @@ export default function HowItWorks() {
                   />
                 </div>
                 <div className={`flex flex-col h-full items-start ${index === 2 ? 'gap-0.5' : 'gap-1'}`}>
-                  <p className="text-xl font-bold text-white">{step.title}</p>
+                  <p className="text-lg font-bold text-white">{step.title}</p>
                   <p className="text-gray-400 text-sm leading-[18px] text-left">
                     {step.description}
                   </p>
@@ -102,13 +102,15 @@ export default function HowItWorks() {
                 // Wallet selection mockup
                 <div>
                   <div className="bg-[#333333] rounded-md p-4 max-h-[232px] overflow-hidden">
-                    <div className="animate-infinite-scroll flex flex-col gap-3">
+                    <div className="animate-infinite-scroll pause-animation-on-hover flex flex-col gap-3">
                       {/* Original list */}
                       <div className="space-y-6">
                         {step.mockup.wallets?.map((wallet, i) => (
-                          <div
+                          <a
+                            href={wallet.link}
+                            target="_blank"
                             key={`original-${i}`}
-                            className="flex items-center transition-colors gap-4"
+                            className="flex items-center transition-colors gap-4 cursor-pointer hover:opacity-80"
                           >
                             <Image
                               src={wallet.icon}
@@ -120,15 +122,17 @@ export default function HowItWorks() {
                             <span className="text-white text-lg font-semibold">
                               {wallet.name}
                             </span>
-                          </div>
+                          </a>
                         ))}
                       </div>
                       {/* Duplicate list for seamless loop */}
                       <div className="space-y-6 mt-3">
                         {step.mockup.wallets?.map((wallet, i) => (
-                          <div
+                          <a
+                            href={wallet.link}
+                            target="_blank"
                             key={`duplicate-${i}`}
-                            className="flex items-center transition-colors gap-4"
+                            className="flex items-center transition-colors gap-4 cursor-pointer hover:opacity-80"
                           >
                             <Image
                               src={wallet.icon}
@@ -140,7 +144,7 @@ export default function HowItWorks() {
                             <span className="text-white text-lg font-semibold">
                               {wallet.name}
                             </span>
-                          </div>
+                          </a>
                         ))}
                       </div>
                     </div>
@@ -191,18 +195,17 @@ export default function HowItWorks() {
                   />
                   <div className="flex flex-row gap-2 relative z-10">
                     <Avatar
-                      address={address}
-                      name={account?.ens?.name || "vitalik.eth"}
+                      name={accountName}
                       fallback="https://efp.app/assets/art/default-avatar.svg"
                       style={{ width: "70px", height: "70px" }}
                     />
                   </div>
                   <div className="flex flex-col gap-2 items-start relative z-10">
                     <p className="text-white text-lg font-bold">
-                      {account?.ens?.name || "vitalik.eth"}
+                      {accountName}
                     </p>
                     <ProfileStats
-                      addressOrName={address || "vitalik.eth"}
+                      addressOrName={accountName}
                       containerDirection="row"
                       statsDirection="row"
                       gap="12px"
@@ -217,7 +220,7 @@ export default function HowItWorks() {
               )}
             </div>
           ))}
-          <div className="w-80 bg-background shadow-accent rounded-lg p-6 items-center flex flex-col gap-4">
+          <div className="w-80 bg-background shadow-accent rounded-lg p-6 h-fit items-center flex flex-col gap-4">
             <div className="flex flex-row items-center gap-3">
               <Image
                 src="/assets/icons/open-standard.svg"
@@ -230,7 +233,7 @@ export default function HowItWorks() {
             </div>
             <p className="text-center text-sm"><b>SIWE</b> is defined by the open community standard <b>EIP 4361</b>.</p>
             <a href="https://eips.ethereum.org/EIPS/eip-4361" target="_blank" className="w-full block">
-              <button className="cursor-pointer bg-accent active:scale-95 hover:opacity-90 transition-all rounded-sm py-2 font-bold w-full">
+              <button className="cursor-pointer bg-accent active:scale-95 text-background hover:opacity-90 transition-all rounded-sm py-2 font-bold w-full">
                 Read the spec
               </button>
             </a>

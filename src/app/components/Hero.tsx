@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { useAccount, useDisconnect } from "wagmi";
 import {
@@ -8,10 +9,10 @@ import {
   LoadingCell,
   SignInWithEthereum,
 } from "ethereum-identity-kit";
+import { useState } from "react";
 import { generateClientSideNonce } from "@/lib/utils";
 import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
-import { useState } from "react";
-import Image from "next/image";
+
 
 export default function Hero() {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -84,7 +85,7 @@ export default function Hero() {
                   disconnect();
                   setIsSignedIn(false);
                 }}
-                className="inline-flex cursor-pointer transition-all items-center active:scale-95 px-6 py-3 text-lg font-semibold border border-accent hover:bg-accent/90 rounded-lg"
+                className="inline-flex cursor-pointer transition-all items-center active:scale-95 px-6 py-3 font-semibold border border-accent hover:bg-accent/90 rounded-lg"
               >
                 <Image
                   src="/assets/ethereum-icon.svg"
