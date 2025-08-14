@@ -18,7 +18,7 @@ export default function EthereumIdentityStack() {
             identity primitives.
           </p>
           <a
-            href="https://docs.siwe.xyz"
+            href="https://docs.siwe.xyz/quickstart/retrieve-onchain-data"
             target="_blank"
             className="inline-block mt-4 text-accent hover:text-white transition-colors font-medium group"
           >
