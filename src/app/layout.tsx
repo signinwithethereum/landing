@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     description: "Sign in with Ethereum is an open standard for authentication with Ethereum accounts. Works with crypto and non-crypto apps. Easily integrate with libraries.",
     images: [
       {
-        url: "https://siwe.xyz/og-image.png",
+        url: "https://siwe.xyz/og.png",
       },
     ],
   },
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Sign in with Ethereum",
     description: "Sign in with Ethereum is an open standard for authentication with Ethereum accounts. Works with crypto and non-crypto apps. Easily integrate with libraries.",
-    images: ["https://siwe.xyz/og-image.png"],
+    images: ["https://siwe.xyz/og.png"],
   },
 };
 
