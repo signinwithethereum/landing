@@ -116,6 +116,7 @@ export default function Hero() {
                 onDisconnectedClick={() => {
                   openConnectModal?.();
                 }}
+                autoSignInAfterConnection={true}
               />
               <div className="hidden sm:flex flex-col gap-2 absolute -top-4 -left-[99px]">
                 <svg

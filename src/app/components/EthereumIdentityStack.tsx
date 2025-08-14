@@ -31,7 +31,7 @@ export default function EthereumIdentityStack() {
 
         <div className="gap-12 flex flex-wrap items-center justify-center mx-auto">
           {/* ENS Card */}
-          <div className="bg-background cursor-pointer hover:-translate-y-2 hover:bg-[#11292E] rounded-xl w-[300px] sm:w-[360px] h-[180px] sm:h-[200px] p-8 transition-all flex flex-col items-center justify-center gap-4 sm:gap-6 shadow-accent">
+          <a href="https://ens.domains" target="_blank" className="bg-background cursor-pointer hover:-translate-y-2 hover:bg-[#11292E] rounded-xl w-[300px] sm:w-[360px] h-[180px] sm:h-[200px] p-8 transition-all flex flex-col items-center justify-center gap-4 sm:gap-6 shadow-accent">
             <Image
               src="/assets/ens-logo.svg"
               alt="ENS Logo"
@@ -42,10 +42,10 @@ export default function EthereumIdentityStack() {
             <p className="text-gray-200 text-center text-lg font-medium">
               On-chain usernames and profiles
             </p>
-          </div>
+          </a>
 
           {/* EFP Card */}
-          <div className="bg-background cursor-pointer hover:-translate-y-2 hover:bg-[#11292E] rounded-xl w-[300px] sm:w-[360px] h-[180px] sm:h-[200px] p-8 transition-all flex flex-col items-center justify-center gap-4 sm:gap-6 shadow-accent">
+          <a href="https://efp.app" target="_blank" className="bg-background cursor-pointer hover:-translate-y-2 hover:bg-[#11292E] rounded-xl w-[300px] sm:w-[360px] h-[180px] sm:h-[200px] p-8 transition-all flex flex-col items-center justify-center gap-4 sm:gap-6 shadow-accent">
             <Image
               src="/assets/efp-logo.svg"
               alt="EFP Logo"
@@ -56,7 +56,7 @@ export default function EthereumIdentityStack() {
             <p className="text-gray-200 text-center text-lg font-medium">
               On-chain social graph for Ethereum accounts
             </p>
-          </div>
+          </a>
         </div>
       </div>
     </section>

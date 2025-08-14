@@ -190,7 +190,7 @@ export default function HowItWorks() {
                     key={account?.ens?.records?.header}
                     // @ts-expect-error Missing types in EIK
                     src={account?.ens?.records?.header}
-                    isLoaded={accountIsLoading}
+                    isLoading={accountIsLoading}
                     style={{ height: "80px" }}
                   />
                   <div className="flex flex-row gap-2 relative z-10">

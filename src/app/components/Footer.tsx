@@ -26,6 +26,7 @@ export default function Footer() {
                 A project of the <br />
                 <a
                   href="https://ethid.org/"
+                  target="_blank"
                   className="text-gray-400 hover:text-white transition-colors underline"
                 >
                   Ethereum Identity Foundation
@@ -42,6 +43,7 @@ export default function Footer() {
                 <li>
                   <a
                     href="https://github.com/signinwithethereum"
+                    target="_blank"
                     className="text-gray-400 hover:text-white transition-colors"
                   >
                     GitHub
@@ -50,6 +52,7 @@ export default function Footer() {
                 <li>
                   <a
                     href="https://docs.siwe.xyz/"
+                    target="_blank"
                     className="text-gray-400 hover:text-white transition-colors"
                   >
                     Documentation
@@ -63,6 +66,7 @@ export default function Footer() {
                 <li>
                   <a
                     href="mailto:contact@siwe.xyz"
+                    target="_blank"
                     className="text-gray-400 hover:text-white transition-colors"
                   >
                     contact@siwe.xyz
