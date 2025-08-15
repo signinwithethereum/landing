@@ -62,7 +62,7 @@ export default function Hero() {
                         alt="Ethereum"
                         width={12}
                         height={12}
-                        className="mr-2 opacity-20 h-full w-full absolute top-0 left-0"
+                        className="mr-2 opacity-20 h-full w-full absolute top-0 left-0 object-cover"
                       />
                     )}
                     <div className="flex items-center gap-2 relative z-10">

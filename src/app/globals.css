@@ -195,10 +195,10 @@ html {
 /* Horizontal infinite scroll animations */
 @keyframes infiniteScrollLeft {
 	0% {
-		transform: translateX(-5.075%);
+		transform: translateX(3%);
 	}
 	100% {
-		transform: translateX(-48.5%);
+		transform: translateX(-48%);
 	}
 }
 
@@ -207,7 +207,7 @@ html {
 		transform: translateX(-50%);
 	}
 	100% {
-		transform: translateX(-4.85%);
+		transform: translateX(2%);
 	}
 }
 
