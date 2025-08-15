@@ -40,7 +40,7 @@ export default function EthereumIdentityStack() {
               className="w-auto h-12 sm:h-16"
             />
             <p className="text-gray-200 text-center text-lg font-medium">
-              On-chain usernames and profiles
+              Onchain usernames and profiles
             </p>
           </a>
 
@@ -54,7 +54,7 @@ export default function EthereumIdentityStack() {
               className="w-auto h-12 sm:h-16"
             />
             <p className="text-gray-200 text-center text-lg font-medium">
-              On-chain social graph for Ethereum accounts
+              Onchain social graph for Ethereum accounts
             </p>
           </a>
         </div>
