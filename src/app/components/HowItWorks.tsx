@@ -26,6 +26,7 @@ const steps = [
         { name: "Ledger", icon: "assets/icons/wallets/ledger.png", link: "https://www.ledger.com/" },
         { name: "Rabby Wallet", icon: "assets/icons/wallets/rabby.png", link: "https://rabby.io/" },
         { name: "Phantom", icon: "assets/icons/wallets/phantom.svg", link: "https://phantom.app/" },
+        { name: "Gemini", icon: "assets/icons/wallets/gemini.webp", link: "https://gemini.com/" },
         { name: "Safe", icon: "assets/icons/wallets/safe.png", link: "https://safe.global/" },
         { name: "Ambire Wallet", icon: "assets/icons/wallets/ambire.png", link: "https://ambire.com/" },
         { name: "Trezor", icon: "assets/icons/wallets/trezor.png", link: "https://trezor.io/" },

@@ -7,6 +7,7 @@ import {
 	walletConnectWallet,
 	safeWallet,
 } from '@rainbow-me/rainbowkit/wallets'
+import { geminiWallet } from './geminiWallet'
 import { mainnet, optimism, base } from 'wagmi/chains'
 import { type Chain, connectorsForWallets } from '@rainbow-me/rainbowkit'
 import {
@@ -30,7 +31,12 @@ const connectors = connectorsForWallets(
 		},
 		{
 			groupName: 'Popular',
-			wallets: [rainbowWallet, metaMaskWallet, walletConnectWallet],
+			wallets: [
+				rainbowWallet,
+				metaMaskWallet,
+				walletConnectWallet,
+				geminiWallet,
+			],
 		},
 		{
 			groupName: 'Other',
