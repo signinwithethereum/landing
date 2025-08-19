@@ -21,7 +21,7 @@ const apps = [
   { name: "Fileverse", logo: "fileverse.svg", link: "https://fileverse.io/" },
   { name: "galaxe", logo: "galaxe.svg", link: "https://galxe.xyz/" },
   { name: "oncyber", logo: "oncyber.png", link: "https://cyber.xyz/" },
-  { name: "radicle", logo: "radicle.png", link: "https://radicle.xyz/" },
+  { name: "radicle", logo: "radicle.svg", link: "https://radicle.xyz/" },
   { name: "unlock protocol", logo: "unlock-protocol.svg", link: "https://unlock-protocol.com/" },
   { name: "yup", logo: "yup.svg", link: "https://yup.io/" },
 ];

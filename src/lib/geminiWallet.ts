@@ -1,19 +1,27 @@
-import { Wallet, getWalletConnectConnector } from '@rainbow-me/rainbowkit'
+import { type CreateConnectorFn, createConnector } from 'wagmi'
+import { gemini } from 'wagmi/connectors'
+import { Wallet, WalletDetailsParams } from '@rainbow-me/rainbowkit'
 
 export interface GeminiWalletOptions {
-	projectId: string
+	appName: string
+	appIcon?: string
 }
 
-export const geminiWallet = ({ projectId }: GeminiWalletOptions): Wallet => ({
+export const geminiWallet = ({
+	appName,
+	appIcon,
+}: GeminiWalletOptions): Wallet => ({
 	id: 'gemini',
 	name: 'Gemini Wallet',
+	shortName: 'Gemini',
+	rdns: 'com.gemini.wallet',
 	iconUrl: '/assets/icons/wallets/gemini.webp',
-	iconBackground: '#fff',
+	iconAccent: '#1FC4DF',
+	iconBackground: '#1FC4DF',
+	installed: true,
 	downloadUrls: {
-		ios: 'https://apps.apple.com/us/app/gemini-buy-bitcoin-crypto/id1408914447',
-		android:
-			'https://play.google.com/store/apps/details?id=com.gemini.android.app',
-		qrCode: 'https://gemini.onelink.me/OZOu/kycgfjew',
+		browserExtension: 'https://keys.gemini.com',
+		qrCode: 'https://keys.gemini.com',
 	},
 	mobile: {
 		getUri: (uri: string) => uri,
@@ -21,41 +29,65 @@ export const geminiWallet = ({ projectId }: GeminiWalletOptions): Wallet => ({
 	qrCode: {
 		getUri: (uri: string) => uri,
 		instructions: {
-			learnMoreUrl: 'https://support.gemini.com/hc/en-us',
+			learnMoreUrl: 'https://keys.gemini.com',
 			steps: [
 				{
 					description:
-						'After you scan, a connection prompt will appear for you to connect your wallet.',
+						'wallet_connectors.gemini.qr_code.step1.description',
+					step: 'install',
+					title: 'wallet_connectors.gemini.qr_code.step1.title',
+				},
+				{
+					description:
+						'wallet_connectors.gemini.qr_code.step2.description',
+					step: 'create',
+					title: 'wallet_connectors.gemini.qr_code.step2.title',
+				},
+				{
+					description:
+						'wallet_connectors.gemini.qr_code.step3.description',
 					step: 'scan',
-					title: 'Open the Gemini app',
+					title: 'wallet_connectors.gemini.qr_code.step3.title',
 				},
 			],
 		},
 	},
 	extension: {
 		instructions: {
-			learnMoreUrl: 'https://support.gemini.com/hc/en-us',
+			learnMoreUrl: 'https://keys.gemini.com',
 			steps: [
 				{
 					description:
-						'We recommend pinning Gemini Wallet to your taskbar for easier access to your wallet.',
+						'wallet_connectors.gemini.extension.step1.description',
 					step: 'install',
-					title: 'Install the Gemini Wallet extension',
+					title: 'wallet_connectors.gemini.extension.step1.title',
 				},
 				{
 					description:
-						'Be sure to back up your wallet using a secure method. Never share your secret phrase with anyone.',
+						'wallet_connectors.gemini.extension.step2.description',
 					step: 'create',
-					title: 'Create or Import a Wallet',
+					title: 'wallet_connectors.gemini.extension.step2.title',
 				},
 				{
 					description:
-						'Once you set up your wallet, click below to refresh the browser and load up the extension.',
+						'wallet_connectors.gemini.extension.step3.description',
 					step: 'refresh',
-					title: 'Refresh your browser',
+					title: 'wallet_connectors.gemini.extension.step3.title',
 				},
 			],
 		},
 	},
-	createConnector: getWalletConnectConnector({ projectId }),
+	createConnector: (walletDetails: WalletDetailsParams) => {
+		const connector: CreateConnectorFn = gemini({
+			appMetadata: {
+				name: appName,
+				icons: appIcon ? [appIcon] : undefined,
+			},
+		})
+
+		return createConnector(config => ({
+			...connector(config),
+			...walletDetails,
+		}))
+	},
 })
