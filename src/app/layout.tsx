@@ -1,7 +1,9 @@
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next"
 import { Geist, Geist_Mono } from "next/font/google";
 import Providers from "./providers";
+import { Production } from "./production";
 
 import "./globals.css";
 import "ethereum-identity-kit/css";
@@ -60,6 +62,9 @@ export default function RootLayout({
         className={cn(geistSans.variable, geistMono.variable, "antialiased")}
       >
         <Providers>{children}</Providers>
+        <Production>
+          <Analytics />
+        </Production>
       </body>
     </html>
   );

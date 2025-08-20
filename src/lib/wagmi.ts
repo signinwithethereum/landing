@@ -130,55 +130,13 @@ const config = createConfig({
 		storage: cookieStorage,
 	}),
 	transports: {
-		[mainnet.id]: fallback([
-			http(
-				`https://eth-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_MAINNET_ALCHEMY_ID}`,
-				{
-					batch: true,
-				}
-			),
-			http(
-				`https://smart-cosmological-telescope.quiknode.pro/${process.env.NEXT_PUBLIC_QUICKNODE_ID}`,
-				{
-					batch: true,
-				}
-			),
-			http('https://eth.llamarpc.com', {
-				batch: true,
-			}),
-		]),
-		[optimism.id]: fallback([
-			http(
-				`https://opt-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_OPTIMISM_ALCHEMY_ID}`,
-				{
-					batch: true,
-				}
-			),
-			http(
-				`https://smart-cosmological-telescope.optimism.quiknode.pro/${process.env.NEXT_PUBLIC_QUICKNODE_ID}`,
-				{
-					batch: true,
-				}
-			),
-			http(`https://mainnet.optimism.io`, {
-				batch: true,
-			}),
-		]),
-		[base.id]: fallback([
-			http(
-				`https://base-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_BASE_ALCHEMY_ID}`,
-				{
-					batch: true,
-				}
-			),
-			http(
-				`https://smart-cosmological-telescope.base-mainnet.quiknode.pro/${process.env.NEXT_PUBLIC_QUICKNODE_ID}`,
-				{
-					batch: true,
-				}
-			),
-			http('https://mainnet.base.org/', { batch: true }),
-		]),
+		[mainnet.id]: http('https://eth.llamarpc.com', {
+			batch: true,
+		}),
+		[optimism.id]: http(`https://mainnet.optimism.io`, {
+			batch: true,
+		}),
+		[base.id]: http('https://mainnet.base.org/', { batch: true }),
 	},
 })
 
