@@ -80,7 +80,7 @@ export default function HowItWorks() {
           {steps.map((step, index) => (
             <div
               key={index}
-              className="w-80 bg-background shadow-accent rounded-lg p-6 h-[350px] flex flex-col gap-4"
+              className="w-80 bg-background shadow-accent rounded-lg p-6 h-[350px] flex flex-col gap-4 overflow-hidden"
             >
               <div className="flex flex-row gap-4 items-start h-[60px]">
                 <div className="pt-1">
