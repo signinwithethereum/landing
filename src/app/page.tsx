@@ -1,6 +1,5 @@
 "use client";
 
-import Header from "./components/Header";
 import Hero from "./components/Hero";
 import KeyFeatures from "./components/KeyFeatures";
 import HowItWorks from "./components/HowItWorks";
@@ -13,7 +12,6 @@ import { cn } from "@/lib/utils";
 export default function Home() {
   return (
     <div className="min-h-screen bg-background overflow-hidden relative">
-      <Header />
       <div className="absolute z-0 -top-[50rem] left-0 w-full h-full min-h-screen">
         <div
           className={cn(

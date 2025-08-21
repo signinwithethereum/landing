@@ -5,6 +5,7 @@ import wagmiConfig from "@/lib/wagmi";
 import { WagmiProvider, type State } from "wagmi";
 import { darkTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Header } from "./components";
 
 type ProviderProps = {
   children: React.ReactNode;
@@ -23,6 +24,7 @@ const Providers: React.FC<ProviderProps> = ({ children, initialState }) => {
       <QueryClientProvider client={queryClient}>
         <WagmiProvider config={wagmiConfig} initialState={initialState}>
           <RainbowKitProvider theme={darkTheme()}>
+            <Header />
             {children}
           </RainbowKitProvider>
         </WagmiProvider>
