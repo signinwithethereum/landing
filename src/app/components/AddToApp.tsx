@@ -12,7 +12,11 @@ export default function AddToApp() {
 
         <div className="grid gap-6 max-w-lg mx-auto">
           {/* Featured EIK Card */}
-          <a href="https://ethidentitykit.com" target="_blank" className="border-2 border-accent rounded-lg py-4 sm:py-6 px-6 sm:px-8 hover:bg-accent/40 transition-colors cursor-pointer">
+          <a
+            href="https://ethidentitykit.com"
+            target="_blank"
+            className="border-2 border-accent rounded-lg py-4 sm:py-6 px-6 sm:px-8 hover:bg-accent/40 transition-colors cursor-pointer"
+          >
             <div className="flex items-center gap-4 sm:gap-6">
               <Image
                 src="/assets/icons/eik-logo.svg"
@@ -34,7 +38,11 @@ export default function AddToApp() {
 
           {/* Language Options */}
           <div className="grid grid-cols-2 gap-6">
-            <a href="https://docs.siwe.xyz/libraries/typescript" target="_blank" className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer">
+            <a
+              href="https://docs.siwe.xyz/libraries/typescript"
+              target="_blank"
+              className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
+            >
               <Image
                 src="/assets/icons/Typescript.svg"
                 alt="TypeScript"
@@ -46,7 +54,11 @@ export default function AddToApp() {
                 TypeScript
               </span>
             </a>
-            <a href="https://docs.siwe.xyz/libraries/python" target="_blank" className=" border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer">
+            <a
+              href="https://docs.siwe.xyz/libraries/python"
+              target="_blank"
+              className=" border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
+            >
               <Image
                 src="/assets/icons/python.svg"
                 alt="Python"
@@ -58,7 +70,11 @@ export default function AddToApp() {
                 Python
               </span>
             </a>
-            <a href="https://docs.siwe.xyz/libraries/rust" target="_blank" className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer">
+            <a
+              href="https://docs.siwe.xyz/libraries/rust"
+              target="_blank"
+              className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
+            >
               <Image
                 src="/assets/icons/rust.svg"
                 alt="Python"
@@ -70,7 +86,11 @@ export default function AddToApp() {
                 Rust
               </span>
             </a>
-            <a href="https://docs.siwe.xyz/libraries/ruby" target="_blank" className=" border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer">
+            <a
+              href="https://docs.siwe.xyz/libraries/ruby"
+              target="_blank"
+              className=" border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
+            >
               <Image
                 src="/assets/icons/ruby.svg"
                 alt="Python"
@@ -82,7 +102,11 @@ export default function AddToApp() {
                 Ruby
               </span>
             </a>
-            <a href="https://docs.siwe.xyz/libraries/elixir" target="_blank" className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer">
+            <a
+              href="https://docs.siwe.xyz/libraries/elixir"
+              target="_blank"
+              className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
+            >
               <Image
                 src="/assets/icons/elixir.svg"
                 alt="Python"
@@ -94,7 +118,11 @@ export default function AddToApp() {
                 Elixir
               </span>
             </a>
-            <a href="https://docs.siwe.xyz/libraries/go" target="_blank" className=" border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer">
+            <a
+              href="https://docs.siwe.xyz/libraries/go"
+              target="_blank"
+              className=" border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
+            >
               <Image
                 src="/assets/icons/go-lang.svg"
                 alt="Python"

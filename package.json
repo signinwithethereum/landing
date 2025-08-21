@@ -1,46 +1,46 @@
 {
-	"name": "siwe-landing",
-	"version": "0.1.0",
-	"private": true,
-	"scripts": {
-		"dev": "next dev --turbopack --port 4321",
-		"build": "next build",
-		"start": "next start",
-		"lint": "next lint",
-		"typecheck": "tsc --noEmit",
-		"format": "prettier --write .",
-		"checks": "npm run format && npm run lint && npm run typecheck"
-	},
-	"dependencies": {
-		"@rainbow-me/rainbowkit": "^2.2.8",
-		"@tanstack/react-query": "^5.84.1",
-		"@vercel/analytics": "^1.5.0",
-		"clsx": "^2.1.1",
-		"ethereum-identity-kit": "^0.2.53",
-		"motion": "^12.23.12",
-		"next": "15.4.5",
-		"prettier": "^3.6.2",
-		"react": "19.1.0",
-		"react-dom": "19.1.0",
-		"tailwind-merge": "^3.3.1",
-		"viem": "2.34.0",
-		"wagmi": "^2.16.3"
-	},
-	"devDependencies": {
-		"@eslint/eslintrc": "^3",
-		"@tailwindcss/postcss": "^4",
-		"@types/node": "^20",
-		"@types/react": "^19",
-		"@types/react-dom": "^19",
-		"eslint": "^9",
-		"eslint-config-next": "15.4.5",
-		"tailwindcss": "^4",
-		"typescript": "^5",
-		"@types/bun": "latest"
-	},
-	"optionalDependencies": {
-		"lightningcss": "^1.29.0"
-	},
-	"module": "index.ts",
-	"type": "module"
+  "name": "siwe-landing",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack --port 4321",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "checks": "npm run format && npm run lint && npm run typecheck"
+  },
+  "dependencies": {
+    "@rainbow-me/rainbowkit": "^2.2.8",
+    "@tanstack/react-query": "^5.84.1",
+    "@vercel/analytics": "^1.5.0",
+    "clsx": "^2.1.1",
+    "ethereum-identity-kit": "^0.2.53",
+    "motion": "^12.23.12",
+    "next": "15.4.5",
+    "prettier": "^3.6.2",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "tailwind-merge": "^3.3.1",
+    "viem": "2.34.0",
+    "wagmi": "^2.16.3"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.4.5",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "@types/bun": "latest"
+  },
+  "optionalDependencies": {
+    "lightningcss": "^1.29.0"
+  },
+  "module": "index.ts",
+  "type": "module"
 }

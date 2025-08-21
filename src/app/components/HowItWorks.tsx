@@ -14,26 +14,86 @@ const steps = [
     description: "You can use any wallet provider",
     mockup: {
       wallets: [
-        { name: "MetaMask", icon: "assets/icons/wallets/metamask.svg", link: "https://metamask.io/" },
+        {
+          name: "MetaMask",
+          icon: "assets/icons/wallets/metamask.svg",
+          link: "https://metamask.io/",
+        },
         {
           name: "WalletConnect",
           icon: "assets/icons/wallets/walletconnect.png",
-          link: "https://walletconnect.com/"
+          link: "https://walletconnect.com/",
         },
-        { name: "Rainbow Wallet", icon: "assets/icons/wallets/rainbow.png", link: "https://rainbow.me/" },
-        { name: "Base App", icon: "assets/icons/wallets/baseapp.jpg", link: "https://base.org/" },
-        { name: "Trust Wallet", icon: "assets/icons/wallets/trust.png", link: "https://trustwallet.com/" },
-        { name: "Ledger", icon: "assets/icons/wallets/ledger.png", link: "https://www.ledger.com/" },
-        { name: "Rabby Wallet", icon: "assets/icons/wallets/rabby.png", link: "https://rabby.io/" },
-        { name: "Phantom", icon: "assets/icons/wallets/phantom.svg", link: "https://phantom.app/" },
-        { name: "Gemini", icon: "assets/icons/wallets/gemini.webp", link: "https://gemini.com/" },
-        { name: "Safe", icon: "assets/icons/wallets/safe.png", link: "https://safe.global/" },
-        { name: "Ambire Wallet", icon: "assets/icons/wallets/ambire.png", link: "https://ambire.com/" },
-        { name: "Trezor", icon: "assets/icons/wallets/trezor.png", link: "https://trezor.io/" },
-        { name: "OKX Wallet", icon: "assets/icons/wallets/okx.png", link: "https://www.okx.com/" },
-        { name: "Exodus", icon: "assets/icons/wallets/exodus.png", link: "https://www.exodus.com/" },
-        { name: "AlphaWallet", icon: "assets/icons/wallets/alpha.png", link: "https://alphawallet.com/" },
-        { name: "Zerion", icon: "assets/icons/wallets/zerion.png", link: "https://zerion.io/" },
+        {
+          name: "Rainbow Wallet",
+          icon: "assets/icons/wallets/rainbow.png",
+          link: "https://rainbow.me/",
+        },
+        {
+          name: "Base App",
+          icon: "assets/icons/wallets/baseapp.jpg",
+          link: "https://base.org/",
+        },
+        {
+          name: "Trust Wallet",
+          icon: "assets/icons/wallets/trust.png",
+          link: "https://trustwallet.com/",
+        },
+        {
+          name: "Ledger",
+          icon: "assets/icons/wallets/ledger.png",
+          link: "https://www.ledger.com/",
+        },
+        {
+          name: "Rabby Wallet",
+          icon: "assets/icons/wallets/rabby.png",
+          link: "https://rabby.io/",
+        },
+        {
+          name: "Phantom",
+          icon: "assets/icons/wallets/phantom.svg",
+          link: "https://phantom.app/",
+        },
+        {
+          name: "Gemini",
+          icon: "assets/icons/wallets/gemini.webp",
+          link: "https://gemini.com/",
+        },
+        {
+          name: "Safe",
+          icon: "assets/icons/wallets/safe.png",
+          link: "https://safe.global/",
+        },
+        {
+          name: "Ambire Wallet",
+          icon: "assets/icons/wallets/ambire.png",
+          link: "https://ambire.com/",
+        },
+        {
+          name: "Trezor",
+          icon: "assets/icons/wallets/trezor.png",
+          link: "https://trezor.io/",
+        },
+        {
+          name: "OKX Wallet",
+          icon: "assets/icons/wallets/okx.png",
+          link: "https://www.okx.com/",
+        },
+        {
+          name: "Exodus",
+          icon: "assets/icons/wallets/exodus.png",
+          link: "https://www.exodus.com/",
+        },
+        {
+          name: "AlphaWallet",
+          icon: "assets/icons/wallets/alpha.png",
+          link: "https://alphawallet.com/",
+        },
+        {
+          name: "Zerion",
+          icon: "assets/icons/wallets/zerion.png",
+          link: "https://zerion.io/",
+        },
       ],
     },
   },
@@ -75,7 +135,9 @@ export default function HowItWorks() {
   return (
     <section className="py-12 sm:py-24">
       <div className="max-w-6xl mx-auto flex items-center flex-col gap-6 sm:gap-10 px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl sm:text-5xl font-bold text-white">How it works</h2>
+        <h2 className="text-3xl sm:text-5xl font-bold text-white">
+          How it works
+        </h2>
         <div className="flex flex-row gap-10 max-w-[1040px] flex-wrap justify-center">
           {steps.map((step, index) => (
             <div
@@ -92,7 +154,9 @@ export default function HowItWorks() {
                     className="min-w-12 h-auto"
                   />
                 </div>
-                <div className={`flex flex-col h-full items-start ${index === 2 ? 'gap-0.5' : 'gap-1'}`}>
+                <div
+                  className={`flex flex-col h-full items-start ${index === 2 ? "gap-0.5" : "gap-1"}`}
+                >
                   <p className="text-lg font-bold text-white">{step.title}</p>
                   <p className="text-gray-400 text-sm leading-[18px] text-left">
                     {step.description}
@@ -232,8 +296,15 @@ export default function HowItWorks() {
               />
               <p className="text-white font-bold text-2xl">Open standard</p>
             </div>
-            <p className="text-center text-sm"><b>SIWE</b> is defined by the open community standard <b>EIP 4361</b>.</p>
-            <a href="https://eips.ethereum.org/EIPS/eip-4361" target="_blank" className="w-full block">
+            <p className="text-center text-sm">
+              <b>SIWE</b> is defined by the open community standard{" "}
+              <b>EIP 4361</b>.
+            </p>
+            <a
+              href="https://eips.ethereum.org/EIPS/eip-4361"
+              target="_blank"
+              className="w-full block"
+            >
               <button className="cursor-pointer bg-accent active:scale-95 text-background hover:opacity-90 transition-all rounded-sm py-2 font-bold w-full">
                 Read the spec
               </button>

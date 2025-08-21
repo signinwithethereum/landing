@@ -12,10 +12,8 @@ export default function EthereumIdentityStack() {
             Ethereum identity stack
           </h3>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            <strong>SIWE</strong> is complementary with{" "}
-            <strong>ENS</strong>,{" "}
-            <strong>EFP</strong> and other Ethereum
-            identity primitives.
+            <strong>SIWE</strong> is complementary with <strong>ENS</strong>,{" "}
+            <strong>EFP</strong> and other Ethereum identity primitives.
           </p>
           <a
             href="https://docs.siwe.xyz/quickstart/retrieve-onchain-data"
@@ -31,7 +29,11 @@ export default function EthereumIdentityStack() {
 
         <div className="gap-12 flex flex-wrap items-center justify-center mx-auto">
           {/* ENS Card */}
-          <a href="https://ens.domains" target="_blank" className="bg-background cursor-pointer hover:-translate-y-2 hover:bg-[#11292E] rounded-xl w-[300px] sm:w-[360px] h-[180px] sm:h-[200px] p-8 transition-all flex flex-col items-center justify-center gap-4 sm:gap-6 shadow-accent">
+          <a
+            href="https://ens.domains"
+            target="_blank"
+            className="bg-background cursor-pointer hover:-translate-y-2 hover:bg-[#11292E] rounded-xl w-[300px] sm:w-[360px] h-[180px] sm:h-[200px] p-8 transition-all flex flex-col items-center justify-center gap-4 sm:gap-6 shadow-accent"
+          >
             <Image
               src="/assets/ens-logo.svg"
               alt="ENS Logo"
@@ -45,7 +47,11 @@ export default function EthereumIdentityStack() {
           </a>
 
           {/* EFP Card */}
-          <a href="https://efp.app" target="_blank" className="bg-background cursor-pointer hover:-translate-y-2 hover:bg-[#11292E] rounded-xl w-[300px] sm:w-[360px] h-[180px] sm:h-[200px] p-8 transition-all flex flex-col items-center justify-center gap-4 sm:gap-6 shadow-accent">
+          <a
+            href="https://efp.app"
+            target="_blank"
+            className="bg-background cursor-pointer hover:-translate-y-2 hover:bg-[#11292E] rounded-xl w-[300px] sm:w-[360px] h-[180px] sm:h-[200px] p-8 transition-all flex flex-col items-center justify-center gap-4 sm:gap-6 shadow-accent"
+          >
             <Image
               src="/assets/efp-logo.svg"
               alt="EFP Logo"

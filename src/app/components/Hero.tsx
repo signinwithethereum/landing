@@ -13,7 +13,6 @@ import { useState } from "react";
 import { generateClientSideNonce } from "@/lib/utils";
 import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
 
-
 export default function Hero() {
   const [isSignedIn, setIsSignedIn] = useState(false);
 

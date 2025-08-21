@@ -1,6 +1,6 @@
 export type Integration = {
-	name: string
-	type: 'wallet' | 'app' | 'tool'
-	logo: string
-	link: string
-}
+  name: string;
+  type: "wallet" | "app" | "tool";
+  logo: string;
+  link: string;
+};

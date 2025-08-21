@@ -13,12 +13,17 @@ export default function FeaturedIntegrations() {
         </div>
 
         <div className="flex flex-col items-center justify-center gap-8 px-6 max-w-5xl mx-auto">
-          <div className='grid grid-cols-1 gap-8 md:grid-cols-2 justify-center items-center lg:grid-cols-3 w-full'>
-            {integrations.slice(0, 6).map(integration => (
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 justify-center items-center lg:grid-cols-3 w-full">
+            {integrations.slice(0, 6).map((integration) => (
               <ListItem key={integration.name} integration={integration} />
             ))}
           </div>
-          <Link href="/ecosystem" className="bg-accent font-semibold text-center hover:opacity-80 cursor-pointer transition-all duration-300 text-black px-4 py-2 w-full lg:max-w-[304px] rounded-md">View All</Link>
+          <Link
+            href="/ecosystem"
+            className="bg-accent font-semibold text-center hover:opacity-80 cursor-pointer transition-all duration-300 text-black px-4 py-2 w-full lg:max-w-[304px] rounded-md"
+          >
+            View All
+          </Link>
         </div>
       </div>
     </section>
