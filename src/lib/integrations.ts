@@ -46,7 +46,7 @@ export const integrations: Integration[] = [
 	{
 		name: 'Ethereum identity kit',
 		logo: 'eik.svg',
-		link: 'https://github.com/ethereum-identity-kit/ethereum-identity-kit',
+		link: 'https://ethidentitykit.com',
 		type: 'tool',
 	},
 	{
