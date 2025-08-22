@@ -21,7 +21,13 @@ const Filters = ({ filters, setFilters }: FiltersProps) => {
     if (filter === "all") {
       setFilters({ all: true, wallets: false, apps: false, tools: false });
     } else {
-      setFilters({ ...filters, all: false, [filter]: !filters[filter] });
+      setFilters({
+        all: false,
+        wallets: false,
+        apps: false,
+        tools: false,
+        [filter]: !filters[filter],
+      });
     }
   };
 

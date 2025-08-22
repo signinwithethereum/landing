@@ -5,7 +5,7 @@ import KeyFeatures from "./components/KeyFeatures";
 import HowItWorks from "./components/HowItWorks";
 import AddToApp from "./components/AddToApp";
 import EthereumIdentityStack from "./components/EthereumIdentityStack";
-import FeaturedIntegrations from "./components/FeaturedIntegrations";
+import Ecosystem from "./components/Ecosystem";
 import Footer from "./components/Footer";
 import { cn } from "@/lib/utils";
 
@@ -28,7 +28,7 @@ export default function Home() {
         <HowItWorks />
         <AddToApp />
         <EthereumIdentityStack />
-        <FeaturedIntegrations />
+        <Ecosystem />
       </main>
       <Footer />
     </div>

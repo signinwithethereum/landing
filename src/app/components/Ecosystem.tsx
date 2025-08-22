@@ -8,7 +8,7 @@ export default function FeaturedIntegrations() {
       <div className="">
         <div className="text-center mb-10 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-white sm:mb-4">
-            Featured Integrations
+            Ecosystem
           </h2>
         </div>
 
