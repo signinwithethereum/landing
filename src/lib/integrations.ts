@@ -167,7 +167,7 @@ export const integrations: Integration[] = [
 	},
 	{
 		name: 'track aurora',
-		logo: 'trackaurora.jpeg',
+		logo: 'trackaurora.png',
 		link: 'https://trackaurora.com/',
 		type: 'app',
 	},
