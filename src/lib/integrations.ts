@@ -20,6 +20,12 @@ export const integrations: Integration[] = [
 		type: 'wallet',
 	},
 	{
+		name: 'RainbowKit',
+		logo: 'rainbowkit.png',
+		link: 'https://rainbowkit.com/',
+		type: 'tool',
+	},
+	{
 		name: 'WalletConnect',
 		logo: 'walletconnect.png',
 		link: 'https://walletconnect.com/',
