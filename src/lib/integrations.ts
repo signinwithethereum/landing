@@ -20,12 +20,6 @@ export const integrations: Integration[] = [
 		type: 'wallet',
 	},
 	{
-		name: 'RainbowKit',
-		logo: 'rainbowkit.png',
-		link: 'https://rainbowkit.com/',
-		type: 'tool',
-	},
-	{
 		name: 'WalletConnect',
 		logo: 'walletconnect.png',
 		link: 'https://walletconnect.com/',
@@ -97,6 +91,12 @@ export const integrations: Integration[] = [
 		logo: 'fileverse.svg',
 		link: 'https://fileverse.io/',
 		type: 'app',
+	},
+	{
+		name: 'RainbowKit',
+		logo: 'rainbowkit.png',
+		link: 'https://rainbowkit.com/',
+		type: 'tool',
 	},
 	{
 		name: 'galaxe',
