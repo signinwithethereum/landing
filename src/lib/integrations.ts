@@ -166,6 +166,12 @@ export const integrations: Integration[] = [
 		type: 'app',
 	},
 	{
+		name: 'track aurora',
+		logo: 'trackaurora.jpeg',
+		link: 'https://trackaurora.com/',
+		type: 'app',
+	},
+	{
 		name: 'best wallet',
 		logo: 'best-wallet.svg',
 		link: 'https://bestwallet.com/',
