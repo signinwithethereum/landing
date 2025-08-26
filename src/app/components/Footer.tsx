@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -15,23 +16,19 @@ export default function Footer() {
               className="w-32 h-auto"
             />
             <div className="flex flex-row gap-2 mt-6 sm:mt-0">
-              <Image
-                src="/assets/eif-logo.svg"
-                alt="Ethereum Identity Foundation"
-                width={100}
-                height={100}
-                className="w-8 h-auto"
-              />
-              <p className="text-gray-400 text-start text-sm leading-tight">
-                A project of the <br />
-                <a
-                  href="https://ethid.org/"
-                  target="_blank"
-                  className="text-gray-400 hover:text-white transition-colors underline"
-                >
-                  Ethereum Identity Foundation
-                </a>
-              </p>
+              <Link
+                href="https://ethid.org/"
+                target="_blank"
+                className="hover:opacity-80 transition-opacity"
+              >
+                <Image
+                  src="/assets/by-ethid.svg"
+                  alt="Ethereum Identity Foundation"
+                  width={100}
+                  height={100}
+                  className="w-24 h-auto"
+                />
+              </Link>
             </div>
           </div>
 
