@@ -8,6 +8,12 @@ export const integrations: Integration[] = [
 		type: 'wallet',
 	},
 	{
+		name: 'Privy',
+		logo: 'privy.png',
+		link: 'https://www.privy.io/',
+		type: 'tool',
+	},
+	{
 		name: 'Rainbow',
 		logo: 'rainbow.png',
 		link: 'https://rainbow.me/',
