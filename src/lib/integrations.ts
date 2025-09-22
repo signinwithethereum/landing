@@ -20,12 +20,6 @@ export const integrations: Integration[] = [
 		type: 'wallet',
 	},
 	{
-		name: 'Frame',
-		logo: 'frame.png',
-		link: 'https://frame.sh/',
-		type: 'wallet',
-	},
-	{
 		name: 'Guild',
 		logo: 'guild.png',
 		link: 'https://guild.xyz/',
@@ -221,6 +215,12 @@ export const integrations: Integration[] = [
 		name: 'bitget wallet',
 		logo: 'bitget.svg',
 		link: 'https://web3.bitget.com/',
+		type: 'wallet',
+	},
+	{
+		name: 'Frame',
+		logo: 'frame.png',
+		link: 'https://frame.sh/',
 		type: 'wallet',
 	},
 	{
