@@ -24,11 +24,11 @@ export default function Home() {
       </div>
       <main className="relative z-20">
         <Hero />
+        <Ecosystem />
         <KeyFeatures />
         <HowItWorks />
         <AddToApp />
         <EthereumIdentityStack />
-        <Ecosystem />
       </main>
       <Footer />
     </div>
