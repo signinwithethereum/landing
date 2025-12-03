@@ -33,14 +33,26 @@ export default function FeaturedIntegrations() {
   return (
     <section className="sm:gap-4 gap-2 md:gap-8 flex flex-col items-center justify-center pb-12">
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-white sm:mb-4">
-          Supported by
-        </h2>
+        <h2 className="text-2xl font-bold text-white sm:mb-4">Supported by</h2>
       </div>
       <div className="flex flex-nowrap items-center justify-center mx-auto gap-8 sm:gap-16 lg:gap-24 px-4 max-w-[440px] sm:max-w-[620px] md:max-w-none">
         {supportedBy.map((item, index) => (
-          <a key={item.name} href={item.link} target="_blank" className="hover:opacity-80 transition-opacity">
-            <Image src={item.logo} alt={item.name} width={200} height={200} style={{ width: 90 - (index > 2 ? 2 - index % 2 : 2 - index) * 10, height: 100 - (index > 2 ? 2 - index % 2 : 2 - index) * 10 }} />
+          <a
+            key={item.name}
+            href={item.link}
+            target="_blank"
+            className="hover:opacity-80 transition-opacity"
+          >
+            <Image
+              src={item.logo}
+              alt={item.name}
+              width={200}
+              height={200}
+              style={{
+                width: 90 - (index > 2 ? 2 - (index % 2) : 2 - index) * 10,
+                height: 100 - (index > 2 ? 2 - (index % 2) : 2 - index) * 10,
+              }}
+            />
           </a>
         ))}
       </div>
