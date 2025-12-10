@@ -1,30 +1,71 @@
-import { integrations } from "@/lib/integrations";
+import Image from "next/image";
 import Link from "next/link";
-import ListItem from "../ecosystem/components/list-item";
+
+const supportedBy = [
+  {
+    name: "Opensea",
+    logo: "/assets/supported-by/opensea.svg",
+    link: "https://opensea.io/",
+  },
+  {
+    name: "Rainbow",
+    logo: "/assets/supported-by/rainbow.svg",
+    link: "https://rainbow.me/",
+  },
+  {
+    name: "Metamask",
+    logo: "/assets/supported-by/metamask.svg",
+    link: "https://metamask.io/",
+  },
+  {
+    name: "WalletConnect",
+    logo: "/assets/supported-by/walletconnect.svg",
+    link: "https://walletconnect.com/",
+  },
+  {
+    name: "Snapshot",
+    logo: "/assets/supported-by/snapshot.svg",
+    link: "https://snapshot.org/",
+  },
+];
 
 export default function FeaturedIntegrations() {
   return (
-    <section className="pb-16 max-w-[1560px] mx-auto sm:pb-28 pt-20 sm:pt-36 [background-image:linear-gradient(transparent,#222222,#222222,#222222)]">
-      <div className="">
-        <div className="text-center mb-10 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white sm:mb-4">
-            Ecosystem
-          </h2>
-        </div>
-
-        <div className="flex flex-col items-center justify-center gap-8 px-6 max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 justify-center items-center lg:grid-cols-3 w-full">
-            {integrations.slice(0, 6).map((integration) => (
-              <ListItem key={integration.name} integration={integration} />
-            ))}
-          </div>
-          <Link
-            href="/ecosystem"
-            className="bg-accent font-semibold text-center hover:opacity-80 cursor-pointer transition-all duration-300 text-black px-4 py-2 w-full lg:max-w-[304px] rounded-md"
+    <section className="sm:gap-4 gap-2 md:gap-8 flex flex-col items-center justify-center pb-12">
+      <div className="text-center">
+        <h2 className="text-2xl font-bold text-white sm:mb-4">Supported by</h2>
+      </div>
+      <div className="flex flex-nowrap items-center justify-center mx-auto gap-8 sm:gap-16 lg:gap-24 px-4 max-w-[440px] sm:max-w-[620px] md:max-w-none">
+        {supportedBy.map((item, index) => (
+          <a
+            key={item.name}
+            href={item.link}
+            target="_blank"
+            className="hover:opacity-80 transition-opacity"
           >
-            View All
-          </Link>
-        </div>
+            <Image
+              src={item.logo}
+              alt={item.name}
+              width={200}
+              height={200}
+              style={{
+                width: 90 - (index > 2 ? 2 - (index % 2) : 2 - index) * 10,
+                height: 100 - (index > 2 ? 2 - (index % 2) : 2 - index) * 10,
+              }}
+            />
+          </a>
+        ))}
+      </div>
+      <div className="text-center">
+        <Link
+          href="/ecosystem"
+          className="inline-block text-accent hover:text-white transition-colors font-medium group"
+        >
+          Explore ecosystem&nbsp;
+          <span className="inline-block group-hover:translate-x-1 transition-transform">
+            →
+          </span>
+        </Link>
       </div>
     </section>
   );
