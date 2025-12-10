@@ -293,6 +293,18 @@ export const integrations: Integration[] = [
     type: "app",
   },
   {
+    name: "Kleros",
+    logo: "kleros.png",
+    link: "https://kleros.io/",
+    type: "app",
+  },
+  {
+    name: "Talent Protocol",
+    logo: "talentprotocol.png",
+    link: "https://talent.app/",
+    type: "app",
+  },
+  {
     name: "Vision",
     logo: "vision.png",
     link: "https://vision.io/",
@@ -401,12 +413,6 @@ export const integrations: Integration[] = [
     type: "app",
   },
   {
-    name: "Talent Protocol",
-    logo: "talentprotocol.png",
-    link: "https://talent.app/",
-    type: "app",
-  },
-  {
     name: "Memory Protocol",
     logo: "memoryprotocol.png",
     link: "https://memoryproto.co/",
@@ -416,12 +422,6 @@ export const integrations: Integration[] = [
     name: "POAP Drops",
     logo: "poapdrops.png",
     link: "https://drops.poap.xyz/",
-    type: "app",
-  },
-  {
-    name: "Kleros",
-    logo: "kleros.png",
-    link: "https://kleros.io/",
     type: "app",
   },
   {
