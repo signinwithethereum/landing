@@ -239,6 +239,12 @@ export const integrations: Integration[] = [
   },
   // ===== APPS =====
   {
+    name: "World Liberty Financial",
+    logo: "worldlibertyfinancial.png",
+    link: "https://worldlibertyfinancial.com/",
+    type: "app",
+  },
+  {
     name: "OpenSea",
     logo: "opensea.svg",
     link: "https://opensea.io/",
