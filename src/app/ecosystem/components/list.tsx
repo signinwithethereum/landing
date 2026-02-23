@@ -10,6 +10,26 @@ interface ListProps {
     tools: boolean;
   };
 }
+const interleaveByType = (items: typeof integrations) => {
+  const wallets = items.filter((i) => i.type === "wallet");
+  const tools = items.filter((i) => i.type === "tool");
+  const apps = items.filter((i) => i.type === "app");
+
+  const groups = [apps, tools, wallets];
+  const result: typeof integrations = [];
+  const maxLen = Math.max(wallets.length, tools.length, apps.length);
+
+  for (let i = 0; i < maxLen; i++) {
+    // Rotate starting position each row so types don't stay in same column
+    for (let j = 0; j < 3; j++) {
+      const groupIndex = (i + j) % 3;
+      if (groups[groupIndex][i]) result.push(groups[groupIndex][i]);
+    }
+  }
+
+  return result;
+};
+
 const List = ({ search, filters }: ListProps) => {
   const filteredIntegrations = integrations.filter((integration) => {
     if (filters.all) return true;
@@ -24,9 +44,13 @@ const List = ({ search, filters }: ListProps) => {
     return integration.name.toLowerCase().includes(search.toLowerCase());
   });
 
+  const displayIntegrations = filters.all
+    ? interleaveByType(searchedIntegrations)
+    : searchedIntegrations;
+
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 w-full">
-      {searchedIntegrations.map((integration) => (
+      {displayIntegrations.map((integration) => (
         <ListItem key={integration.name} integration={integration} />
       ))}
     </div>
