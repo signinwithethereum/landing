@@ -532,4 +532,10 @@ export const integrations: Integration[] = [
     link: "https://magicsquare.io/",
     type: "app",
   },
+  {
+    name: "NEDApay",
+    logo: "nedapay.png",
+    link: "https://www.nedapay.xyz/",
+    type: "app",
+  },
 ];
