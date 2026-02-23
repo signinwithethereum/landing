@@ -184,6 +184,18 @@ export const integrations: Integration[] = [
     type: "tool",
   },
   {
+    name: "Wagmi",
+    logo: "wagmi.png",
+    link: "https://wagmi.sh/",
+    type: "tool",
+  },
+  {
+    name: "Viem",
+    logo: "viem.png",
+    link: "https://viem.sh/",
+    type: "tool",
+  },
+  {
     name: "Ethereum identity kit",
     logo: "eik.svg",
     link: "https://ethidentitykit.com",
@@ -193,6 +205,12 @@ export const integrations: Integration[] = [
     name: "Base Account",
     logo: "baseaccount.svg",
     link: "https://docs.base.org/base-account/",
+    type: "tool",
+  },
+  {
+    name: "Scaffold-ETH 2",
+    logo: "scaffoldeth2.png",
+    link: "https://scaffoldeth.io/",
     type: "tool",
   },
   {
@@ -232,24 +250,6 @@ export const integrations: Integration[] = [
     type: "tool",
   },
   {
-    name: "Fungate",
-    logo: "fungate.png",
-    link: "https://fungate.io/",
-    type: "tool",
-  },
-  {
-    name: "Wagmi",
-    logo: "wagmi.png",
-    link: "https://wagmi.sh/",
-    type: "tool",
-  },
-  {
-    name: "Viem",
-    logo: "viem.png",
-    link: "https://viem.sh/",
-    type: "tool",
-  },
-  {
     name: "The Graph",
     logo: "thegraph.png",
     link: "https://thegraph.com/",
@@ -274,9 +274,9 @@ export const integrations: Integration[] = [
     type: "tool",
   },
   {
-    name: "Scaffold-ETH 2",
-    logo: "scaffoldeth2.png",
-    link: "https://scaffoldeth.io/",
+    name: "Fungate",
+    logo: "fungate.png",
+    link: "https://fungate.io/",
     type: "tool",
   },
   // ===== APPS =====
@@ -284,6 +284,12 @@ export const integrations: Integration[] = [
     name: "World Liberty Financial",
     logo: "worldlibertyfinancial.png",
     link: "https://worldlibertyfinancial.com/",
+    type: "app",
+  },
+  {
+    name: "Polymarket",
+    logo: "polymarket.png",
+    link: "https://polymarket.com/",
     type: "app",
   },
   {
@@ -329,6 +335,12 @@ export const integrations: Integration[] = [
     type: "app",
   },
   {
+    name: "OP Atlas",
+    logo: "opatlas.png",
+    link: "https://atlas.optimism.io/",
+    type: "app",
+  },
+  {
     name: "Snapshot",
     logo: "snapshot.png",
     link: "https://snapshot.org/",
@@ -350,12 +362,6 @@ export const integrations: Integration[] = [
     name: "Talent Protocol",
     logo: "talentprotocol.png",
     link: "https://talent.app/",
-    type: "app",
-  },
-  {
-    name: "Vision",
-    logo: "vision.png",
-    link: "https://vision.io/",
     type: "app",
   },
   {
@@ -392,6 +398,12 @@ export const integrations: Integration[] = [
     name: "Galxe",
     logo: "galaxe.svg",
     link: "https://galxe.xyz/",
+    type: "app",
+  },
+  {
+    name: "Doma Protocol",
+    logo: "doma.png",
+    link: "https://doma.xyz/",
     type: "app",
   },
   {
@@ -479,9 +491,9 @@ export const integrations: Integration[] = [
     type: "app",
   },
   {
-    name: "Polymarket",
-    logo: "polymarket.png",
-    link: "https://polymarket.com/",
+    name: "Vision",
+    logo: "vision.png",
+    link: "https://vision.io/",
     type: "app",
   },
   {
@@ -515,21 +527,9 @@ export const integrations: Integration[] = [
     type: "app",
   },
   {
-    name: "Doma Protocol",
-    logo: "doma.png",
-    link: "https://doma.xyz/",
-    type: "app",
-  },
-  {
     name: "Magic Square",
     logo: "magicsquare.png",
     link: "https://magicsquare.io/",
-    type: "app",
-  },
-  {
-    name: "OP Atlas",
-    logo: "opatlas.png",
-    link: "https://atlas.optimism.io/",
     type: "app",
   },
 ];
