@@ -37,7 +37,8 @@ export default function AddToApp() {
           </a>
 
           {/* Language Options */}
-          <div className="grid grid-cols-2 gap-6">
+          {/* <div className="grid grid-cols-2 gap-6"> */}
+          <div className="">
             <a
               href="https://docs.siwe.xyz/libraries/typescript"
               target="_blank"
@@ -54,101 +55,101 @@ export default function AddToApp() {
                 TypeScript
               </span>
             </a>
-            <a
-              href="https://docs.siwe.xyz/libraries/python"
-              target="_blank"
-              className=" border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
-            >
-              <Image
-                src="/assets/icons/python.svg"
-                alt="Python"
-                width={24}
-                height={24}
-                className="w-9 h-9 sm:w-12 sm:h-12 rounded-sm"
-              />
-              <span className="text-white font-semibold text-lg sm:text-xl">
-                Python
-              </span>
-            </a>
-            <a
-              href="https://docs.siwe.xyz/libraries/rust"
-              target="_blank"
-              className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
-            >
-              <Image
-                src="/assets/icons/rust.svg"
-                alt="Python"
-                width={24}
-                height={24}
-                className="w-9 h-9 sm:w-12 sm:h-12 rounded-sm"
-              />
-              <span className="text-white font-semibold text-lg sm:text-xl">
-                Rust
-              </span>
-            </a>
-            <a
-              href="https://docs.siwe.xyz/libraries/ruby"
-              target="_blank"
-              className=" border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
-            >
-              <Image
-                src="/assets/icons/ruby.svg"
-                alt="Python"
-                width={24}
-                height={24}
-                className="w-9 h-9 sm:w-12 sm:h-12 rounded-sm"
-              />
-              <span className="text-white font-semibold text-lg sm:text-xl">
-                Ruby
-              </span>
-            </a>
-            <a
-              href="https://docs.siwe.xyz/libraries/elixir"
-              target="_blank"
-              className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
-            >
-              <Image
-                src="/assets/icons/elixir.svg"
-                alt="Python"
-                width={24}
-                height={24}
-                className="w-9 h-9 sm:w-12 sm:h-12 rounded-sm"
-              />
-              <span className="text-white font-semibold text-lg sm:text-xl">
-                Elixir
-              </span>
-            </a>
-            <a
-              href="https://docs.siwe.xyz/libraries/go"
-              target="_blank"
-              className=" border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
-            >
-              <Image
-                src="/assets/icons/go-lang.svg"
-                alt="Python"
-                width={24}
-                height={24}
-                className="w-12 h-12 sm:w-14 sm:h-14 rounded-sm"
-              />
-              <span className="text-white font-semibold text-lg sm:text-xl">
-                Go
-              </span>
-            </a>
+            {/* <a */}
+            {/*   href="https://docs.siwe.xyz/libraries/python" */}
+            {/*   target="_blank" */}
+            {/*   className=" border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer" */}
+            {/* > */}
+            {/*   <Image */}
+            {/*     src="/assets/icons/python.svg" */}
+            {/*     alt="Python" */}
+            {/*     width={24} */}
+            {/*     height={24} */}
+            {/*     className="w-9 h-9 sm:w-12 sm:h-12 rounded-sm" */}
+            {/*   /> */}
+            {/*   <span className="text-white font-semibold text-lg sm:text-xl"> */}
+            {/*     Python */}
+            {/*   </span> */}
+            {/* </a> */}
+            {/* <a */}
+            {/*   href="https://docs.siwe.xyz/libraries/rust" */}
+            {/*   target="_blank" */}
+            {/*   className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer" */}
+            {/* > */}
+            {/*   <Image */}
+            {/*     src="/assets/icons/rust.svg" */}
+            {/*     alt="Python" */}
+            {/*     width={24} */}
+            {/*     height={24} */}
+            {/*     className="w-9 h-9 sm:w-12 sm:h-12 rounded-sm" */}
+            {/*   /> */}
+            {/*   <span className="text-white font-semibold text-lg sm:text-xl"> */}
+            {/*     Rust */}
+            {/*   </span> */}
+            {/* </a> */}
+            {/* <a */}
+            {/*   href="https://docs.siwe.xyz/libraries/ruby" */}
+            {/*   target="_blank" */}
+            {/*   className=" border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer" */}
+            {/* > */}
+            {/*   <Image */}
+            {/*     src="/assets/icons/ruby.svg" */}
+            {/*     alt="Python" */}
+            {/*     width={24} */}
+            {/*     height={24} */}
+            {/*     className="w-9 h-9 sm:w-12 sm:h-12 rounded-sm" */}
+            {/*   /> */}
+            {/*   <span className="text-white font-semibold text-lg sm:text-xl"> */}
+            {/*     Ruby */}
+            {/*   </span> */}
+            {/* </a> */}
+            {/* <a */}
+            {/*   href="https://docs.siwe.xyz/libraries/elixir" */}
+            {/*   target="_blank" */}
+            {/*   className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer" */}
+            {/* > */}
+            {/*   <Image */}
+            {/*     src="/assets/icons/elixir.svg" */}
+            {/*     alt="Python" */}
+            {/*     width={24} */}
+            {/*     height={24} */}
+            {/*     className="w-9 h-9 sm:w-12 sm:h-12 rounded-sm" */}
+            {/*   /> */}
+            {/*   <span className="text-white font-semibold text-lg sm:text-xl"> */}
+            {/*     Elixir */}
+            {/*   </span> */}
+            {/* </a> */}
+            {/* <a */}
+            {/*   href="https://docs.siwe.xyz/libraries/go" */}
+            {/*   target="_blank" */}
+            {/*   className=" border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer" */}
+            {/* > */}
+            {/*   <Image */}
+            {/*     src="/assets/icons/go-lang.svg" */}
+            {/*     alt="Python" */}
+            {/*     width={24} */}
+            {/*     height={24} */}
+            {/*     className="w-12 h-12 sm:w-14 sm:h-14 rounded-sm" */}
+            {/*   /> */}
+            {/*   <span className="text-white font-semibold text-lg sm:text-xl"> */}
+            {/*     Go */}
+            {/*   </span> */}
+            {/* </a> */}
           </div>
 
           {/* View all docs link */}
-          <div className="text-center">
-            <a
-              href="https://docs.siwe.xyz/libraries/"
-              target="_blank"
-              className="inline-block text-accent hover:text-white transition-colors font-medium group"
-            >
-              All libraries&nbsp;
-              <span className="inline-block group-hover:translate-x-1 transition-transform">
-                →
-              </span>
-            </a>
-          </div>
+          {/* <div className="text-center"> */}
+          {/*   <a */}
+          {/*     href="https://docs.siwe.xyz/libraries/" */}
+          {/*     target="_blank" */}
+          {/*     className="inline-block text-accent hover:text-white transition-colors font-medium group" */}
+          {/*   > */}
+          {/*     All libraries&nbsp; */}
+          {/*     <span className="inline-block group-hover:translate-x-1 transition-transform"> */}
+          {/*       → */}
+          {/*     </span> */}
+          {/*   </a> */}
+          {/* </div> */}
         </div>
       </div>
     </section>
