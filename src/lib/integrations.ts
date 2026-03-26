@@ -538,4 +538,10 @@ export const integrations: Integration[] = [
     link: "https://www.nedapay.xyz/",
     type: "app",
   },
+  {
+    name: "Opepen",
+    logo: "opepen.svg",
+    link: "https://opepen.art",
+    type: "app",
+  },
 ];
