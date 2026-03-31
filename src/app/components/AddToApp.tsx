@@ -37,8 +37,7 @@ export default function AddToApp() {
           </a>
 
           {/* Language Options */}
-          {/* <div className="grid grid-cols-2 gap-6"> */}
-          <div className="">
+          <div className="grid grid-cols-2 gap-6">
             <a
               href="https://docs.siwe.xyz/libraries/typescript"
               target="_blank"
@@ -71,22 +70,22 @@ export default function AddToApp() {
             {/*     Python */}
             {/*   </span> */}
             {/* </a> */}
-            {/* <a */}
-            {/*   href="https://docs.siwe.xyz/libraries/rust" */}
-            {/*   target="_blank" */}
-            {/*   className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer" */}
-            {/* > */}
-            {/*   <Image */}
-            {/*     src="/assets/icons/rust.svg" */}
-            {/*     alt="Python" */}
-            {/*     width={24} */}
-            {/*     height={24} */}
-            {/*     className="w-9 h-9 sm:w-12 sm:h-12 rounded-sm" */}
-            {/*   /> */}
-            {/*   <span className="text-white font-semibold text-lg sm:text-xl"> */}
-            {/*     Rust */}
-            {/*   </span> */}
-            {/* </a> */}
+            <a
+              href="https://docs.siwe.xyz/libraries/rust"
+              target="_blank"
+              className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
+            >
+              <Image
+                src="/assets/icons/rust.svg"
+                alt="Rust"
+                width={24}
+                height={24}
+                className="w-9 h-9 sm:w-12 sm:h-12 rounded-sm"
+              />
+              <span className="text-white font-semibold text-lg sm:text-xl">
+                Rust
+              </span>
+            </a>
             {/* <a */}
             {/*   href="https://docs.siwe.xyz/libraries/ruby" */}
             {/*   target="_blank" */}
