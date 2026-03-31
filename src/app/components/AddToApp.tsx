@@ -54,22 +54,6 @@ export default function AddToApp() {
                 TypeScript
               </span>
             </a>
-            {/* <a */}
-            {/*   href="https://docs.siwe.xyz/libraries/python" */}
-            {/*   target="_blank" */}
-            {/*   className=" border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer" */}
-            {/* > */}
-            {/*   <Image */}
-            {/*     src="/assets/icons/python.svg" */}
-            {/*     alt="Python" */}
-            {/*     width={24} */}
-            {/*     height={24} */}
-            {/*     className="w-9 h-9 sm:w-12 sm:h-12 rounded-sm" */}
-            {/*   /> */}
-            {/*   <span className="text-white font-semibold text-lg sm:text-xl"> */}
-            {/*     Python */}
-            {/*   </span> */}
-            {/* </a> */}
             <a
               href="https://docs.siwe.xyz/libraries/rust"
               target="_blank"
@@ -84,6 +68,38 @@ export default function AddToApp() {
               />
               <span className="text-white font-semibold text-lg sm:text-xl">
                 Rust
+              </span>
+            </a>
+            <a
+              href="https://docs.siwe.xyz/integrations/discourse"
+              target="_blank"
+              className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
+            >
+              <Image
+                src="/assets/icons/discourse.svg"
+                alt="Discourse"
+                width={24}
+                height={24}
+                className="w-9 h-9 sm:w-12 sm:h-12 rounded-sm"
+              />
+              <span className="text-white font-semibold text-base sm:text-xl">
+                Discourse
+              </span>
+            </a>
+            <a
+              href="https://docs.siwe.xyz/oidc-provider"
+              target="_blank"
+              className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
+            >
+              <Image
+                src="/assets/icons/openid.svg"
+                alt="OpenID Connect"
+                width={24}
+                height={24}
+                className="w-9 h-9 sm:w-12 sm:h-12 rounded-sm"
+              />
+              <span className="text-white font-semibold text-base sm:text-xl leading-tight">
+                OpenID Connect
               </span>
             </a>
             {/* <a */}
