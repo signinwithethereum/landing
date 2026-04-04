@@ -16,7 +16,7 @@ export default function EthereumIdentityStack() {
             <strong>EFP</strong> and other Ethereum identity primitives.
           </p>
           <a
-            href="https://docs.siwe.xyz/quickstart/retrieve-onchain-data"
+            href="https://ethidentitykit.com/"
             target="_blank"
             className="inline-block mt-4 text-accent hover:text-white transition-colors font-medium group"
           >
