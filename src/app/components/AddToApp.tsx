@@ -134,22 +134,22 @@ export default function AddToApp() {
             {/*     Elixir */}
             {/*   </span> */}
             {/* </a> */}
-            {/* <a */}
-            {/*   href="https://docs.siwe.xyz/libraries/go" */}
-            {/*   target="_blank" */}
-            {/*   className=" border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer" */}
-            {/* > */}
-            {/*   <Image */}
-            {/*     src="/assets/icons/go-lang.svg" */}
-            {/*     alt="Python" */}
-            {/*     width={24} */}
-            {/*     height={24} */}
-            {/*     className="w-12 h-12 sm:w-14 sm:h-14 rounded-sm" */}
-            {/*   /> */}
-            {/*   <span className="text-white font-semibold text-lg sm:text-xl"> */}
-            {/*     Go */}
-            {/*   </span> */}
-            {/* </a> */}
+            <a
+              href="https://docs.siwe.xyz/libraries/python"
+              target="_blank"
+              className=" border-2 border-accent flex items-center justify-start rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
+            >
+              <Image
+                src="/assets/icons/python.svg"
+                alt="Python"
+                width={24}
+                height={24}
+                className="w-12 h-12 sm:w-14 sm:h-14 rounded-sm"
+              />
+              <span className="text-white font-semibold text-lg sm:text-xl">
+                Python
+              </span>
+            </a>
           </div>
 
           {/* View all docs link */}
