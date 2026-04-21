@@ -41,7 +41,7 @@ export default function AddToApp() {
             <a
               href="https://docs.siwe.xyz/libraries/typescript"
               target="_blank"
-              className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
+              className="border-2 border-accent flex items-center justify-start rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
             >
               <Image
                 src="/assets/icons/Typescript.svg"
@@ -57,7 +57,7 @@ export default function AddToApp() {
             <a
               href="https://docs.siwe.xyz/libraries/rust"
               target="_blank"
-              className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
+              className="border-2 border-accent flex items-center justify-start rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
             >
               <Image
                 src="/assets/icons/rust.svg"
@@ -73,7 +73,7 @@ export default function AddToApp() {
             <a
               href="https://docs.siwe.xyz/integrations/discourse"
               target="_blank"
-              className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
+              className="border-2 border-accent flex items-center justify-start rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
             >
               <Image
                 src="/assets/icons/discourse.svg"
@@ -89,7 +89,7 @@ export default function AddToApp() {
             <a
               href="https://docs.siwe.xyz/oidc-provider"
               target="_blank"
-              className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
+              className="border-2 border-accent flex items-center justify-start rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer"
             >
               <Image
                 src="/assets/icons/openid.svg"
@@ -105,7 +105,7 @@ export default function AddToApp() {
             {/* <a */}
             {/*   href="https://docs.siwe.xyz/libraries/ruby" */}
             {/*   target="_blank" */}
-            {/*   className=" border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer" */}
+            {/*   className=" border-2 border-accent flex items-center justify-start rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer" */}
             {/* > */}
             {/*   <Image */}
             {/*     src="/assets/icons/ruby.svg" */}
@@ -121,7 +121,7 @@ export default function AddToApp() {
             {/* <a */}
             {/*   href="https://docs.siwe.xyz/libraries/elixir" */}
             {/*   target="_blank" */}
-            {/*   className="border-2 border-accent flex items-center justify-center rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer" */}
+            {/*   className="border-2 border-accent flex items-center justify-start rounded-lg px-4 sm:px-8 py-4 sm:py-5 transition-colors gap-3 sm:gap-4 hover:bg-accent/40 cursor-pointer" */}
             {/* > */}
             {/*   <Image */}
             {/*     src="/assets/icons/elixir.svg" */}
