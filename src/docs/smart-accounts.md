@@ -55,8 +55,11 @@ owner signatures against its threshold. A passkey wallet verifies a P-256
 signature. A session-key wallet checks whether the key is still in scope. None
 of that is your problem, which is the point of the standard.
 
-The libraries try `ecrecover` first and only fall through to `isValidSignature`
-when recovery fails, so ordinary EOA sign-ins never touch the network.
+Ordering differs between implementations. Most try `ecrecover` first and only
+fall through to `isValidSignature` when recovery fails, which keeps ordinary EOA
+sign-ins off the network entirely; others check for a wrapped signature before
+attempting recovery. If the RPC round-trip is on a path you care about, check what
+your library actually does rather than assuming.
 
 ## ERC-6492: accounts that do not exist yet
 
@@ -293,8 +296,8 @@ Two things are worth knowing:
 - **Do not test for "contract account" by checking whether the address has
   code.** A delegated EOA has code — a 23-byte delegation indicator pointing at
   its delegate — and would fail that test while still verifying by recovery.
-  Trying `ecrecover` first and falling back, which is what all the official
-  libraries do, gets this right without asking the question.
+  Attempting recovery and falling back only when it fails gets this right without
+  ever asking the question.
 - **The wallet may still choose the contract path.** If the delegate implements
   `isValidSignature`, a wallet is free to return a signature that only validates
   that way. Configuring an RPC costs you nothing when recovery succeeds, because
