@@ -57,19 +57,19 @@ All fields are exposed as read-only attributes (`message.domain`, `message.addre
 
 | Field             | Type             | Required | Description                                                                          |
 | ----------------- | ---------------- | -------- | ------------------------------------------------------------------------------------ |
-| `domain`          | `String`         | ✅       | RFC 3986 authority requesting the signing                                            |
-| `address`         | `String`         | ✅       | Ethereum address, rendered as EIP-55 checksum                                        |
-| `uri`             | `String`         | ✅       | RFC 3986 URI referring to the resource                                               |
-| `version`         | `String`         | ✅       | Must be `"1"` for [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) compliance (defaults to `"1"`) |
-| `chain_id`        | `Integer`        | ✅       | EIP-155 Chain ID (accepts an `Integer` or a numeric `String`)                        |
-| `nonce`           | `String`         | ✅       | Alphanumeric token, minimum 8 characters (defaults to `Siwe.generate_nonce`)         |
-| `issued_at`       | `String`         | ✅       | ISO 8601 datetime string (defaults to `Time.now.utc.iso8601`)                        |
-| `scheme`          | `String`         | ❌       | RFC 3986 URI scheme for the authority                                                |
-| `statement`       | `String`         | ❌       | Human-readable ASCII assertion                                                       |
-| `expiration_time` | `String`         | ❌       | When the message expires (ISO 8601)                                                  |
-| `not_before`      | `String`         | ❌       | When the message becomes valid (ISO 8601)                                            |
-| `request_id`      | `String`         | ❌       | System-specific identifier                                                           |
-| `resources`       | `Array<String>`  | ❌       | List of RFC 3986 URI references                                                      |
+| `domain`          | `String`         | Yes       | RFC 3986 authority requesting the signing                                            |
+| `address`         | `String`         | Yes       | Ethereum address, rendered as EIP-55 checksum                                        |
+| `uri`             | `String`         | Yes       | RFC 3986 URI referring to the resource                                               |
+| `version`         | `String`         | Yes       | Must be `"1"` for [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) compliance (defaults to `"1"`) |
+| `chain_id`        | `Integer`        | Yes       | EIP-155 Chain ID (accepts an `Integer` or a numeric `String`)                        |
+| `nonce`           | `String`         | Yes       | Alphanumeric token, minimum 8 characters (defaults to `Siwe.generate_nonce`)         |
+| `issued_at`       | `String`         | Yes       | ISO 8601 datetime string (defaults to `Time.now.utc.iso8601`)                        |
+| `scheme`          | `String`         | No       | RFC 3986 URI scheme for the authority                                                |
+| `statement`       | `String`         | No       | Human-readable ASCII assertion                                                       |
+| `expiration_time` | `String`         | No       | When the message expires (ISO 8601)                                                  |
+| `not_before`      | `String`         | No       | When the message becomes valid (ISO 8601)                                            |
+| `request_id`      | `String`         | No       | System-specific identifier                                                           |
+| `resources`       | `Array<String>`  | No       | List of RFC 3986 URI references                                                      |
 | `warnings`        | `Array<String>`  | —        | Non-fatal validation warnings (e.g. unchecksummed address) surfaced during parsing/construction |
 
 ::: info

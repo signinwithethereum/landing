@@ -43,19 +43,19 @@ Represents a parsed or constructed [EIP-4361](https://eips.ethereum.org/EIPS/eip
 
 | Field             | Type             | Required | Description                                                                          |
 | ----------------- | ---------------- | -------- | ------------------------------------------------------------------------------------ |
-| `Domain`          | `string`         | ✅       | RFC 3986 authority requesting the signing                                            |
-| `Address`         | `common.Address` | ✅       | Ethereum address (20 raw bytes, rendered as EIP-55 checksum)                         |
-| `URI`             | `string`         | ✅       | RFC 3986 URI referring to the resource                                               |
-| `Version`         | `string`         | ✅       | Must be `"1"` for [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) compliance     |
-| `ChainID`         | `int`            | ✅       | EIP-155 Chain ID (non-negative)                                                      |
-| `Nonce`           | `string`         | ✅       | Alphanumeric token, minimum 8 characters                                             |
-| `IssuedAt`        | `string`         | ✅       | ISO 8601 / RFC 3339 datetime string                                                  |
-| `Scheme`          | `*string`        | ❌       | RFC 3986 URI scheme for the authority                                                |
-| `Statement`       | `*string`        | ❌       | Human-readable ASCII assertion                                                       |
-| `ExpirationTime`  | `*string`        | ❌       | When the message expires (ISO 8601)                                                  |
-| `NotBefore`       | `*string`        | ❌       | When the message becomes valid (ISO 8601)                                            |
-| `RequestID`       | `*string`        | ❌       | System-specific identifier                                                           |
-| `Resources`       | `[]string`       | ❌       | List of RFC 3986 URI references                                                      |
+| `Domain`          | `string`         | Yes       | RFC 3986 authority requesting the signing                                            |
+| `Address`         | `common.Address` | Yes       | Ethereum address (20 raw bytes, rendered as EIP-55 checksum)                         |
+| `URI`             | `string`         | Yes       | RFC 3986 URI referring to the resource                                               |
+| `Version`         | `string`         | Yes       | Must be `"1"` for [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) compliance     |
+| `ChainID`         | `int`            | Yes       | EIP-155 Chain ID (non-negative)                                                      |
+| `Nonce`           | `string`         | Yes       | Alphanumeric token, minimum 8 characters                                             |
+| `IssuedAt`        | `string`         | Yes       | ISO 8601 / RFC 3339 datetime string                                                  |
+| `Scheme`          | `*string`        | No       | RFC 3986 URI scheme for the authority                                                |
+| `Statement`       | `*string`        | No       | Human-readable ASCII assertion                                                       |
+| `ExpirationTime`  | `*string`        | No       | When the message expires (ISO 8601)                                                  |
+| `NotBefore`       | `*string`        | No       | When the message becomes valid (ISO 8601)                                            |
+| `RequestID`       | `*string`        | No       | System-specific identifier                                                           |
+| `Resources`       | `[]string`       | No       | List of RFC 3986 URI references                                                      |
 | `Warnings`        | `[]string`       | —        | Non-fatal validation warnings (e.g. unchecksummed address) surfaced during parsing   |
 
 ::: info

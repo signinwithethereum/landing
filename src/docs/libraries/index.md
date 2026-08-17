@@ -5,7 +5,19 @@ description: The official SIWE libraries for TypeScript, Rust, Python, Go and Ru
 
 # Library Implementations
 
-SIWE provides official libraries for integrating [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) authentication into your application.
+Five official implementations of [ERC-4361](https://eips.ethereum.org/EIPS/eip-4361),
+one per language, all checked against the same corpus of
+[test vectors](https://github.com/signinwithethereum/test-vectors).
+
+::: tip Already using viem?
+[viem](https://viem.sh/) ships SIWE functions of its own — `createSiweMessage`,
+`generateSiweNonce`, `parseSiweMessage`, `validateSiweMessage` and the
+`verifySiweMessage` action. If viem is already in your project, that is the
+shortest path and one fewer dependency. Note that its `verifyMessage` **utility**
+recovers an EOA signer only; the **action** of the same name is the one that
+handles [contract accounts](/docs/smart-accounts). Reaching for the utility is the
+most common way to accidentally lock out every smart-account user.
+:::
 
 ## Official Libraries
 
@@ -63,14 +75,14 @@ Idiomatic Ruby implementation with built-in smart-wallet support.
 
 | Feature | TypeScript | Rust | Python | Go | Ruby |
 | --- | --- | --- | --- | --- | --- |
-| Message Parsing | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Signature Verification (EIP-191) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Contract Wallets (EIP-1271) | ✅ | ✅ (with `alloy` feature) | ✅ (with web3 provider) | ✅ (with `EthCaller`) | ✅ (with RPC client) |
-| Counterfactual Wallets (EIP-6492) | ✅ | ✅ (with `alloy` feature) | ✅ (with web3 provider) | ✅ (with `EthCaller`) | ✅ (with RPC client) |
-| Nonce Generation | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Serde Serialization | N/A | ✅ (with `serde` feature) | N/A (pydantic) | N/A (stdlib JSON tags) | N/A (`to_h` / `to_json`) |
-| Browser Support | ✅ | ❌ | ❌ | ❌ | ❌ |
-| Async Verification | ✅ | ✅ | ❌ (sync) | ✅ (ctx-based) | ❌ (sync) |
+| Message Parsing | Yes | Yes | Yes | Yes | Yes |
+| Signature Verification (EIP-191) | Yes | Yes | Yes | Yes | Yes |
+| Contract Wallets (EIP-1271) | Yes | Yes (with `alloy` feature) | Yes (with web3 provider) | Yes (with `EthCaller`) | Yes (with RPC client) |
+| Counterfactual Wallets (EIP-6492) | Yes | Yes (with `alloy` feature) | Yes (with web3 provider) | Yes (with `EthCaller`) | Yes (with RPC client) |
+| Nonce Generation | Yes | Yes | Yes | Yes | Yes |
+| Serde Serialization | N/A | Yes (with `serde` feature) | N/A (pydantic) | N/A (stdlib JSON tags) | N/A (`to_h` / `to_json`) |
+| Browser Support | Yes | No | No | No | No |
+| Async Verification | Yes | Yes | No (sync) | Yes (ctx-based) | No (sync) |
 
 ## Specification Compliance
 
@@ -83,4 +95,8 @@ All libraries implement:
 - RFC 3986 (URI Specification)
 - RFC 3339 (Timestamp Format)
 
-All libraries generate identical EIP-4361 compliant messages — signatures created in one language can be verified in any other.
+All libraries generate identical EIP-4361 compliant messages — signatures created
+in one language can be verified in any other. That is not an aspiration: it is what
+the shared [test vectors](https://github.com/signinwithethereum/test-vectors)
+check, and every library runs against them. If you are writing a sixth
+implementation, in another language or inside a wallet, start there.

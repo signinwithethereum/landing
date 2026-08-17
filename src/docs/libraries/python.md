@@ -52,19 +52,19 @@ A `pydantic.BaseModel` representing an [EIP-4361](https://eips.ethereum.org/EIPS
 
 | Field             | Type              | Required | Description                                                                          |
 | ----------------- | ----------------- | -------- | ------------------------------------------------------------------------------------ |
-| `domain`          | `str`             | ✅       | RFC 4501 DNS authority requesting the signing                                        |
-| `address`         | `str`             | ✅       | Ethereum address (EIP-55 checksum format)                                            |
-| `uri`             | `str`             | ✅       | RFC 3986 URI referring to the resource                                               |
-| `version`         | `VersionEnum`     | ✅       | Must be `"1"` for [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) compliance     |
-| `chain_id`        | `int`             | ✅       | EIP-155 Chain ID (non-negative)                                                      |
-| `nonce`           | `str`             | ✅       | Alphanumeric token, minimum 8 characters                                             |
-| `issued_at`       | `ISO8601Datetime` | ✅       | ISO 8601 datetime string                                                             |
-| `scheme`          | `Optional[str]`   | ❌       | RFC 3986 URI scheme for the authority                                                |
-| `statement`       | `Optional[str]`   | ❌       | Human-readable ASCII assertion                                                       |
-| `expiration_time` | `Optional[ISO8601Datetime]` | ❌ | When the message expires                                                         |
-| `not_before`      | `Optional[ISO8601Datetime]` | ❌ | When the message becomes valid                                                   |
-| `request_id`      | `Optional[str]`   | ❌       | System-specific identifier                                                           |
-| `resources`       | `Optional[List[str]]` | ❌   | List of RFC 3986 URI references                                                      |
+| `domain`          | `str`             | Yes       | RFC 4501 DNS authority requesting the signing                                        |
+| `address`         | `str`             | Yes       | Ethereum address (EIP-55 checksum format)                                            |
+| `uri`             | `str`             | Yes       | RFC 3986 URI referring to the resource                                               |
+| `version`         | `VersionEnum`     | Yes       | Must be `"1"` for [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) compliance     |
+| `chain_id`        | `int`             | Yes       | EIP-155 Chain ID (non-negative)                                                      |
+| `nonce`           | `str`             | Yes       | Alphanumeric token, minimum 8 characters                                             |
+| `issued_at`       | `ISO8601Datetime` | Yes       | ISO 8601 datetime string                                                             |
+| `scheme`          | `Optional[str]`   | No       | RFC 3986 URI scheme for the authority                                                |
+| `statement`       | `Optional[str]`   | No       | Human-readable ASCII assertion                                                       |
+| `expiration_time` | `Optional[ISO8601Datetime]` | No | When the message expires                                                         |
+| `not_before`      | `Optional[ISO8601Datetime]` | No | When the message becomes valid                                                   |
+| `request_id`      | `Optional[str]`   | No       | System-specific identifier                                                           |
+| `resources`       | `Optional[List[str]]` | No   | List of RFC 3986 URI references                                                      |
 | `warnings`        | `List[str]`       | —        | Non-fatal validation warnings (e.g. unchecksummed address). Excluded from serialization. |
 
 ::: info

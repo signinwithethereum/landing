@@ -46,19 +46,19 @@ The core type representing an [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `scheme` | `Option<String>` | ❌ | URI scheme of the request origin (e.g. `"https"`) |
-| `domain` | `Authority` | ✅ | RFC 3986 authority requesting the signing |
-| `address` | `[u8; 20]` | ✅ | Ethereum address (raw bytes, validated as EIP-55) |
-| `statement` | `Option<String>` | ❌ | Human-readable ASCII assertion |
-| `uri` | `UriString` | ✅ | RFC 3986 URI referring to the resource |
-| `version` | `Version` | ✅ | Must be `V1` for EIP-4361 |
-| `chain_id` | `u64` | ✅ | EIP-155 Chain ID |
-| `nonce` | `String` | ✅ | Alphanumeric token, minimum 8 characters |
-| `issued_at` | `TimeStamp` | ✅ | RFC 3339 timestamp |
-| `expiration_time` | `Option<TimeStamp>` | ❌ | When the message expires |
-| `not_before` | `Option<TimeStamp>` | ❌ | When the message becomes valid |
-| `request_id` | `Option<String>` | ❌ | System-specific identifier |
-| `resources` | `Vec<UriString>` | ❌ | List of resource URIs |
+| `scheme` | `Option<String>` | No | URI scheme of the request origin (e.g. `"https"`) |
+| `domain` | `Authority` | Yes | RFC 3986 authority requesting the signing |
+| `address` | `[u8; 20]` | Yes | Ethereum address (raw bytes, validated as EIP-55) |
+| `statement` | `Option<String>` | No | Human-readable ASCII assertion |
+| `uri` | `UriString` | Yes | RFC 3986 URI referring to the resource |
+| `version` | `Version` | Yes | Must be `V1` for EIP-4361 |
+| `chain_id` | `u64` | Yes | EIP-155 Chain ID |
+| `nonce` | `String` | Yes | Alphanumeric token, minimum 8 characters |
+| `issued_at` | `TimeStamp` | Yes | RFC 3339 timestamp |
+| `expiration_time` | `Option<TimeStamp>` | No | When the message expires |
+| `not_before` | `Option<TimeStamp>` | No | When the message becomes valid |
+| `request_id` | `Option<String>` | No | System-specific identifier |
+| `resources` | `Vec<UriString>` | No | List of resource URIs |
 
 #### Parsing
 

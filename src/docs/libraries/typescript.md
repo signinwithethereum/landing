@@ -94,19 +94,19 @@ Accepts either an [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) formatted 
 
 | Parameter        | Type       | Required | Description                                                                               |
 | ---------------- | ---------- | -------- | ----------------------------------------------------------------------------------------- |
-| `domain`         | `string`   | ✅       | RFC 4501 DNS authority requesting the signing                                             |
-| `address`        | `string`   | ✅       | Ethereum address (EIP-55 checksum format)                                                 |
-| `uri`            | `string`   | ✅       | RFC 3986 URI referring to the resource                                                    |
-| `version`        | `string`   | ✅       | Must be `"1"` for [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) compliance          |
-| `chainId`        | `number`   | ✅       | EIP-155 Chain ID                                                                          |
-| `nonce`          | `string`   | ✅       | Randomized token, at least 8 alphanumeric characters                                      |
-| `issuedAt`       | `string`   | ✅       | ISO 8601 datetime string                                                                  |
-| `scheme`         | `string`   | ❌       | RFC 3986 URI scheme for the authority                                                     |
-| `statement`      | `string`   | ❌       | Human-readable ASCII assertion                                                            |
-| `expirationTime` | `string`   | ❌       | ISO 8601 datetime for expiration                                                          |
-| `notBefore`      | `string`   | ❌       | ISO 8601 datetime for validity start                                                      |
-| `requestId`      | `string`   | ❌       | System-specific identifier                                                                |
-| `resources`      | `string[]` | ❌       | List of RFC 3986 URI references                                                           |
+| `domain`         | `string`   | Yes       | RFC 4501 DNS authority requesting the signing                                             |
+| `address`        | `string`   | Yes       | Ethereum address (EIP-55 checksum format)                                                 |
+| `uri`            | `string`   | Yes       | RFC 3986 URI referring to the resource                                                    |
+| `version`        | `string`   | Yes       | Must be `"1"` for [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) compliance          |
+| `chainId`        | `number`   | Yes       | EIP-155 Chain ID                                                                          |
+| `nonce`          | `string`   | Yes       | Randomized token, at least 8 alphanumeric characters                                      |
+| `issuedAt`       | `string`   | Yes       | ISO 8601 datetime string                                                                  |
+| `scheme`         | `string`   | No       | RFC 3986 URI scheme for the authority                                                     |
+| `statement`      | `string`   | No       | Human-readable ASCII assertion                                                            |
+| `expirationTime` | `string`   | No       | ISO 8601 datetime for expiration                                                          |
+| `notBefore`      | `string`   | No       | ISO 8601 datetime for validity start                                                      |
+| `requestId`      | `string`   | No       | System-specific identifier                                                                |
+| `resources`      | `string[]` | No       | List of RFC 3986 URI references                                                           |
 
 ::: info
 In v4, `nonce` and `issuedAt` are required when constructing from an object. Use `generateNonce()` and `new Date().toISOString()` respectively.
@@ -733,10 +733,10 @@ Or install `viem` or `ethers` as a peer dependency for auto-detection.
 In v4, `domain` is a required parameter in `verify()`:
 
 ```typescript
-// ❌ Missing domain
+// Wrong: no domain, so nothing binds this signature to your site
 await message.verify({ signature })
 
-// ✅ Include domain
+// Right: the domain your server expects
 await message.verify({ signature, domain: 'example.com', nonce: expectedNonce })
 ```
 
