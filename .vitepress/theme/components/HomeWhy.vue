@@ -19,8 +19,8 @@ const CLAIMS = [
     body: 'The key that signs in is the key that holds their ENS name, their assets and their history. Identity is not something each app invents separately and then has to keep in sync.'
   },
   {
-    title: 'Works with every wallet, today',
-    body: 'Signing a message is the oldest thing a wallet does. No new cryptography, no contract to deploy, no transaction, no gas — and nothing to add to the wallets your users already run.'
+    title: 'Every account can already sign',
+    body: 'SIWE rides on ERC-191, which wallets have supported for years, so the work of adopting it sits with the verifier rather than with the wallet. No new cryptography, no contract to deploy, no transaction, no gas.'
   }
 ]
 </script>

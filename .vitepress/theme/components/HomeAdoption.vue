@@ -11,20 +11,25 @@ import { STORIES } from '../data/stories'
 const total = computed(() => ECOSYSTEM.length)
 
 /* Names, not logos. Third-party marks arrive in mixed polarity and a logo wall
- * says less than the names do. Deliberately short — the full list is a page. */
+ * says less than the names do.
+ *
+ * Everything here ships SIWE support you can go and read — a documented
+ * sign-in UI, or a library that builds and verifies the message. That is a
+ * narrower claim than "uses SIWE" and it is one we can stand behind for every
+ * name on the list; a wallet merely being able to sign is not the same thing. */
 const STRIP = [
   'MetaMask',
-  'Rainbow',
-  'Ledger',
-  'Safe',
-  'Trust Wallet',
-  'OpenSea',
-  'Snapshot',
-  'Farcaster',
-  'Polymarket',
-  'Lens',
+  'Ambire',
   'WalletConnect',
-  'RainbowKit'
+  'viem',
+  'RainbowKit',
+  'Reown AppKit',
+  'Privy',
+  'Dynamic',
+  'thirdweb',
+  'Supabase',
+  'Magic',
+  'Base Account'
 ]
 </script>
 
@@ -49,7 +54,7 @@ const STRIP = [
       </ul>
 
       <div class="ad-strip">
-        <p class="t-label">Also signing people in this way</p>
+        <p class="t-label">Wallets and libraries shipping SIWE support</p>
         <ul>
           <li v-for="n in STRIP" :key="n">{{ n }}</li>
         </ul>

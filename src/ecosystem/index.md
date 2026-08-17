@@ -8,8 +8,9 @@ aside: false
 
 # Ecosystem
 
-Every wallet that can sign a message can sign a user in, which is all of them.
-These are the wallets, apps and tools we know are doing it — and the three we
-have written up in detail.
+SIWE rides on ERC-191, so any wallet that can sign a message can sign a user in.
+What follows is what we have recorded rather than a census — there is no registry
+and no telemetry, because a SIWE signature is verified on each site's own server
+and never phones home. Three of these have a written case study.
 
 <Ecosystem />

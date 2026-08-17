@@ -22,7 +22,7 @@ const message = exampleMessage()
         <p class="t-label hero-eyebrow">
           <a href="https://eips.ethereum.org/EIPS/eip-4361">ERC&#8209;4361</a>
           <span aria-hidden="true">/</span>
-          <span>Open standard</span>
+          <span>Final since August 2025</span>
         </p>
 
         <h1 class="t-display hero-title">

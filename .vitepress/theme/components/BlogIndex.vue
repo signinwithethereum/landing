@@ -16,14 +16,19 @@ const shown = computed(() =>
 )
 
 const counts = computed(() =>
-  Object.fromEntries(CATEGORIES.map((c) => [c.slug, posts.filter((p) => p.category === c.slug).length]))
+  Object.fromEntries(
+    CATEGORIES.map((c) => [c.slug, posts.filter((p) => p.category === c.slug).length])
+  )
 )
+
+/* An empty category is a category that is not ready to be linked to. */
+const listed = computed(() => CATEGORIES.filter((c) => counts.value[c.slug] > 0))
 </script>
 
 <template>
   <div class="bl">
     <nav v-if="!category" class="bl-cats" aria-label="Categories">
-      <a v-for="c in CATEGORIES" :key="c.slug" :href="`/blog/${c.slug}/`">
+      <a v-for="c in listed" :key="c.slug" :href="`/blog/${c.slug}/`">
         {{ c.label }} <span>{{ counts[c.slug] }}</span>
       </a>
     </nav>

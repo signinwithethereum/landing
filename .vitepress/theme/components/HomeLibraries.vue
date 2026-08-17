@@ -12,7 +12,8 @@ import CopyLine from './CopyLine.vue'
         <p class="t-body">
           Each library is checked against the same shared vectors, so a message
           built in one parses in all of them. Pick the one your server already
-          speaks.
+          speaks &mdash; or, if you are on <a href="https://viem.sh/">viem</a>
+          already, use the SIWE functions it ships and skip a dependency.
         </p>
       </header>
 

@@ -13,6 +13,17 @@
  *
  * To add an entry: append below, and add a `note` if there is something
  * specific to say about how they use it.
+ *
+ * TWO ENTRIES NEED CHECKING. This list was inherited from the previous site and
+ * two of them look wrong on inspection:
+ *
+ *   Snapshot   — snapshot.js has no siwe dependency and no SIWE code path; it
+ *                signs EIP-712 typed data.
+ *   Polymarket — the documented API auth is EIP-712 plus HMAC-SHA256.
+ *
+ * Signing typed data is not ERC-4361. Both are marked `unverified` below and
+ * neither is used in any claim on the landing page. Confirm with the projects
+ * or drop them.
  */
 
 export type EcosystemType = 'wallet' | 'app' | 'tool'
@@ -25,6 +36,8 @@ export interface Entry {
   story?: string
   /** One line, shown on the ecosystem page. Optional. */
   note?: string
+  /** Inherited from the old site and not confirmed. See the note above. */
+  unverified?: boolean
 }
 
 export const TYPES: { key: EcosystemType; label: string; plural: string }[] = [
@@ -274,7 +287,8 @@ export const ECOSYSTEM: Entry[] = [
   {
     name: 'Polymarket',
     link: 'https://polymarket.com/',
-    type: 'app'
+    type: 'app',
+    unverified: true
   },
   {
     name: 'OpenSea',
@@ -319,7 +333,8 @@ export const ECOSYSTEM: Entry[] = [
   {
     name: 'Snapshot',
     link: 'https://snapshot.org/',
-    type: 'app'
+    type: 'app',
+    unverified: true
   },
   {
     name: 'Tally',

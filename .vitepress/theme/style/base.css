@@ -76,6 +76,16 @@ body {
   margin: 0;
 }
 
+/* Links inside body copy on the hand-built pages. The default theme only styles
+ * links inside `.vp-doc`, which these sections are not. */
+.t-body a,
+.t-lede a {
+  color: var(--accent-ui);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 /* The label. Mono, small, wide, and it is always a name for the thing below
  * it — never a slogan. */
 .t-label {

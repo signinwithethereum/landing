@@ -23,13 +23,12 @@ export const CATEGORIES: Category[] = [
     label: 'The standard',
     blurb:
       'Changes to ERC-4361 and the specifications around it: errata, related ERCs, and what conformance means in practice.'
-  },
-  {
-    slug: 'engineering',
-    label: 'Engineering',
-    blurb: 'Notes from the libraries, the test vectors, and the OIDC provider.'
   }
 ]
+
+/* Adding one: make the directory under `src/blog/`, give it an `index.md`
+ * carrying `<BlogIndex category="the-slug" />`, and add it here. A category with
+ * no posts yet is hidden from the blog index rather than shown with a zero. */
 
 export function categoryOf(slug: string | undefined): Category | undefined {
   return CATEGORIES.find((c) => c.slug === slug)
