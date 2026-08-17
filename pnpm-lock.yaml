@@ -8,15 +8,18 @@ importers:
 
   .:
     devDependencies:
+      '@types/node':
+        specifier: ^26.2.0
+        version: 26.2.0
       geist:
         specifier: ^1.7.2
-        version: 1.7.2(next@16.3.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))
+        version: 1.7.2(next@16.3.1(@types/node@26.2.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
       vitepress:
         specifier: 2.0.0-alpha.19
-        version: 2.0.0-alpha.19(postcss@8.5.26)(typescript@5.9.3)
+        version: 2.0.0-alpha.19(@types/node@26.2.0)(postcss@8.5.26)(typescript@5.9.3)
       vue:
         specifier: ^3.5.40
         version: 3.5.41(typescript@5.9.3)
@@ -429,6 +432,9 @@ packages:
 
   '@types/mdurl@2.0.0':
     resolution: {integrity: sha512-RGdgjQUZba5p6QEFAVx2OGb8rQDL/cPRG7GiedRzMcJ1tYnUANBncjbSB1NRGwbvjcPeikRABz2nshyPk1bhWg==}
+
+  '@types/node@26.2.0':
+    resolution: {integrity: sha512-5IviulTZeRNp2vAJ514cc/HUlY5nZ9fCbq9DMyC52BrhFZACo3nI0R7qBxhQmo/d27NFe96ur/b7Wwxklda+kg==}
 
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
@@ -878,6 +884,9 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  undici-types@8.3.0:
+    resolution: {integrity: sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ==}
+
   unist-util-is@6.0.1:
     resolution: {integrity: sha512-LsiILbtBETkDz8I9p1dQ0uyRUWuaQzd/cuEeS1hoRSyW5E5XGmTzlwY1OrNzzakGowI9Dr/I8HVaw4hTtnxy8g==}
 
@@ -1253,16 +1262,20 @@ snapshots:
 
   '@types/mdurl@2.0.0': {}
 
+  '@types/node@26.2.0':
+    dependencies:
+      undici-types: 8.3.0
+
   '@types/unist@3.0.3': {}
 
   '@types/web-bluetooth@0.0.21': {}
 
   '@ungap/structured-clone@1.3.3': {}
 
-  '@vitejs/plugin-vue@6.0.8(vite@8.2.1)(vue@3.5.41(typescript@5.9.3))':
+  '@vitejs/plugin-vue@6.0.8(vite@8.2.1(@types/node@26.2.0))(vue@3.5.41(typescript@5.9.3))':
     dependencies:
       '@rolldown/pluginutils': 1.0.1
-      vite: 8.2.1
+      vite: 8.2.1(@types/node@26.2.0)
       vue: 3.5.41(typescript@5.9.3)
 
   '@volar/language-core@2.4.28':
@@ -1418,9 +1431,9 @@ snapshots:
   fsevents@2.3.3:
     optional: true
 
-  geist@1.7.2(next@16.3.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)):
+  geist@1.7.2(next@16.3.1(@types/node@26.2.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)):
     dependencies:
-      next: 16.3.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      next: 16.3.1(@types/node@26.2.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
   hast-util-to-html@9.0.5:
     dependencies:
@@ -1534,7 +1547,7 @@ snapshots:
 
   nanoid@3.3.18: {}
 
-  next@16.3.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
+  next@16.3.1(@types/node@26.2.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
     dependencies:
       '@next/env': 16.3.1
       '@swc/helpers': 0.5.23
@@ -1553,7 +1566,7 @@ snapshots:
       '@next/swc-linux-x64-musl': 16.3.1
       '@next/swc-win32-arm64-msvc': 16.3.1
       '@next/swc-win32-x64-msvc': 16.3.1
-      sharp: 0.35.3
+      sharp: 0.35.3(@types/node@26.2.0)
     transitivePeerDependencies:
       - '@babel/core'
       - '@types/node'
@@ -1631,7 +1644,7 @@ snapshots:
   semver@7.8.5:
     optional: true
 
-  sharp@0.35.3:
+  sharp@0.35.3(@types/node@26.2.0):
     dependencies:
       '@img/colour': 1.1.0
       detect-libc: 2.1.2
@@ -1662,6 +1675,7 @@ snapshots:
       '@img/sharp-win32-arm64': 0.35.3
       '@img/sharp-win32-ia32': 0.35.3
       '@img/sharp-win32-x64': 0.35.3
+      '@types/node': 26.2.0
     optional: true
 
   shiki@4.4.3:
@@ -1702,6 +1716,8 @@ snapshots:
 
   typescript@5.9.3: {}
 
+  undici-types@8.3.0: {}
+
   unist-util-is@6.0.1:
     dependencies:
       '@types/unist': 3.0.3
@@ -1735,7 +1751,7 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.3
 
-  vite@8.2.1:
+  vite@8.2.1(@types/node@26.2.0):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.5
@@ -1743,9 +1759,10 @@ snapshots:
       rolldown: 1.2.4
       tinyglobby: 0.2.17
     optionalDependencies:
+      '@types/node': 26.2.0
       fsevents: 2.3.3
 
-  vitepress@2.0.0-alpha.19(postcss@8.5.26)(typescript@5.9.3):
+  vitepress@2.0.0-alpha.19(@types/node@26.2.0)(postcss@8.5.26)(typescript@5.9.3):
     dependencies:
       '@docsearch/css': 4.7.0
       '@docsearch/js': 4.7.0
@@ -1755,7 +1772,7 @@ snapshots:
       '@shikijs/transformers': 4.4.3
       '@shikijs/types': 4.4.3
       '@types/markdown-it': 14.1.2
-      '@vitejs/plugin-vue': 6.0.8(vite@8.2.1)(vue@3.5.41(typescript@5.9.3))
+      '@vitejs/plugin-vue': 6.0.8(vite@8.2.1(@types/node@26.2.0))(vue@3.5.41(typescript@5.9.3))
       '@vue/devtools-api': 8.2.1
       '@vue/shared': 3.5.41
       '@vueuse/core': 14.4.0(vue@3.5.41(typescript@5.9.3))
@@ -1764,7 +1781,7 @@ snapshots:
       mark.js: 8.11.1
       minisearch: 7.2.0
       shiki: 4.4.3
-      vite: 8.2.1
+      vite: 8.2.1(@types/node@26.2.0)
       vue: 3.5.41(typescript@5.9.3)
     optionalDependencies:
       postcss: 8.5.26

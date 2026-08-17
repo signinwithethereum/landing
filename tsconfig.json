@@ -12,8 +12,12 @@
     "allowJs": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
+    /* config.ts imports './rss.ts' with the extension, because Vite 8's native
+     * config loader warns on extensionless relative imports and will stop
+     * resolving them. Safe here: this project only ever typechecks, never emits. */
+    "allowImportingTsExtensions": true,
     "jsx": "preserve",
-    "types": ["vitepress/client"],
+    "types": ["vitepress/client", "node"],
     "paths": {
       "@theme/*": ["./.vitepress/theme/*"]
     }

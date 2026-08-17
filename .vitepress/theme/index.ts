@@ -15,6 +15,7 @@ import CopyLine from './components/CopyLine.vue'
 
 import HomeHero from './components/HomeHero.vue'
 import MessageAnatomy from './components/MessageAnatomy.vue'
+import WalletComparison from './components/WalletComparison.vue'
 import HomeWhy from './components/HomeWhy.vue'
 import HomeFlow from './components/HomeFlow.vue'
 import HomeLibraries from './components/HomeLibraries.vue'
@@ -43,6 +44,7 @@ export default {
     /* Landing */
     app.component('HomeHero', HomeHero)
     app.component('MessageAnatomy', MessageAnatomy)
+    app.component('WalletComparison', WalletComparison)
     app.component('HomeWhy', HomeWhy)
     app.component('HomeFlow', HomeFlow)
     app.component('HomeLibraries', HomeLibraries)

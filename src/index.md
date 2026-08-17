@@ -10,6 +10,8 @@ description: Sign-In with Ethereum (ERC-4361) is an open authentication standard
 
 <MessageAnatomy />
 
+<WalletComparison />
+
 <HomeWhy />
 
 <HomeFlow>

@@ -16,6 +16,7 @@
     "kamal:logs": "set -a && . ./.env.production && set +a && kamal app logs -f"
   },
   "devDependencies": {
+    "@types/node": "^26.2.0",
     "geist": "^1.7.2",
     "typescript": "^5.9.3",
     "vitepress": "2.0.0-alpha.19",
