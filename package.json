@@ -4,11 +4,16 @@
   "private": true,
   "type": "module",
   "description": "siwe.xyz — the site for Sign-In with Ethereum (ERC-4361)",
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
     "dev": "vitepress dev --port 4321",
     "build": "vitepress build",
     "preview": "vitepress preview --port 4321",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit",
+    "og": "chromium --headless --disable-gpu --hide-scrollbars --allow-file-access-from-files --window-size=1200,630 --screenshot=src/public/og.png scripts/og.html",
+    "kamal:setup": "set -a && . ./.env.production && set +a && kamal setup",
+    "kamal:deploy": "set -a && . ./.env.production && set +a && kamal deploy",
+    "kamal:logs": "set -a && . ./.env.production && set +a && kamal app logs -f"
   },
   "devDependencies": {
     "geist": "^1.7.2",

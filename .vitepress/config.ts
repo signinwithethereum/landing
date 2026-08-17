@@ -1,5 +1,9 @@
 import { defineConfig } from 'vitepress'
 
+/* The extension is required: Vite 8's native config loader warns on
+ * extensionless relative imports and will stop resolving them. */
+import { generateFeed } from './rss.ts'
+
 const HOST = 'https://siwe.xyz'
 const DESCRIPTION =
   'Sign-In with Ethereum is an open authentication standard. A user signs a message with a key they already hold, your server verifies the signature, and nobody sits in between.'
@@ -27,10 +31,21 @@ export default defineConfig({
     ['meta', { property: 'og:site_name', content: 'Sign-In with Ethereum' }],
     ['meta', { property: 'og:image', content: `${HOST}/og.png` }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:site', content: '@signinethereum' }]
+    ['meta', { name: 'twitter:site', content: '@signinethereum' }],
+    [
+      'link',
+      {
+        rel: 'alternate',
+        type: 'application/rss+xml',
+        title: 'Sign-In with Ethereum',
+        href: `${HOST}/feed.rss`
+      }
+    ]
   ],
 
   sitemap: { hostname: HOST },
+
+  buildEnd: generateFeed,
 
   markdown: {
     theme: { light: 'github-light', dark: 'github-dark-default' },

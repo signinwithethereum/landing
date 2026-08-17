@@ -1,0 +1,67 @@
+<!doctype html>
+<meta charset="utf-8">
+<style>
+  @font-face {
+    font-family: 'Geist Sans';
+    font-weight: 100 900;
+    src: url('../src/public/fonts/GeistSans-Variable.woff2') format('woff2-variations');
+  }
+  @font-face {
+    font-family: 'Geist Mono';
+    font-weight: 100 900;
+    src: url('../src/public/fonts/GeistMono-Variable.woff2') format('woff2-variations');
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    position: relative;
+    background: #000;
+    color: #fff;
+    font-family: 'Geist Sans';
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 72px 80px;
+    overflow: hidden;
+  }
+  /* The same scanline surface the screen panels carry on the site. */
+  body::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,.035) 0, rgba(255,255,255,.035) 1px,
+      transparent 1px, transparent 3px);
+  }
+  .mark { --u: 11px; display: block; }
+  .mark rect { shape-rendering: crispEdges; }
+  h1 {
+    max-width: 20ch;
+    font-size: 78px;
+    font-weight: 500;
+    line-height: 1.02;
+    letter-spacing: -0.032em;
+  }
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'Geist Mono';
+    font-size: 17px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #78787f;
+  }
+</style>
+<body>
+  <svg class="mark" viewBox="0 0 31 9" width="341" height="99" fill="#fff">
+    <rect x="2" y="0" width="5" height="1"/><rect x="9" y="0" width="4" height="1"/><rect x="15" y="0" width="2" height="1"/><rect x="22" y="0" width="2" height="1"/><rect x="26" y="0" width="5" height="1"/>
+    <rect x="0" y="2" width="3" height="1"/><rect x="10" y="2" width="2" height="1"/><rect x="15" y="2" width="2" height="1"/><rect x="22" y="2" width="2" height="1"/><rect x="26" y="2" width="2" height="1"/>
+    <rect x="1" y="4" width="5" height="1"/><rect x="10" y="4" width="2" height="1"/><rect x="15" y="4" width="2" height="1"/><rect x="22" y="4" width="2" height="1"/><rect x="26" y="4" width="4" height="1"/>
+    <rect x="4" y="6" width="3" height="1"/><rect x="10" y="6" width="2" height="1"/><rect x="15" y="6" width="2" height="1"/><rect x="18" y="6" width="3" height="1"/><rect x="22" y="6" width="2" height="1"/><rect x="26" y="6" width="2" height="1"/>
+    <rect x="1" y="8" width="5" height="1"/><rect x="9" y="8" width="4" height="1"/><rect x="15" y="8" width="4" height="1"/><rect x="20" y="8" width="4" height="1"/><rect x="26" y="8" width="5" height="1"/>
+  </svg>
+  <h1>Secure authentication for millions of Ethereum users</h1>
+  <p class="foot"><span>siwe.xyz</span><span>ERC&#8209;4361 &middot; Final</span></p>
+</body>

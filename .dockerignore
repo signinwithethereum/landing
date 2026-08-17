@@ -1,0 +1,9 @@
+node_modules
+.vitepress/dist
+.vitepress/cache
+.git
+.env
+.env.*
+.kamal
+config/deploy.yml
+scripts
