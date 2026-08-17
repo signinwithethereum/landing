@@ -2,13 +2,13 @@
 /* The mark.
  *
  * Renders one of the five canvases from the brand engine and runs a state on
- * it. Loops only run while the mark is on screen, and `prefers-reduced-motion`
- * is handled inside the engine — it holds a state's end frame rather than
- * running it. Size with `--u`; colour is inherited — the engine writes
+ * it. A state only runs while it can be seen, and `prefers-reduced-motion` is
+ * handled inside the engine — it holds a state's end frame rather than running
+ * it. Size with `--u`; colour is inherited — the engine writes
  * `var(--ink)`, `var(--field)` and `var(--accent)` straight onto the cells, so
  * a mark inside a `.screen` panel picks up the screen palette by itself. */
 
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 import { loadMarkEngine, type Mark, type MarkCanvas, type MarkState } from '../mark'
 
 const props = withDefaults(
@@ -27,19 +27,33 @@ const props = withDefaults(
 )
 
 const host = ref<HTMLElement | null>(null)
-const mark = ref<Mark | null>(null)
+
+/* shallowRef, not ref: the engine keeps typed arrays, DOM nodes and a rAF
+ * handle on the instance and writes to all of them every frame. Deep
+ * reactivity would proxy that hot path for no benefit. */
+const mark = shallowRef<Mark | null>(null)
+
 let observer: IntersectionObserver | null = null
-let visible = true
+let onScreen = true
+
+/* A state only runs when it can actually be seen. Off-screen is the obvious
+ * half of that; a hidden document is the half that bites, because the browser
+ * pauses requestAnimationFrame there — a one-shot started in a background tab
+ * freezes on frame two and the mark sits in a half-dark frame until the tab is
+ * focused. Resting is the right thing to show instead. */
+function canRun() {
+  return onScreen && typeof document !== 'undefined' && !document.hidden
+}
 
 function apply() {
   const m = mark.value
   if (!m) return
-  if (!props.state) {
-    m.stop().rest()
-    return
-  }
-  if (visible) m.play(props.state)
+  if (props.state && canRun()) m.play(props.state)
   else m.stop().rest()
+}
+
+function onVisibility() {
+  apply()
 }
 
 onMounted(async () => {
@@ -55,9 +69,8 @@ onMounted(async () => {
   if (typeof IntersectionObserver === 'function') {
     observer = new IntersectionObserver(
       ([entry]) => {
-        const next = entry.isIntersecting
-        if (next === visible) return
-        visible = next
+        if (entry.isIntersecting === onScreen) return
+        onScreen = entry.isIntersecting
         apply()
       },
       { rootMargin: '96px' }
@@ -65,6 +78,7 @@ onMounted(async () => {
     observer.observe(host.value)
   }
 
+  document.addEventListener('visibilitychange', onVisibility)
   apply()
 })
 
@@ -73,6 +87,7 @@ watch(() => props.state, apply)
 onBeforeUnmount(() => {
   observer?.disconnect()
   observer = null
+  document.removeEventListener('visibilitychange', onVisibility)
   mark.value?.stop()
   mark.value = null
 })

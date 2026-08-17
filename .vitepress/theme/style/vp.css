@@ -281,6 +281,23 @@
   background: transparent !important;
 }
 
+/* ------------------------------------------------------------ wide pages */
+
+/* `pageClass: wide` — for pages whose content is a table, a list or a tool
+ * rather than prose, and which the 688px doc measure squeezes. */
+.wide .VPDoc:not(.has-aside) .content {
+  max-width: 1100px;
+}
+
+.wide .VPDoc .container {
+  max-width: 1180px;
+}
+
+.wide .vp-doc h1 + p,
+.wide .vp-doc > div > p:first-of-type {
+  max-width: 68ch;
+}
+
 /* ----------------------------------------------------------- page shell */
 
 /* Pages that draw their own full-width sections opt out of the doc measure. */

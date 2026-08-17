@@ -1,0 +1,71 @@
+---
+title: OIDC Provider
+description: An OpenID Connect identity provider that authenticates users with their Ethereum wallets, for any OIDC-compatible client.
+---
+
+# OIDC Provider
+
+An OpenID Connect identity provider that authenticates users with their Ethereum wallets via [Sign-In with Ethereum](https://eips.ethereum.org/EIPS/eip-4361) (EIP-4361).
+
+Any application that supports OIDC can use this provider to let users log in with their Ethereum address — no passwords, no email, no custodial accounts.
+
+- [signinwithethereum/oidc-provider on GitHub](https://github.com/signinwithethereum/oidc-provider)
+
+## How It Works
+
+```
+┌────────┐     ┌─────────────┐     ┌───────────────┐
+│  App   │────▶│ SIWE OIDC   │────▶│ User's Wallet │
+│(Client)│◀────│  Provider   │◀────│  (MetaMask…)  │
+└────────┘     └─────────────┘     └───────────────┘
+  OIDC code      interaction         SIWE signature
+  flow           + consent
+```
+
+1. Your app starts a standard OIDC authorization code flow (with PKCE)
+2. The provider presents a wallet-connect login page
+3. The user signs a [SIWE message](https://eips.ethereum.org/EIPS/eip-4361) — this replaces both password entry and consent
+4. The provider verifies the signature and issues OIDC tokens
+5. Your app receives an ID token with the user's Ethereum identity
+
+The user's SIWE signature **is** their consent — no additional consent screen needed.
+
+## Features
+
+- Full OIDC authorization code flow with PKCE
+- Dynamic client registration (`/reg` endpoint)
+- Pre-configured default clients via environment variable
+- ENS name and avatar resolution (returned as `preferred_username` and `picture` claims)
+- Smart wallet support: EOA, EIP-1271 (contract wallets like Safe), EIP-6492 (counterfactual)
+- Token introspection and revocation
+- RP-Initiated Logout
+- Redis-backed session storage
+- Auto-generated RSA signing keys (shared safely across workers)
+- Docker and Docker Compose deployment
+
+## Tech Stack
+
+- [oidc-provider](https://github.com/panva/node-oidc-provider) v9 — certified OIDC implementation
+- [@signinwithethereum/siwe](https://github.com/signinwithethereum/siwe) v4 — Sign-In with Ethereum
+- [viem](https://viem.sh) — Ethereum client
+- [Nuxt 4](https://nuxt.com) — full-stack framework (Node.js 22+)
+- [ioredis](https://github.com/redis/ioredis) — Redis client
+- [jose](https://github.com/panva/jose) — JWT/JWK operations
+
+## Quick Start
+
+```bash
+git clone https://github.com/signinwithethereum/oidc-provider
+cd oidc-provider
+pnpm install
+cp .env.example .env
+pnpm dev
+```
+
+The provider starts at `http://localhost:3000`. Visit `http://localhost:3000/.well-known/openid-configuration` to see the OIDC discovery document.
+
+## Next Steps
+
+- [API Reference](/docs/oidc-provider/api-reference) — endpoints, scopes, claims, and token TTLs
+- [Deployment Guide](/docs/oidc-provider/deployment-guide) — Docker Compose, environment variables, production checklist
+- [Client Setup](/docs/oidc-provider/client-setup) — reference client implementation and building your own

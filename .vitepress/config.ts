@@ -133,13 +133,9 @@ export default defineConfig({
       text: 'Edit this page on GitHub'
     },
 
-    lastUpdated: false,
+    docFooter: { prev: 'Previous', next: 'Next' }
 
-    docFooter: { prev: 'Previous', next: 'Next' },
-
-    footer: {
-      message: 'An open standard, maintained in the open.',
-      copyright: 'ERC-4361'
-    }
+    /* The site footer is a theme component (SiteFooter.vue) rendered from the
+     * layout-bottom slot, so it appears on pages with a sidebar too. */
   }
 })

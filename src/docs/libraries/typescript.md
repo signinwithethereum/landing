@@ -1,0 +1,938 @@
+---
+title: TypeScript
+description: 'API reference for @signinwithethereum/siwe: message construction, verification, configuration, error types and the v4 migration.'
+---
+
+# TypeScript
+
+The TypeScript implementation of Sign in with Ethereum can be found here:
+
+- [signinwithethereum/siwe on GitHub](https://github.com/signinwithethereum/siwe)
+
+## Getting Started
+
+The `@signinwithethereum/siwe` library provides comprehensive [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) support with a provider-agnostic design that works with **viem**, **ethers.js v5/v6**, or any custom Ethereum library.
+
+### Installation
+
+```bash
+npm install @signinwithethereum/siwe
+```
+
+For signature verification (typically on the backend), you also need **one** of the following:
+
+```bash
+# Option A: viem (recommended)
+npm install viem
+
+# Option B: ethers.js v6
+npm install ethers
+
+# Option C: ethers.js v5
+npm install ethers@5
+```
+
+::: tip
+On the frontend, if you only create messages (no verification), you don't need viem or ethers — just `@signinwithethereum/siwe`.
+:::
+
+### Configuration
+
+Before verifying signatures, configure the library with your preferred Ethereum library. The simplest approach uses an RPC URL:
+
+```typescript
+import { configure, createConfig } from '@signinwithethereum/siwe'
+
+// Auto-detects viem or ethers and creates the appropriate config
+configure(await createConfig('https://eth.llamarpc.com'))
+```
+
+Or configure explicitly with viem or ethers:
+
+```typescript
+// With viem
+import { createPublicClient, http } from 'viem'
+import { configure, createViemConfig } from '@signinwithethereum/siwe'
+
+const publicClient = createPublicClient({ transport: http('https://eth.llamarpc.com') })
+configure(await createViemConfig({ publicClient }))
+
+// With ethers v6
+import { JsonRpcProvider } from 'ethers'
+import { configure, createEthersConfig } from '@signinwithethereum/siwe'
+
+const provider = new JsonRpcProvider('https://eth.llamarpc.com')
+configure(await createEthersConfig(provider))
+```
+
+### Additional Resources
+
+- [Quickstart Guide](/docs/quickstart/)
+
+### Integrations
+
+The library supports various integrations:
+
+- [Discourse](/docs/integrations/discourse)
+- [Auth0](/docs/integrations/auth0)
+
+## API Reference
+
+### SiweMessage Class
+
+The main class for creating and verifying SIWE messages.
+
+#### Constructor
+
+```typescript
+new SiweMessage(param: string | Partial<SiweMessage>)
+```
+
+Accepts either an [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) formatted message string or an object with message fields.
+
+**Parameters:**
+
+| Parameter        | Type       | Required | Description                                                                               |
+| ---------------- | ---------- | -------- | ----------------------------------------------------------------------------------------- |
+| `domain`         | `string`   | ✅       | RFC 4501 DNS authority requesting the signing                                             |
+| `address`        | `string`   | ✅       | Ethereum address (EIP-55 checksum format)                                                 |
+| `uri`            | `string`   | ✅       | RFC 3986 URI referring to the resource                                                    |
+| `version`        | `string`   | ✅       | Must be `"1"` for [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) compliance          |
+| `chainId`        | `number`   | ✅       | EIP-155 Chain ID                                                                          |
+| `nonce`          | `string`   | ✅       | Randomized token, at least 8 alphanumeric characters                                      |
+| `issuedAt`       | `string`   | ✅       | ISO 8601 datetime string                                                                  |
+| `scheme`         | `string`   | ❌       | RFC 3986 URI scheme for the authority                                                     |
+| `statement`      | `string`   | ❌       | Human-readable ASCII assertion                                                            |
+| `expirationTime` | `string`   | ❌       | ISO 8601 datetime for expiration                                                          |
+| `notBefore`      | `string`   | ❌       | ISO 8601 datetime for validity start                                                      |
+| `requestId`      | `string`   | ❌       | System-specific identifier                                                                |
+| `resources`      | `string[]` | ❌       | List of RFC 3986 URI references                                                           |
+
+::: info
+In v4, `nonce` and `issuedAt` are required when constructing from an object. Use `generateNonce()` and `new Date().toISOString()` respectively.
+:::
+
+#### Methods
+
+##### `prepareMessage(): string`
+
+Formats the SIWE message according to [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) specification, ready for EIP-191 signing.
+
+```typescript
+import { SiweMessage, generateNonce } from '@signinwithethereum/siwe'
+
+const message = new SiweMessage({
+ domain: 'example.com',
+ address: '0x742d35Cc6634C0532925a3b844Bc9e7595f2bD95',
+ uri: 'https://example.com',
+ version: '1',
+ chainId: 1,
+ nonce: generateNonce(),
+ issuedAt: new Date().toISOString(),
+})
+
+const formattedMessage = message.prepareMessage()
+```
+
+##### `verify(params: VerifyParams, opts?: VerifyOpts): Promise<SiweResponse>`
+
+Verifies the cryptographic signature of the message. By default, **throws a `SiweError`** on verification failure. Use `{ suppressExceptions: true }` to return errors in the response instead.
+
+```typescript
+// Throws on failure (default)
+try {
+ const result = await message.verify({
+  signature,
+  domain: 'example.com',
+  nonce: expectedNonce,
+ })
+ console.log('Verified:', result.data.address)
+} catch (error) {
+ // error is SiweError
+ console.error(error.type, error.expected, error.received)
+}
+
+// Returns error in response (suppress exceptions)
+const result = await message.verify(
+ { signature, domain: 'example.com', nonce: expectedNonce },
+ { suppressExceptions: true }
+)
+if (!result.success) {
+ console.error(result.error)
+}
+```
+
+### Configuration Functions
+
+#### `configure(config: SiweConfig): void`
+
+Sets the global verification config used as default for all `verify()` calls.
+
+#### `createConfig(rpcUrl: string): Promise<SiweConfig>`
+
+Creates a config from a plain RPC URL. Auto-detects whether viem or ethers is installed.
+
+```typescript
+import { configure, createConfig } from '@signinwithethereum/siwe'
+
+configure(await createConfig('https://eth.llamarpc.com'))
+```
+
+#### `createViemConfig(opts?: ViemConfigOpts): Promise<SiweConfig>`
+
+Creates a config from a viem `PublicClient`. Supports EIP-1271 and EIP-6492 signatures automatically with viem v2+.
+
+```typescript
+import { createPublicClient, http } from 'viem'
+import { configure, createViemConfig } from '@signinwithethereum/siwe'
+
+const publicClient = createPublicClient({ transport: http('https://eth.llamarpc.com') })
+configure(await createViemConfig({ publicClient }))
+```
+
+#### `createEthersConfig(provider?: any): Promise<SiweConfig>`
+
+Creates a config from an ethers provider. Auto-detects ethers v5 or v6 at runtime. Supports EIP-1271 and EIP-6492 signatures.
+
+```typescript
+import { JsonRpcProvider } from 'ethers'
+import { configure, createEthersConfig } from '@signinwithethereum/siwe'
+
+const provider = new JsonRpcProvider('https://eth.llamarpc.com')
+configure(await createEthersConfig(provider))
+```
+
+### Verification Types
+
+#### VerifyParams
+
+```typescript
+interface VerifyParams {
+ /** Wallet signature (required) */
+ signature: string
+
+ /** Expected domain — required for origin binding */
+ domain: string
+
+ /** Expected nonce — required for replay resistance */
+ nonce: string
+
+ /** Expected URI scheme */
+ scheme?: string
+
+ /** Expected URI */
+ uri?: string
+
+ /** Expected chain ID */
+ chainId?: number
+
+ /** Expected request ID */
+ requestId?: string
+
+ /** ISO 8601 time to check against (defaults to now) */
+ time?: string
+}
+```
+
+#### VerifyOpts
+
+```typescript
+interface VerifyOpts {
+ /** Per-call verification config (overrides global) */
+ config?: SiweConfig
+
+ /** Return errors in response instead of throwing (default: false) */
+ suppressExceptions?: boolean
+
+ /** Require uri and chainId in addition to domain/nonce */
+ strict?: boolean
+
+ /** Custom verification function run alongside EIP-1271 check */
+ verificationFallback?: (
+  params: VerifyParams,
+  opts: VerifyOpts,
+  message: SiweMessage,
+  EIP1271Promise: Promise<SiweResponse>,
+ ) => Promise<SiweResponse>
+
+ /** @deprecated Use `config` instead */
+ provider?: any
+}
+```
+
+#### SiweResponse
+
+```typescript
+interface SiweResponse {
+ /** Whether verification succeeded */
+ success: boolean
+
+ /** The original SiweMessage */
+ data: SiweMessage
+
+ /** Error details if success is false */
+ error?: SiweError
+}
+```
+
+### Utility Functions
+
+#### `generateNonce(): string`
+
+Generates a cryptographically secure random nonce (96 bits of entropy, 17 alphanumeric characters). Uses `crypto.getRandomValues()` for browser and Node.js compatibility.
+
+```typescript
+import { generateNonce } from '@signinwithethereum/siwe'
+
+const nonce = generateNonce()
+```
+
+#### `isValidISO8601Date(date: string): boolean`
+
+Validates whether a string is a valid ISO 8601 datetime.
+
+```typescript
+import { isValidISO8601Date } from '@signinwithethereum/siwe'
+
+isValidISO8601Date('2024-01-01T00:00:00Z') // true
+```
+
+### Error Types
+
+#### SiweError
+
+Extends `Error` with structured fields for programmatic error handling:
+
+```typescript
+class SiweError extends Error {
+ readonly type: SiweErrorType
+ readonly expected?: string
+ readonly received?: string
+}
+```
+
+#### SiweErrorType
+
+```typescript
+enum SiweErrorType {
+ // Time validation
+ EXPIRED_MESSAGE = 'Expired message.',
+ NOT_YET_VALID_MESSAGE = 'Message is not valid yet.',
+ INVALID_TIME_FORMAT = 'Invalid time format.',
+
+ // Field validation
+ INVALID_DOMAIN = 'Invalid domain.',
+ INVALID_ADDRESS = 'Invalid address.',
+ INVALID_URI = 'URI does not conform to RFC 3986.',
+ INVALID_NONCE = 'Nonce size smaller then 8 characters or is not alphanumeric.',
+ INVALID_MESSAGE_VERSION = 'Invalid message version.',
+ UNABLE_TO_PARSE = 'Unable to parse the message.',
+ MALFORMED_MESSAGE = 'Message could not be prepared for signing.',
+
+ // Verification mismatches
+ SCHEME_MISMATCH = 'Scheme does not match provided scheme for verification.',
+ DOMAIN_MISMATCH = 'Domain does not match provided domain for verification.',
+ NONCE_MISMATCH = 'Nonce does not match provided nonce for verification.',
+ URI_MISMATCH = 'URI does not match provided URI for verification.',
+ CHAIN_ID_MISMATCH = 'Chain ID does not match provided chain ID for verification.',
+ REQUEST_ID_MISMATCH = 'Request ID does not match provided request ID for verification.',
+
+ // Signature errors
+ INVALID_SIGNATURE = 'Signature does not match address of the message.',
+ INVALID_SIGNATURE_CHAIN_ID = 'Contract wallet verification provider chain does not match message chain ID.',
+
+ // Missing required params
+ MISSING_DOMAIN = 'Domain is required for verification.',
+ MISSING_NONCE = 'Nonce is required for verification.',
+ MISSING_URI = 'URI is required in strict mode.',
+ MISSING_CHAIN_ID = 'Chain ID is required in strict mode.',
+ MISSING_CONFIG = 'No verification configuration found.',
+ MISSING_PROVIDER_LIBRARY = 'Required provider library is not installed.',
+
+ // Other
+ NONCE_GENERATION_FAILED = 'Nonce generation failed.',
+ INVALID_PARAMS = 'Invalid parameters passed to verify.',
+}
+```
+
+### EIP-6492 Support
+
+The library supports [EIP-6492](https://eips.ethereum.org/EIPS/eip-6492) signatures for undeployed smart contract wallets:
+
+```typescript
+import { isEIP6492Signature } from '@signinwithethereum/siwe'
+
+// Check if a signature uses EIP-6492 format
+if (isEIP6492Signature(signature)) {
+ console.log('This is an EIP-6492 signature from an undeployed contract wallet')
+}
+```
+
+EIP-6492 verification is handled automatically when using viem v2+ or ethers with a provider.
+
+### Parser Package
+
+The standalone parser is available as a separate package:
+
+```bash
+npm install @signinwithethereum/siwe-parser
+```
+
+```typescript
+import { ParsedMessage } from '@signinwithethereum/siwe-parser'
+
+const parsed = new ParsedMessage(messageString)
+console.log(parsed.domain, parsed.address, parsed.chainId)
+```
+
+## Frontend Integration
+
+### React Example
+
+```typescript
+import { useState, useCallback } from 'react'
+import { SiweMessage, generateNonce } from '@signinwithethereum/siwe'
+import { BrowserProvider } from 'ethers'
+
+export function useSiweAuth() {
+ const [isLoading, setIsLoading] = useState(false)
+ const [user, setUser] = useState(null)
+
+ const signIn = useCallback(async () => {
+  setIsLoading(true)
+  try {
+   const provider = new BrowserProvider(window.ethereum)
+   await provider.send('eth_requestAccounts', [])
+
+   const signer = await provider.getSigner()
+   const address = await signer.getAddress()
+   const { chainId } = await provider.getNetwork()
+
+   // Fetch nonce from backend
+   const nonceRes = await fetch('/api/nonce')
+   const { nonce } = await nonceRes.json()
+
+   // Create message
+   const message = new SiweMessage({
+    domain: window.location.host,
+    address,
+    statement: 'Sign in with Ethereum.',
+    uri: window.location.origin,
+    version: '1',
+    chainId: Number(chainId),
+    nonce,
+    issuedAt: new Date().toISOString(),
+   })
+
+   const messageString = message.prepareMessage()
+
+   // Request signature
+   const signature = await signer.signMessage(messageString)
+
+   // Send to backend for verification
+   const response = await fetch('/api/verify', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: messageString, signature }),
+   })
+
+   if (response.ok) {
+    const userData = await response.json()
+    setUser(userData)
+   }
+  } catch (error) {
+   console.error('Sign in failed:', error)
+  } finally {
+   setIsLoading(false)
+  }
+ }, [])
+
+ const signOut = useCallback(() => {
+  setUser(null)
+  fetch('/api/logout', { method: 'POST' })
+ }, [])
+
+ return { signIn, signOut, isLoading, user }
+}
+```
+
+### With viem/wagmi
+
+```typescript
+import { SiweMessage, generateNonce } from '@signinwithethereum/siwe'
+import { useAccount, useSignMessage } from 'wagmi'
+
+export function useSiweAuth() {
+ const { address, chainId } = useAccount()
+ const { signMessageAsync } = useSignMessage()
+
+ const signIn = async () => {
+  if (!address) return
+
+  // Fetch nonce from backend
+  const nonceRes = await fetch('/api/nonce')
+  const { nonce } = await nonceRes.json()
+
+  const message = new SiweMessage({
+   domain: window.location.host,
+   address,
+   statement: 'Sign in with Ethereum.',
+   uri: window.location.origin,
+   version: '1',
+   chainId,
+   nonce,
+   issuedAt: new Date().toISOString(),
+  })
+
+  const messageString = message.prepareMessage()
+  const signature = await signMessageAsync({ message: messageString })
+
+  const response = await fetch('/api/verify', {
+   method: 'POST',
+   headers: { 'Content-Type': 'application/json' },
+   body: JSON.stringify({ message: messageString, signature }),
+  })
+
+  return response.json()
+ }
+
+ return { signIn }
+}
+```
+
+## Backend Integration
+
+### Express.js Example
+
+```typescript
+import express from 'express'
+import {
+ SiweMessage,
+ SiweError,
+ generateNonce,
+ configure,
+ createConfig,
+} from '@signinwithethereum/siwe'
+
+const app = express()
+app.use(express.json())
+
+// Configure SIWE verification (once at startup)
+configure(await createConfig('https://eth.llamarpc.com'))
+
+// Store nonces (use Redis in production)
+const nonces = new Map<string, number>()
+
+app.get('/api/nonce', (req, res) => {
+ const nonce = generateNonce()
+ nonces.set(nonce, Date.now())
+
+ // Clean up expired nonces
+ setTimeout(() => nonces.delete(nonce), 10 * 60 * 1000)
+
+ res.json({ nonce })
+})
+
+app.post('/api/verify', async (req, res) => {
+ try {
+  const { message, signature } = req.body
+
+  const siweMessage = new SiweMessage(message)
+
+  // Validate nonce
+  if (!nonces.has(siweMessage.nonce)) {
+   return res.status(400).json({ error: 'Invalid nonce' })
+  }
+  nonces.delete(siweMessage.nonce)
+
+  // Verify signature — throws SiweError on failure
+  const result = await siweMessage.verify({
+   signature,
+   domain: req.hostname,
+   nonce: siweMessage.nonce,
+  })
+
+  res.json({
+   success: true,
+   user: {
+    address: result.data.address,
+    chainId: result.data.chainId,
+   },
+  })
+ } catch (error) {
+  if (error instanceof SiweError) {
+   res.status(401).json({ error: error.type })
+  } else {
+   res.status(400).json({ error: error.message })
+  }
+ }
+})
+```
+
+### Next.js Route Handlers
+
+```typescript
+// app/api/nonce/route.ts
+import { generateNonce } from '@signinwithethereum/siwe'
+
+export function GET() {
+ const nonce = generateNonce()
+ // Store nonce in session/database
+ return Response.json({ nonce })
+}
+
+// app/api/verify/route.ts
+import { SiweMessage, SiweError, configure, createConfig } from '@signinwithethereum/siwe'
+
+// Configure once
+configure(await createConfig('https://eth.llamarpc.com'))
+
+export async function POST(request: Request) {
+ const { message, signature } = await request.json()
+
+ try {
+  const siweMessage = new SiweMessage(message)
+  const result = await siweMessage.verify({
+   signature,
+   domain: new URL(request.url).host,
+   nonce: siweMessage.nonce, // validate against stored nonce in production
+  })
+
+  return Response.json({ success: true, user: result.data })
+ } catch (error) {
+  if (error instanceof SiweError) {
+   return Response.json({ error: error.type }, { status: 401 })
+  }
+  return Response.json({ error: 'Verification failed' }, { status: 400 })
+ }
+}
+```
+
+## Advanced Features
+
+### EIP-1271 Smart Contract Signatures
+
+Verify signatures from smart contract wallets. This requires a configured provider:
+
+```typescript
+import { SiweMessage, configure, createViemConfig } from '@signinwithethereum/siwe'
+import { createPublicClient, http } from 'viem'
+
+const publicClient = createPublicClient({ transport: http('https://eth.llamarpc.com') })
+configure(await createViemConfig({ publicClient }))
+
+const message = new SiweMessage(messageString)
+
+// EIP-1271 verification happens automatically during verify()
+const result = await message.verify({
+ signature,
+ domain: 'example.com',
+ nonce: expectedNonce,
+})
+```
+
+### Strict Mode
+
+Require full contextual binding by validating `uri` and `chainId` in addition to the always-required `domain` and `nonce`:
+
+```typescript
+const result = await message.verify(
+ {
+  signature,
+  domain: 'example.com',
+  nonce: expectedNonce,
+  uri: 'https://example.com',
+  chainId: 1,
+ },
+ { strict: true }
+)
+```
+
+### Per-Call Configuration
+
+Override the global config for specific verification calls:
+
+```typescript
+import { createViemConfig } from '@signinwithethereum/siwe'
+import { createPublicClient, http } from 'viem'
+import { polygon } from 'viem/chains'
+
+const polygonClient = createPublicClient({
+ chain: polygon,
+ transport: http('https://polygon-rpc.com'),
+})
+const polygonConfig = await createViemConfig({ publicClient: polygonClient })
+
+const result = await message.verify(
+ { signature, domain: 'example.com', nonce: expectedNonce },
+ { config: polygonConfig }
+)
+```
+
+### Custom SiweConfig
+
+Implement the `SiweConfig` interface for full control over verification:
+
+```typescript
+import { configure } from '@signinwithethereum/siwe'
+import type { SiweConfig } from '@signinwithethereum/siwe'
+
+const customConfig: SiweConfig = {
+ verifyMessage: (message, signature) => {
+  // Your custom signature recovery logic
+  // Must return the recovered address
+  return recoveredAddress
+ },
+ hashMessage: (message) => {
+  // EIP-191 personal_sign hash
+  return hashedMessage
+ },
+ getAddress: (address) => {
+  // Normalize to EIP-55 checksum format
+  return checksumAddress
+ },
+ checkContractWalletSignature: async (address, message, signature, chainId) => {
+  // Optional: EIP-1271 verification
+  return isValid
+ },
+}
+
+configure(customConfig)
+```
+
+### Time-based Validation
+
+```typescript
+// Verify at a specific time instead of now
+const result = await message.verify({
+ signature,
+ domain: 'example.com',
+ nonce: expectedNonce,
+ time: '2024-10-31T16:30:00Z',
+})
+```
+
+## Troubleshooting
+
+### Common Issues
+
+#### "No verification configuration found" Error
+
+You need to configure the library before calling `verify()`:
+
+```typescript
+import { configure, createConfig } from '@signinwithethereum/siwe'
+
+configure(await createConfig('https://eth.llamarpc.com'))
+```
+
+Or install `viem` or `ethers` as a peer dependency for auto-detection.
+
+#### "Domain is required for verification" Error
+
+In v4, `domain` is a required parameter in `verify()`:
+
+```typescript
+// ❌ Missing domain
+await message.verify({ signature })
+
+// ✅ Include domain
+await message.verify({ signature, domain: 'example.com', nonce: expectedNonce })
+```
+
+#### "Nonce is required for verification" Error
+
+In v4, `nonce` is a required parameter in `verify()`:
+
+```typescript
+await message.verify({ signature, domain: 'example.com', nonce: storedNonce })
+```
+
+#### "Invalid signature" Error
+
+- Verify the message string exactly matches what was signed
+- Check that the address is in EIP-55 checksum format
+- Ensure the signature is in the correct format (0x-prefixed hex)
+- For contract wallets, ensure your config includes `checkContractWalletSignature`
+
+## Migrating from `siwe`
+
+`@signinwithethereum/siwe` (v4) is a major release that makes the library **provider-agnostic**, adds **EIP-6492 support**, and strengthens verification security by requiring `domain` and `nonce` in all `verify()` calls.
+
+### Package Name Change
+
+```diff
+- npm install siwe ethers
++ npm install @signinwithethereum/siwe
+```
+
+Update all imports:
+
+```diff
+- import { SiweMessage, generateNonce } from 'siwe'
++ import { SiweMessage, generateNonce } from '@signinwithethereum/siwe'
+```
+
+### Breaking Changes
+
+#### `nonce` and `issuedAt` are required in constructor
+
+When constructing a `SiweMessage` from an object, `nonce` and `issuedAt` are now required fields (they are no longer auto-generated):
+
+```typescript
+// Old — nonce and issuedAt auto-generated
+const message = new SiweMessage({
+ domain: 'example.com',
+ address: '0x...',
+ uri: 'https://example.com',
+ version: '1',
+ chainId: 1,
+})
+
+// New — must provide nonce and issuedAt
+const message = new SiweMessage({
+ domain: 'example.com',
+ address: '0x...',
+ uri: 'https://example.com',
+ version: '1',
+ chainId: 1,
+ nonce: generateNonce(),
+ issuedAt: new Date().toISOString(),
+})
+```
+
+#### `domain` and `nonce` are required in `verify()`
+
+The `verify()` method now requires `domain` and `nonce` parameters for security (origin binding and replay resistance):
+
+```typescript
+// Old — domain and nonce optional
+const result = await message.verify({ signature })
+
+// New — domain and nonce required
+const result = await message.verify({
+ signature,
+ domain: 'example.com',
+ nonce: storedNonce,
+})
+```
+
+#### `verify()` throws by default
+
+Previously, `verify()` returned `{ success: false, error }` on failure. In v4, it **throws a `SiweError`** by default:
+
+```typescript
+// Old — check success boolean
+const result = await message.verify({ signature })
+if (result.success) {
+ console.log(result.data)
+} else {
+ console.error(result.error)
+}
+
+// New — use try/catch (default behavior)
+try {
+ const result = await message.verify({
+  signature,
+  domain: 'example.com',
+  nonce: storedNonce,
+ })
+ console.log(result.data)
+} catch (error) {
+ // error is SiweError with type, expected, received
+ console.error(error.type)
+}
+
+// New — or suppress exceptions for legacy behavior
+const result = await message.verify(
+ { signature, domain: 'example.com', nonce: storedNonce },
+ { suppressExceptions: true },
+)
+if (!result.success) {
+ console.error(result.error)
+}
+```
+
+#### Provider-agnostic configuration
+
+The library no longer depends on ethers.js. You must configure a verification backend:
+
+```typescript
+// Old — ethers auto-detected, provider passed to verify
+import { ethers } from 'ethers'
+const provider = new ethers.providers.JsonRpcProvider('https://...')
+const result = await message.verify({ signature, provider })
+
+// New — configure once at startup
+import { configure, createConfig } from '@signinwithethereum/siwe'
+
+configure(await createConfig('https://eth.llamarpc.com'))
+
+// Then verify without passing provider
+const result = await message.verify({
+ signature,
+ domain: 'example.com',
+ nonce: storedNonce,
+})
+```
+
+For explicit viem or ethers configuration, see the [Configuration](#configuration) section.
+
+#### `validate()` removed
+
+The `validate()` method from v1 has been fully removed. Use `verify()` instead.
+
+#### `SiweError` extends `Error`
+
+`SiweError` is now a proper `Error` subclass with stack traces and `instanceof` support:
+
+```typescript
+import { SiweError, SiweErrorType } from '@signinwithethereum/siwe'
+
+try {
+ await message.verify({ signature, domain, nonce })
+} catch (error) {
+ if (error instanceof SiweError) {
+  switch (error.type) {
+   case SiweErrorType.EXPIRED_MESSAGE:
+    // handle expired
+    break
+   case SiweErrorType.INVALID_SIGNATURE:
+    // handle invalid sig
+    break
+  }
+ }
+}
+```
+
+#### `SiweResponse.data` is `SiweMessage`
+
+The `data` field in `SiweResponse` is now the `SiweMessage` instance itself, not a plain object:
+
+```typescript
+const result = await message.verify({ signature, domain, nonce })
+// result.data is the SiweMessage instance
+console.log(result.data.address) // same as message.address
+```
+
+### Upgrade Checklist
+
+1. Update package name: `siwe` → `@signinwithethereum/siwe`
+2. Update all import paths
+3. Add `nonce: generateNonce()` and `issuedAt: new Date().toISOString()` to all `SiweMessage` constructors
+4. Add `domain` and `nonce` to all `verify()` calls
+5. Add verification configuration (`configure()` / `createConfig()`)
+6. Update error handling: `verify()` now throws by default
+7. Replace any `validate()` calls with `verify()`
+8. Replace `provider` option with `config` option in `verify()`
+9. Remove `ethers` as a required dependency (keep as peer dep if using ethers-based config)
+
+## Resources
+
+- **GitHub**: [signinwithethereum/siwe](https://github.com/signinwithethereum/siwe)
+- **npm**: [@signinwithethereum/siwe](https://www.npmjs.com/package/@signinwithethereum/siwe)
+- **Example Implementation**: [@signinwithethereum/siwe-quickstart](https://github.com/signinwithethereum/siwe-quickstart)
+
+---
+
+_Need help with integration? Check out our [Quickstart Guide](/docs/quickstart/) or [Integration Examples](/docs/integrations/)._

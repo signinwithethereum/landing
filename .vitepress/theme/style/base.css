@@ -167,6 +167,9 @@ body {
   position: relative;
   background: var(--screen);
   color: #fff;
+  /* A hairline, because in dark mode the panel and the page are both black and
+   * the panel would otherwise have no edge at all. */
+  box-shadow: inset 0 0 0 1px #1c1c20;
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
