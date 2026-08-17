@@ -311,8 +311,22 @@
   max-width: none !important;
 }
 
+/* Horizontal padding goes, the top offset stays — but only where it is load
+ * bearing. `.VPNav` is `position: fixed` at 960px and up, and `.VPContent`'s
+ * padding-top is the only thing holding the page below it; zeroing that slid the
+ * hero under the nav and left the eyebrow four pixels clear of it. Below 960px
+ * the nav sits in the flow and needs no offset, so this matches VitePress's own
+ * breakpoint rather than applying the offset everywhere — which put 60px of dead
+ * space above the hero on a phone. */
 .page-bleed .VPContent {
-  padding: 0 !important;
+  padding-inline: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+@media (min-width: 960px) {
+  .page-bleed .VPContent {
+    padding-top: var(--vp-nav-height) !important;
+  }
 }
 
 .page-bleed .VPDoc {

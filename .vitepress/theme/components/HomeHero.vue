@@ -72,15 +72,38 @@ const message = exampleMessage()
   .hero-grid {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
     gap: var(--s9);
-    align-items: center;
+    /* Top-aligned, not centred: the eyebrow and the panel's top edge then share
+     * a line the eye can actually see, and they keep sharing it as the headline
+     * rewraps at other widths. Centring made that relationship drift. */
+    align-items: start;
   }
 }
 
+/* Spacing carries the hierarchy, so it is not uniform. The eyebrow is bound to
+ * the headline it labels; the widest gap is the one before the buttons, where
+ * reading stops and acting starts; the install line sits close to the buttons
+ * because it is another way of doing the same thing. */
 .hero-copy {
   display: flex;
   flex-direction: column;
-  gap: var(--s5);
+  gap: 0;
   align-items: start;
+}
+
+.hero-eyebrow {
+  margin-bottom: var(--s4);
+}
+
+.hero-title {
+  margin-bottom: var(--s5);
+}
+
+.hero-lede {
+  margin-bottom: var(--s6);
+}
+
+.hero-actions {
+  margin-bottom: var(--s3);
 }
 
 .hero-eyebrow {
