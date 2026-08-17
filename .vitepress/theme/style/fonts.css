@@ -1,0 +1,29 @@
+/* Geist Sans and Geist Mono, variable, self-hosted.
+ *
+ * Geist Mono is drawn on a grid with flat terminals, which is the same
+ * construction as the mark. It carries every label, every value and every
+ * piece of machine text on this site. Geist Sans carries the prose. */
+
+@font-face {
+  font-family: 'Geist Sans';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/GeistSans-Variable.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Geist Sans';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/GeistSans-Italic-Variable.woff2') format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/GeistMono-Variable.woff2') format('woff2-variations');
+}

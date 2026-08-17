@@ -1,0 +1,10 @@
+node_modules/
+.vitepress/dist/
+.vitepress/cache/
+*.log
+.DS_Store
+.env
+.env.*
+!.env.example
+.kamal/secrets*
+!.kamal/secrets.example

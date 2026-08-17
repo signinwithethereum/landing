@@ -1,0 +1,122 @@
+/* Tokens
+ *
+ * Everything here comes off the mark. The mark is ink cells on a grid with a
+ * grey field behind them, so the site has exactly four colour roles — canvas,
+ * field, ink, accent — and a neutral ramp between ink and canvas for prose.
+ *
+ * The accent is the one brand constant: #7f00f6 in both themes. It is too
+ * dark on black and too light on white to carry text, so `--accent-ui` is the
+ * readable sibling per theme (7.4:1 on white, 7.6:1 on black) and `--accent`
+ * stays for fills, the mark, and anything sitting on the screen panel.
+ *
+ * `--screen` is black in both themes. The field canvas of the mark reads as a
+ * screen and carries its own ground, so panels that hold it stay dark whether
+ * the page around them is light or not. */
+
+:root {
+  /* ---------------------------------------------------------------- colour */
+  --siwe-accent: #7f00f6;
+
+  --canvas: #ffffff;
+  --canvas-2: #f7f7f8;
+  --canvas-3: #efeff1;
+  --screen: #000000;
+  --screen-ink: #ffffff;
+  --screen-field: #3a3a3a;
+  --screen-dim: #8a8a92;
+
+  --ink: #000000;
+  --ink-2: #52525b;
+  --ink-3: #7c7c86;
+
+  --field: #cdcdd3;
+  --rule: #e4e4e8;
+  --rule-strong: #cbcbd2;
+
+  --accent: #7f00f6;
+  --accent-ui: #6b21d6;
+  --accent-soft: rgba(127, 0, 246, 0.07);
+  --accent-line: rgba(127, 0, 246, 0.25);
+
+  --warn: #b45309;
+  --danger: #b91c1c;
+  --ok: #15803d;
+
+  /* ------------------------------------------------------------------ cell */
+  /* One cell of the mark. Every rhythm on the page is a multiple of it. */
+  --u: 4px;
+
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  --s8: 64px;
+  --s9: 96px;
+  --s10: 128px;
+
+  --page: 1180px;
+  --measure: 68ch;
+  --radius: 3px;
+  --radius-lg: 6px;
+
+  /* ------------------------------------------------------------------ type */
+  --font-sans:
+    'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
+  --font-mono:
+    'Geist Mono', ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Consolas,
+    monospace;
+
+  --t-display: clamp(2.5rem, 6.2vw, 4.25rem);
+  --t-h1: clamp(2rem, 4.4vw, 3rem);
+  --t-h2: clamp(1.625rem, 3vw, 2.25rem);
+  --t-h3: 1.1875rem;
+  --t-lede: clamp(1.0625rem, 1.5vw, 1.3125rem);
+  --t-body: 1rem;
+  --t-small: 0.875rem;
+  --t-tiny: 0.8125rem;
+  --t-label: 0.6875rem;
+
+  --lh-tight: 1.04;
+  --lh-snug: 1.2;
+  --lh-body: 1.65;
+
+  --track-display: -0.032em;
+  --track-h: -0.018em;
+  --track-label: 0.13em;
+
+  /* ---------------------------------------------------------------- motion */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark {
+  --canvas: #000000;
+  --canvas-2: #0c0c0e;
+  --canvas-3: #16161a;
+  --screen: #000000;
+
+  --ink: #ffffff;
+  --ink-2: #a1a1aa;
+  --ink-3: #78787f;
+
+  --field: #3a3a3a;
+  --rule: #26262a;
+  --rule-strong: #3a3a41;
+
+  --accent: #7f00f6;
+  --accent-ui: #b184ff;
+  --accent-soft: rgba(177, 132, 255, 0.1);
+  --accent-line: rgba(177, 132, 255, 0.28);
+
+  --warn: #fbbf24;
+  --danger: #f87171;
+  --ok: #4ade80;
+}
+/* Note: the four colour roles are named `--canvas`, `--field`, `--ink` and
+ * `--accent` on purpose. Those are the exact four names the mark engine reads,
+ * so a mark inherits whatever palette it sits in with no mapping layer — on
+ * the page it takes the theme, inside a `.screen` panel it takes the screen. */

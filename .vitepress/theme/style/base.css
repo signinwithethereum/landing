@@ -1,0 +1,317 @@
+/* Base
+ *
+ * Type, the section shell, the rule pair, the screen panel. The one structural
+ * device on this site is the rule pair: two hairlines a cell apart, which is
+ * the mark's ink row and gap row at page scale. It separates sections, caps
+ * tables, and underlines the nav. Nothing else divides anything. */
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: 'cv11', 'ss01';
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ------------------------------------------------------------------ type */
+
+.t-display {
+  font-size: var(--t-display);
+  font-weight: 500;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--track-display);
+  text-wrap: balance;
+  margin: 0;
+}
+
+.t-h2 {
+  font-size: var(--t-h2);
+  font-weight: 500;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--track-h);
+  text-wrap: balance;
+  margin: 0;
+}
+
+.t-h3 {
+  font-size: var(--t-h3);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.t-lede {
+  font-size: var(--t-lede);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.011em;
+  color: var(--ink-2);
+  max-width: 34em;
+  text-wrap: pretty;
+  margin: 0;
+}
+
+.t-body {
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  color: var(--ink-2);
+  max-width: var(--measure);
+  text-wrap: pretty;
+  margin: 0;
+}
+
+/* The label. Mono, small, wide, and it is always a name for the thing below
+ * it — never a slogan. */
+.t-label {
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0;
+}
+
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: var(--t-tiny);
+  letter-spacing: -0.01em;
+}
+
+/* ------------------------------------------------------- section shell */
+
+.shell {
+  width: 100%;
+  max-width: var(--page);
+  margin-inline: auto;
+  padding-inline: var(--s5);
+}
+
+@media (min-width: 768px) {
+  .shell {
+    padding-inline: var(--s7);
+  }
+}
+
+.band {
+  position: relative;
+  padding-block: var(--s9);
+}
+
+@media (max-width: 767px) {
+  .band {
+    padding-block: var(--s8);
+  }
+}
+
+/* The rule pair. Two hairlines one cell apart — the mark's ink row and its
+ * gap row, at page scale. */
+.band + .band::before,
+.rule-pair {
+  content: '';
+  display: block;
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 3px;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  pointer-events: none;
+}
+
+.rule-pair {
+  position: relative;
+  inset: auto;
+}
+
+/* A single hairline, for inside a section. */
+.rule {
+  height: 1px;
+  background: var(--rule);
+  border: 0;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------- screen */
+
+/* The dark panel. The field canvas of the mark reads as a screen and carries
+ * its own ground, so anything holding it stays black in both themes and takes
+ * the screen palette rather than the page's. */
+.screen {
+  --canvas: var(--screen);
+  --ink: #fff;
+  --ink-2: #a1a1aa;
+  --ink-3: #78787f;
+  --field: var(--screen-field);
+  --rule: #1e1e22;
+  --rule-strong: #33333a;
+  --accent-ui: #b184ff;
+
+  position: relative;
+  background: var(--screen);
+  color: #fff;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* Scanlines. Same 1-on 1-off rhythm as the mark, at 2px, held far enough back
+ * that it reads as the surface of the panel rather than a pattern on it. */
+.screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.035) 0,
+    rgba(255, 255, 255, 0.035) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  z-index: 2;
+}
+
+/* ------------------------------------------------------------- controls */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  height: 40px;
+  padding-inline: var(--s4);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--canvas);
+  font-family: var(--font-sans);
+  font-size: var(--t-small);
+  font-weight: 500;
+  letter-spacing: -0.006em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background 0.15s var(--ease),
+    border-color 0.15s var(--ease),
+    color 0.15s var(--ease);
+}
+
+.btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--rule-strong);
+  color: var(--ink);
+}
+
+.btn-ghost:hover {
+  background: transparent;
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.btn-mono {
+  font-family: var(--font-mono);
+  font-size: var(--t-tiny);
+}
+
+:where(a, button, input, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent-ui);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ------------------------------------------------------------ link tile */
+
+/* Used for anything that is a whole clickable row or card. The accent shows
+ * up on the left edge only — the one place accent is allowed to be decorative,
+ * because it marks focus rather than adding colour. */
+.tile {
+  position: relative;
+  display: block;
+  padding: var(--s5);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--canvas);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color 0.15s var(--ease),
+    background 0.15s var(--ease);
+}
+
+.tile:hover {
+  border-color: var(--rule-strong);
+  background: var(--canvas-2);
+}
+
+.tile::before {
+  content: '';
+  position: absolute;
+  inset-block: -1px;
+  left: -1px;
+  width: 2px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.15s var(--ease);
+}
+
+.tile:hover::before {
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------- helpers */
+
+.grid {
+  display: grid;
+  gap: var(--s5);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.dim {
+  color: var(--ink-3);
+}
+
+.accent {
+  color: var(--accent-ui);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

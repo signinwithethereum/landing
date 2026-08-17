@@ -1,0 +1,20 @@
+{
+  "name": "siwe-landing-next",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "siwe.xyz — the site for Sign-In with Ethereum (ERC-4361)",
+  "scripts": {
+    "dev": "vitepress dev --port 4321",
+    "build": "vitepress build",
+    "preview": "vitepress preview --port 4321",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "devDependencies": {
+    "geist": "^1.7.2",
+    "typescript": "^5.9.3",
+    "vitepress": "2.0.0-alpha.19",
+    "vue": "^3.5.40",
+    "vue-tsc": "^3.1.1"
+  }
+}
