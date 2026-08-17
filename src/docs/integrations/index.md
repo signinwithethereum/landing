@@ -1,61 +1,44 @@
 ---
 title: Integrations
-description: Ready-made SIWE integrations for existing platforms and authentication providers, plus the patterns behind a custom one.
+description: Ready-made ways to add SIWE to an existing platform — Discourse, Auth0, Django, or any OpenID Connect client — without writing verification code.
 ---
 
 # Integrations
 
-Sign in with Ethereum (SIWE) can be integrated with various platforms and frameworks to provide seamless authentication experiences. This section covers popular integration options.
+Sometimes the right amount of SIWE code to write is none. These are the routes
+that already exist.
 
-## Available Integrations
+| | | |
+| --- | --- | --- |
+| [Discourse](/docs/integrations/discourse) | A plugin | Wallet sign-in for a forum, with ENS names and avatars resolved server-side. |
+| [Auth0](/docs/integrations/auth0) | A connection | Wire SIWE into Auth0 as a custom social connection, via the OIDC provider. |
+| [Django](/docs/libraries/python#django) | A reusable app | Nonce and verify endpoints, an auth backend, sessions and wallet linking. |
+| [OIDC provider](/docs/oidc-provider/) | A service you host | Put SIWE behind a standard OpenID Connect endpoint, and any OIDC client can use it. |
 
-### Discussion Platforms
+The OIDC provider is the general answer. If your platform can talk to an OpenID
+Connect identity provider — and most enterprise software can — it can accept SIWE
+without ever learning what an Ethereum address is. Auth0 is one worked example of
+exactly that.
 
--   **[Discourse](/docs/integrations/discourse)**: Add SIWE authentication to your Discourse community forums
+## Building your own
 
-### Authentication Libraries
+If none of the above fits, you are writing about twenty lines against a
+[library](/docs/libraries/). The shape is always the same:
 
--   **[Auth0](/docs/integrations/auth0)**: Use SIWE with Auth0's enterprise authentication platform
+**On the client.** Connect a wallet, fetch a nonce from your server, build the
+message, ask the wallet to sign it, post the message and signature back.
 
-## Integration Benefits
+**On the server.** Issue and remember the nonce. On verification, recover the
+signer and check the message against *your own* domain, *your own* nonce and the
+clock — never against values taken from the message that just arrived. Then start
+a session and forget the nonce.
 
--   **Decentralized Authentication**: Users authenticate with their Ethereum wallets
--   **No Passwords**: Eliminates the need for traditional password-based authentication
--   **ENS Support**: Automatic username resolution from ENS names
--   **Cross-Platform**: Works across web, mobile, and desktop applications
+The [quickstart](/docs/quickstart/) is that, written out, with both halves.
+[Security considerations](/docs/security-considerations) is the same thing from the
+direction of what goes wrong.
 
-## Common Integration Patterns
+## Adding one here
 
-### Frontend Integration
-
-Most integrations follow a similar pattern:
-
-1. Connect to user's wallet
-2. Create SIWE message
-3. Request signature from user
-4. Send signed message to backend for verification
-5. Establish authenticated session
-
-### Backend Verification
-
-Backend integrations typically:
-
-1. Receive signed SIWE message
-2. Verify signature cryptographically
-3. Validate message parameters (domain, nonce, expiration)
-4. Create user session or JWT token
-
-## Getting Started
-
-Choose the integration that best fits your technology stack:
-
--   For community platforms, see [Discourse](/docs/integrations/discourse)
--   For enterprise applications, explore [Auth0](/docs/integrations/auth0)
-
-## Custom Integrations
-
-If you don't see your platform listed, you can build custom integrations using the [TypeScript library](/docs/libraries/typescript) or the [OIDC Provider](/docs/oidc-provider/) (which works with any OIDC-compatible client).
-
-## Community Contributions
-
-The SIWE ecosystem welcomes community contributions. If you've built an integration for a platform not listed here, consider sharing it with the community.
+Built something for a platform not listed? Open a pull request on
+[the site](https://github.com/signinwithethereum/landing-next), or add yourself to
+the [ecosystem](/ecosystem) — one entry in one file.

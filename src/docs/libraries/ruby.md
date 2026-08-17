@@ -5,7 +5,7 @@ description: 'API reference for the siwe-rb gem: Siwe::Message, verify and verif
 
 # Ruby
 
-The Ruby implementation of Sign in with Ethereum can be found here:
+The Ruby implementation of Sign-In with Ethereum can be found here:
 
 - [signinwithethereum/siwe-rb on GitHub](https://github.com/signinwithethereum/siwe-rb)
 
@@ -510,7 +510,7 @@ A message is rejected at the exact `Expiration Time` instant (not one moment aft
 
 -   **GitHub**: [signinwithethereum/siwe-rb](https://github.com/signinwithethereum/siwe-rb)
 -   **RubyGems**: [siwe-rb](https://rubygems.org/gems/siwe-rb)
--   **EIP-4361**: [Sign in with Ethereum specification](https://eips.ethereum.org/EIPS/eip-4361)
+-   **EIP-4361**: [Sign-In with Ethereum specification](https://eips.ethereum.org/EIPS/eip-4361)
 
 ---
 

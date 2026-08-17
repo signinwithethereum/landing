@@ -1,115 +1,85 @@
 ---
-title: Sign in with Ethereum
-description: Sign in with Ethereum is an ERC-4361 authentication method for Ethereum accounts, usable by any app, crypto-related or not.
+title: Introduction
+description: Sign-In with Ethereum is ERC-4361 — a plain-text message a user signs with a key they already hold, and which your server verifies. Start here.
 ---
 
-# Sign in with Ethereum
+# Sign-In with Ethereum
 
-**Sign in with Ethereum** (SIWE) is an authentication method for Ethereum accounts. It can be used by any kind of app, whether crypto-related or not.
+Sign-In with Ethereum is an authentication method for Ethereum accounts,
+specified in [ERC-4361](https://eips.ethereum.org/EIPS/eip-4361). The
+specification reached **Final** status on 5 August 2025.
 
-## Key Benefits
+It works like this. Your server issues a nonce. You assemble a short plain-text
+message naming your domain, the user's address, that nonce and an expiry. The
+user's wallet signs the exact bytes of that message. Your server recovers the
+signer and checks the message against values it controls. If everything matches,
+you have proof that whoever is asking holds the key to that address, and you can
+start a session.
 
-### Complements other elements of the Ethereum Identity Stack
+That is the whole idea. There is no identity provider, no client secret to
+register, no password to store, and nothing to broadcast — the signature is
+off-chain and costs no gas.
 
-After the user authenticates, apps may use their onchain **[ENS](https://ens.domains)** username and profile and **[EFP](https://efp.app)** social graph.
+::: tip Start here
+If you want working code in front of you, go to the
+[quickstart](/docs/quickstart/). If you want to understand the message first,
+read [the message](/docs/message). If you are about to ship, read
+[security considerations](/docs/security-considerations) — it is short and it is
+the page that matters most.
+:::
 
-### Enrich your app's UX with onchain data
+## What to read
 
-Seamlessly connects user identity with onchain activities, enabling applications to verify user ownership of NFTs, tokens, and other blockchain assets.
+| | |
+| --- | --- |
+| [The message](/docs/message) | Every field, what it is for, and the blank-line rules implementations get wrong. |
+| [Quickstart](/docs/quickstart/) | A running Next.js app — [frontend](/docs/quickstart/frontend) and [backend](/docs/quickstart/backend). |
+| [Security considerations](/docs/security-considerations) | What the server must control, and the mistakes that undermine it. |
+| [Smart accounts](/docs/smart-accounts) | Verifying signatures from contract accounts, including ones not deployed yet. |
+| [Sessions](/docs/sessions) | What happens after verification succeeds. A signature is not a session. |
+| [Libraries](/docs/libraries/) | Official implementations in TypeScript, Python, Rust, Go and Ruby. |
+| [Integrations](/docs/integrations/) | Discourse and Auth0, for when you would rather not write verification code. |
+| [OIDC provider](/docs/oidc-provider/) | Put SIWE behind a standard OpenID Connect endpoint. |
+| [Message validator](/tools/validator) | Paste a message, see everything wrong with it. |
 
-### Self-Sovereign Identity
+## What SIWE does, and does not do
 
-Users maintain control over their identity credentials, eliminating dependency on centralized identity providers like Google or Facebook.
+It authenticates. It proves that the party making a request controls a
+particular Ethereum address, at a particular moment, for a particular domain.
 
-### Single Sign-On
+It does not authorize. The specification puts "authorization to server resources"
+explicitly out of scope, along with "additional authentication not based on
+Ethereum addresses" and "the specific mechanisms to ensure domain-binding". What
+a signed-in address is allowed to *do* is your application's decision, and
+building that on the message's `Resources` field is not what the field is for.
 
-Works across any application that implements the SIWE standard, creating a unified authentication and account experience.
+It does not manage sessions. It authenticates one moment; everything after that
+is yours. See [sessions](/docs/sessions).
 
+It does not recover keys. Losing the key means losing the account, in the way that
+a forgotten password does not. The specification says so in its Key Management
+notes, and points at contract accounts as the mitigation — which is real, but it
+is the wallet's job and not the standard's.
 
-## How It Works
+And it does not hide who you are. A reused address is a persistent public
+identifier, and every site you sign in to sees the same one. The specification
+concedes this under Identifier Reuse and calls better answers "out of scope for
+this specification".
 
-SIWE follows a simple authentication flow:
+## The standards it sits on
 
-1. **Message Creation**: Application generates a human-readable sign-in message containing domain, address, and security parameters, following the [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) standard.
-2. **User Signing**: User signs the message with the Ethereum wallet of their choice.
-3. **Signature Verification**: Application verifies the signature cryptographically to authenticate the user.
-4. **Session Establishment**: Upon successful verification, a secure session is created for the authenticated user.
+| | |
+| --- | --- |
+| [ERC-191](https://eips.ethereum.org/EIPS/eip-191) | The signed-data format. This is why existing wallets can sign a SIWE message with no changes. |
+| [EIP-55](https://eips.ethereum.org/EIPS/eip-55) | The address checksum the message requires. |
+| [EIP-155](https://eips.ethereum.org/EIPS/eip-155) | Where the `Chain ID` field comes from. |
+| [EIP-1271](https://eips.ethereum.org/EIPS/eip-1271) | How a contract account validates a signature. |
+| [ERC-6492](https://eips.ethereum.org/EIPS/eip-6492) | How an account that is not deployed yet validates one. |
 
-## Open EIP standard
+## Where it is maintained
 
-SIWE is defined by **[EIP-4361](https://eips.ethereum.org/EIPS/eip-4361)** standard.
-
-## Getting Started
-
-Ready to implement SIWE in your application? Here are some quick paths forward:
-
-### Quick Start
-
-Follow our [Quickstart Guide](/docs/quickstart/) for a step-by-step tutorial on implementing SIWE from scratch.
-
-### TypeScript Library
-
-The official SIWE library for JavaScript and TypeScript:
-
--   [TypeScript Library Documentation](/docs/libraries/typescript)
-
-### Rust Library
-
-The official SIWE library for Rust:
-
--   [Rust Library Documentation](/docs/libraries/rust)
-
-### Ethereum Identity Kit component library and API
-
-We offer the [Ethereum Identity Kit](https://ethidentitykit.com/) component library and API to help you integrate SIWE and the rest of the Ethereum identity stack.
-
-### Pre-built Integrations
-
-Get started quickly with existing integrations:
-
--   [Auth0](/docs/integrations/auth0)
--   [Discourse](/docs/integrations/discourse)
-
-## Message Validator
-
-Use our [Message Validator](/tools/validator) to check your SIWE messages for EIP-4361 compliance, security best practices, and proper formatting.
-
-## Security First
-
-SIWE prioritizes security through:
-
--   **Nonce-based replay protection** to prevent message reuse attacks
--   **Domain binding** to prevent cross-site message abuse
--   **Expiration timestamps** for time-limited authentication
--   **Best practices guidance** for secure implementation
-
-Learn more about [Security Best Practices](/docs/security-considerations).
-
-## Enterprise Ready
-
-For enterprise applications, SIWE provides:
-
--   **[OpenID Connect (OIDC) Provider](/docs/oidc-provider/)** for standards-compliant integration
--   **Scalable authentication** supporting millions of users
--   **Compliance-friendly** audit trails and security controls
--   **Professional support** and deployment guidance
-
-Learn more about the [OpenID Connect Provider](/docs/oidc-provider/).
-
-## Community & Support
-
-SIWE is an open-source project with an active community:
-
--   **GitHub**: [Contribute to the project and report issues](https://github.com/signinwithethereum/)
--   **Twitter**: Follow [@signinethereum](https://twitter.com/signinethereum) for updates
-
-Explore the [Integrations](/docs/integrations/) section to see SIWE implementations in production.
-
-## Standards Compliance
-
-SIWE fully complies with:
-
--   [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361): Sign in with Ethereum specification
--   [OpenID Connect](/docs/oidc-provider/) 1.0 for enterprise integration
--   [OAuth 2.0](/docs/integrations/auth0) for authorization flows
--   Web3 wallet standards for broad compatibility
+The specification is public domain and Final, which means it cannot change under
+you. The implementations, the shared
+[test vectors](https://github.com/signinwithethereum/test-vectors) every library
+is checked against, and this site are on
+[GitHub](https://github.com/signinwithethereum/).

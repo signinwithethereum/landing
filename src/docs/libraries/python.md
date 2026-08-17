@@ -5,7 +5,7 @@ description: 'API reference for the signinwithethereum package: SiweMessage, ver
 
 # Python
 
-The Python implementation of Sign in with Ethereum can be found here:
+The Python implementation of Sign-In with Ethereum can be found here:
 
 - [signinwithethereum/siwe-py on GitHub](https://github.com/signinwithethereum/siwe-py)
 
@@ -345,7 +345,7 @@ def verify():
     return jsonify({"address": message.address})
 ```
 
-### Django (`siwe-django`)
+### Django (`siwe-django`) {#django}
 
 `siwe-django` is a reusable Django app built on `signinwithethereum`. It exposes nonce / verify / session endpoints, plugs into `django.contrib.auth` via a `SiweBackend`, and adds models for linking wallets to existing users — with an optional Django REST Framework variant.
 
@@ -510,7 +510,7 @@ issued_at = ISO8601Datetime.from_datetime(datetime.now(tz=timezone.utc))
 -   **GitHub**: [signinwithethereum/siwe-py](https://github.com/signinwithethereum/siwe-py)
 -   **PyPI**: [signinwithethereum](https://pypi.org/project/signinwithethereum/)
 -   **Django**: [signinwithethereum/siwe-django](https://github.com/signinwithethereum/siwe-django)
--   **EIP-4361**: [Sign in with Ethereum specification](https://eips.ethereum.org/EIPS/eip-4361)
+-   **EIP-4361**: [Sign-In with Ethereum specification](https://eips.ethereum.org/EIPS/eip-4361)
 
 ---
 

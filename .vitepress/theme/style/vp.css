@@ -120,7 +120,11 @@
   padding-top: var(--s5);
 }
 
-.VPSidebarItem.level-0 > .item > .text {
+/* Group labels. A group that is also a link ("Libraries", "OIDC provider") nests
+ * its text one level deeper inside an `<a class="link">`, so both shapes have to
+ * be named or half the sidebar headings fall back to body type. */
+.VPSidebarItem.level-0 > .item > .text,
+.VPSidebarItem.level-0 > .item > .link > .text {
   font-family: var(--font-mono);
   font-size: var(--t-label);
   font-weight: 500;
@@ -129,9 +133,9 @@
   color: var(--ink-3);
 }
 
-.VPSidebarItem.level-0.is-link > .item > .text,
-.VPSidebarItem.level-0.has-active > .item > .text {
-  color: var(--ink-3);
+/* The linked ones stay clickable, and say so on hover. */
+.VPSidebarItem.level-0 > .item > .link:hover > .text {
+  color: var(--accent-ui);
 }
 
 .VPSidebarItem .link .text {

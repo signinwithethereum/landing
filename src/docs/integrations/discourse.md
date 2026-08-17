@@ -7,7 +7,7 @@ description: Install and configure the discourse-siwe-auth plugin so people can 
 
 ## Overview
 
-**Discourse** is an open-source discussion platform used for crypto governance and project discussions. This guide explains how to add Sign in with Ethereum (SIWE) authentication to your Discourse instance. Injected wallets (MetaMask, Safe, etc.) work out of the box. ENS names and avatars are resolved server-side when an RPC endpoint is configured.
+**Discourse** is an open-source discussion platform used for crypto governance and project discussions. This guide explains how to add Sign-In with Ethereum (SIWE) authentication to your Discourse instance. Injected wallets (MetaMask, Safe, etc.) work out of the box. ENS names and avatars are resolved server-side when an RPC endpoint is configured.
 
 - [signinwithethereum/discourse-siwe-auth on GitHub](https://github.com/signinwithethereum/discourse-siwe-auth)
 

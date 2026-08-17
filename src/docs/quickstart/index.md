@@ -5,7 +5,7 @@ description: 'Clone the SIWE quickstart repo and run a working Next.js sign-in l
 
 # Quickstart
 
-Clone the [siwe-quickstart](https://github.com/signinwithethereum/siwe-quickstart) repo and run it locally to see Sign in with Ethereum in action — wallet connection, message signing, server-side verification, and session management in a single Next.js app.
+Clone the [siwe-quickstart](https://github.com/signinwithethereum/siwe-quickstart) repo and run it locally to see Sign-In with Ethereum in action — wallet connection, message signing, server-side verification, and session management in a single Next.js app.
 
 ## Get Started
 
