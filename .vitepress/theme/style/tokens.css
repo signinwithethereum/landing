@@ -26,8 +26,12 @@
   --screen-dim: #8a8a92;
 
   --ink: #000000;
-  --ink-2: #52525b;
-  --ink-3: #7c7c86;
+  --ink-2: #52525b; /* 7.7:1 on canvas */
+  /* 5.3:1 on canvas, 4.9:1 on canvas-2, 4.6:1 on canvas-3. Tertiary text lands
+   * on all three — inside a copy line, a gutter, a raised tile — and the mono
+   * labels using it are 11px, which is normal text for contrast purposes. So it
+   * is set to clear AA against the darkest of the three rather than the page. */
+  --ink-3: #6b6b73;
 
   --field: #cdcdd3;
   --rule: #e4e4e8;
@@ -100,8 +104,8 @@
   --screen: #000000;
 
   --ink: #ffffff;
-  --ink-2: #a1a1aa;
-  --ink-3: #78787f;
+  --ink-2: #a1a1aa; /* 7.6:1 on canvas */
+  --ink-3: #78787f; /* 4.8:1 */
 
   --field: #3a3a3a;
   --rule: #26262a;
