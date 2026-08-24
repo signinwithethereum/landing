@@ -63,6 +63,9 @@ jobs:
       - name: Install Kamal
         run: gem install kamal --version 2.11.0 --no-document
 
+      - name: Prepare Kamal secrets
+        run: cp .kamal/secrets.example .kamal/secrets
+
       - name: Configure SSH
         env:
           KAMAL_SSH_PRIVATE_KEY: ${{ secrets.KAMAL_SSH_PRIVATE_KEY }}
