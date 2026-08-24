@@ -4,10 +4,10 @@
  * grey field behind them, so the site has exactly four colour roles — canvas,
  * field, ink, accent — and a neutral ramp between ink and canvas for prose.
  *
- * The accent is the one brand constant: #7f00f6 in both themes. It is too
- * dark on black and too light on white to carry text, so `--accent-ui` is the
- * readable sibling per theme (7.4:1 on white, 7.6:1 on black) and `--accent`
- * stays for fills, the mark, and anything sitting on the screen panel.
+ * The accent is the one brand constant: #00eaf2 in both themes. It is too
+ * light on white to carry text, so `--accent-ui` darkens it on light surfaces
+ * while the exact accent remains readable on black. `--accent` stays exact for
+ * fills, the mark, and anything sitting on the screen panel.
  *
  * `--screen` is black in both themes. The field canvas of the mark reads as a
  * screen and carries its own ground, so panels that hold it stay dark whether
@@ -15,7 +15,7 @@
 
 :root {
   /* ---------------------------------------------------------------- colour */
-  --siwe-accent: #7f00f6;
+  --siwe-accent: #00eaf2;
 
   --canvas: #ffffff;
   --canvas-2: #f7f7f8;
@@ -37,10 +37,11 @@
   --rule: #e4e4e8;
   --rule-strong: #cbcbd2;
 
-  --accent: #7f00f6;
-  --accent-ui: #6b21d6;
-  --accent-soft: rgba(127, 0, 246, 0.07);
-  --accent-line: rgba(127, 0, 246, 0.25);
+  --accent: #00eaf2;
+  --accent-ui: #00777c;
+  --accent-ink: #fff;
+  --accent-soft: rgba(0, 234, 242, 0.07);
+  --accent-line: rgba(0, 234, 242, 0.25);
 
   --warn: #b45309;
   --danger: #b91c1c;
@@ -73,6 +74,11 @@
   --home-rail: #ffffff;
 
   /* ------------------------------------------------------------------ type */
+  /* Headings only. Inter at 900 is the one loud voice on the page — everything
+   * else stays Geist, so the contrast does the work rather than the size. */
+  --font-display:
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
   --font-sans:
     'Geist Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
     Helvetica, Arial, sans-serif;
@@ -94,8 +100,11 @@
   --lh-snug: 1.2;
   --lh-body: 1.65;
 
-  --track-display: -0.032em;
-  --track-h: -0.018em;
+  /* Inter at 900 sets its own counters much tighter than Geist at 500, so the
+   * display tracking closes up to match. */
+  --wt-display: 900;
+  --track-display: -0.042em;
+  --track-h: -0.028em;
   --track-label: 0.13em;
 
   /* ---------------------------------------------------------------- motion */
@@ -117,10 +126,11 @@
   --rule: #26262a;
   --rule-strong: #3a3a41;
 
-  --accent: #7f00f6;
-  --accent-ui: #b184ff;
-  --accent-soft: rgba(177, 132, 255, 0.1);
-  --accent-line: rgba(177, 132, 255, 0.28);
+  --accent: #00eaf2;
+  --accent-ui: #00eaf2;
+  --accent-ink: #000;
+  --accent-soft: rgba(0, 234, 242, 0.1);
+  --accent-line: rgba(0, 234, 242, 0.28);
 
   --warn: #fbbf24;
   --danger: #f87171;

@@ -42,8 +42,9 @@ body {
 /* ------------------------------------------------------------------ type */
 
 .t-display {
+  font-family: var(--font-display);
   font-size: var(--t-display);
-  font-weight: 500;
+  font-weight: var(--wt-display);
   line-height: var(--lh-tight);
   letter-spacing: var(--track-display);
   text-wrap: balance;
@@ -51,8 +52,9 @@ body {
 }
 
 .t-h2 {
+  font-family: var(--font-display);
   font-size: var(--t-h2);
-  font-weight: 500;
+  font-weight: var(--wt-display);
   line-height: var(--lh-snug);
   letter-spacing: var(--track-h);
   text-wrap: balance;
@@ -60,10 +62,11 @@ body {
 }
 
 .t-h3 {
+  font-family: var(--font-display);
   font-size: var(--t-h3);
-  font-weight: 500;
+  font-weight: var(--wt-display);
   line-height: 1.35;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.016em;
   margin: 0;
 }
 
@@ -206,7 +209,7 @@ body {
   --field: var(--screen-field);
   --rule: #1e1e22;
   --rule-strong: #33333a;
-  --accent-ui: #b184ff;
+  --accent-ui: #00eaf2;
 
   position: relative;
   background: var(--screen);
@@ -262,7 +265,7 @@ body {
 .btn:hover {
   background: var(--accent);
   border-color: var(--accent);
-  color: #fff;
+  color: var(--accent-ink);
 }
 
 .btn-ghost {

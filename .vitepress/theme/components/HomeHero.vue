@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { useData } from "vitepress";
+
 import CopyLine from "./CopyLine.vue";
+
+const { isDark } = useData();
 </script>
 
 <template>
@@ -28,7 +32,7 @@ import CopyLine from "./CopyLine.vue";
         <CopyLine prefix="$ " text="npm i @signinwithethereum/siwe" />
       </div>
 
-      <figure class="hero-art">
+      <figure :class="['hero-art', { 'hero-art--dark': isDark }]">
         <img
           src="/hero/siwe-illustration.webp"
           width="1024"
@@ -79,10 +83,11 @@ import CopyLine from "./CopyLine.vue";
 .hero h1 {
   max-width: 10ch;
   margin: 0;
+  font-family: var(--font-display);
   font-size: clamp(2.75rem, 5.2vw, 4.5rem);
-  font-weight: 500;
+  font-weight: var(--wt-display);
   line-height: 0.98;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.05em;
   text-wrap: balance;
 }
 
@@ -128,7 +133,7 @@ import CopyLine from "./CopyLine.vue";
   width: 50%;
   margin: 0;
   overflow: hidden;
-  background: #6d8cca;
+  background: #99c8d4;
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0%,
@@ -156,10 +161,14 @@ import CopyLine from "./CopyLine.vue";
   content: "";
   position: absolute;
   inset: 0;
-  background: #bdaaff;
+  background: #99c8d4;
   mix-blend-mode: hard-light;
   opacity: 1;
   pointer-events: none;
+}
+
+.hero-art--dark::after {
+  opacity: 0.33;
 }
 
 @media (max-width: 820px) {

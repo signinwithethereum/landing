@@ -51,11 +51,13 @@ should not be given one.
 
 ## Typography
 
-Geist Sans for prose, Geist Mono for labels, values, code and anything a machine
-wrote. Geist Mono is drawn on a grid with flat terminals, which is the same
-construction as the mark — that is why it is here rather than a monospace chosen
-for looking technical. Both faces are variable and self-hosted; neither is
-required to use the mark.
+Inter at 900 for headings, Geist Sans for prose, Geist Mono for labels, values,
+code and anything a machine wrote. The headings are the one loud voice on the
+page — the weight does the work, so they do not also need to be large. Geist
+Mono is drawn on a grid with flat terminals, which is the same construction as
+the mark — that is why it is here rather than a monospace chosen for looking
+technical. All three faces are variable and self-hosted; none is required to use
+the mark.
 
 ## Motion
 

@@ -31,10 +31,10 @@ const wordmark = ref<(typeof WORDMARK_STATES)[number]['id']>('powerOn')
 const icon = ref<(typeof ICON_STATES)[number]['id']>('morph')
 
 const SWATCHES = [
-  { name: 'Accent', hex: '#7f00f6', note: 'The one constant. Identical in both themes.' },
+  { name: 'Accent', hex: '#00eaf2', note: 'The one constant. Identical in both themes.' },
   { name: 'Ink on canvas', hex: '#000000', note: 'And #ffffff inverted. The mark is ink; there is no grey ink.' },
   { name: 'Field', hex: '#cdcdd3', note: 'And #3a3a3a inverted. The grid behind the mark, never a text colour.' },
-  { name: 'Accent, readable', hex: '#6b21d6', note: 'And #b184ff inverted. For text and links — the accent itself is unreadable on both grounds.' }
+  { name: 'Accent, readable', hex: '#00777c', note: 'And #00eaf2 inverted. For text and links — the exact accent stays on dark surfaces and non-text fills.' }
 ]
 </script>
 

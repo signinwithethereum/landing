@@ -16,7 +16,7 @@ export default defineConfig({
   title: 'Sign in with Ethereum',
   titleTemplate: ':title — SIWE',
   description: DESCRIPTION,
-  appearance: true,
+  appearance: 'dark',
 
   /* Geist is self-hosted in `theme/style/fonts.css`, so the default theme's
    * bundled Inter is not needed. */
@@ -26,7 +26,7 @@ export default defineConfig({
 
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
-    ['meta', { name: 'theme-color', content: '#7f00f6' }],
+    ['meta', { name: 'theme-color', content: '#00eaf2' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'Sign in with Ethereum' }],
     ['meta', { property: 'og:image', content: `${HOST}/og.png` }],
