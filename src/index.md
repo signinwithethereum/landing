@@ -10,6 +10,8 @@ description: Sign in with Ethereum (ERC-4361) is an open standard for signing in
 
 <HomeHero />
 
+<HomeUsedBy />
+
 <WalletComparison />
 
 <HomeWhy />

@@ -9,6 +9,7 @@ import './style/vp.css'
 import Layout from './Layout.vue'
 
 import HomeHero from './components/HomeHero.vue'
+import HomeUsedBy from './components/HomeUsedBy.vue'
 import WalletComparison from './components/WalletComparison.vue'
 import HomeWhy from './components/HomeWhy.vue'
 import HomeLibraries from './components/HomeLibraries.vue'
@@ -25,6 +26,7 @@ export default {
   enhanceApp({ app }) {
     /* Landing */
     app.component('HomeHero', HomeHero)
+    app.component('HomeUsedBy', HomeUsedBy)
     app.component('WalletComparison', WalletComparison)
     app.component('HomeWhy', HomeWhy)
     app.component('HomeLibraries', HomeLibraries)
