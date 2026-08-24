@@ -6,9 +6,9 @@ outline: [2, 2]
 
 # Brand
 
-The mark is a grid. A 31 × 9 field with ink on rows 0, 2, 4, 6 and 8 — the odd
+The mark is a grid. A 29 × 9 field with ink on rows 0, 2, 4, 6 and 8 — the odd
 rows are gaps, and that is what makes it read as a scan rather than as
-lettering. 80 ink cells. Everything else on this site is derived from that one
+lettering. 75 ink cells. Everything else on this site is derived from that one
 decision: the cell is the unit, and section dividers are two hairlines a cell
 apart because that is an ink row and its gap, at page scale.
 
@@ -18,8 +18,8 @@ apart because that is an ink row and its gap, at page scale.
 
 | File | What it is |
 | --- | --- |
-| [`wordmark.svg`](/brand/wordmark.svg) | The mark. 31 × 9, 80 ink cells. |
-| [`wordmark-field.svg`](/brand/wordmark-field.svg) | The mark inset two cells in a 35 × 13 field of lines. 245 cells, 80 of them ink. |
+| [`wordmark.svg`](/brand/wordmark.svg) | The mark. 29 × 9, 75 ink cells. |
+| [`wordmark-field.svg`](/brand/wordmark-field.svg) | The mark inset two cells in a 33 × 13 field of lines. 231 cells, 75 of them ink. |
 | [`icon.svg`](/brand/icon.svg) | The icon. 7 × 9 — the wordmark's first glyph. |
 | [`icon-e.svg`](/brand/icon-e.svg) | The icon read as Ξ. |
 | [`icon-diamond.svg`](/brand/icon-diamond.svg) | The icon read as a diamond. |

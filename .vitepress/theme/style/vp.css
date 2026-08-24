@@ -115,6 +115,7 @@ body:has(.home-page) .VPNavBarSearchButton {
   display: flex;
   width: 36px;
   min-width: 36px;
+  height: 36px;
   padding: 0;
   justify-content: center;
 }
@@ -304,6 +305,12 @@ body:has(.home-page) .VPNavBarSearchButton .keys {
 .VPNavBarSearchButton .DocSearch-Button-Keys,
 .DocSearch-Button-Key {
   font-family: var(--font-mono);
+}
+
+/* VitePress puts the focus border on the complete search bar. Avoid adding the
+ * site's generic input outline inside it, which cuts the bar into two boxes. */
+.VPLocalSearchBox .search-input:focus-visible {
+  outline: none;
 }
 
 /* --------------------------------------------------------------- footer */

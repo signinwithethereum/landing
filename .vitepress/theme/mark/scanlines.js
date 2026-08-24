@@ -2,11 +2,11 @@
  *
  * Two canvases, one cell model.
  *
- *   mark   31 x 9,  five lines (rows 0 2 4 6 8). The bare wordmark. Cells that
+ *   mark   29 x 9,  five lines (rows 0 2 4 6 8). The bare wordmark. Cells that
  *          are not ink are nothing at all.
- *   field  35 x 13, seven lines (rows 0 2 4 6 8 10 12). The same wordmark
+ *   field  33 x 13, seven lines (rows 0 2 4 6 8 10 12). The same wordmark
  *          translated by (2, 2), inset in a field of lines that run the full
- *          width. Cells that are not ink are field grey — 165 of the 245.
+ *          width. Cells that are not ink are field grey — 156 of the 231.
  *
  * Every cell holds one tone: off, field, ink or accent. A state paints a frame
  * buffer that starts each tick as the resting canvas, so a state only describes
@@ -31,11 +31,11 @@
 
   /* Wordmark ink per line, [x, width] pairs, read off wordmark.svg */
   var WORDMARK = [
-    [[2, 5], [9, 4], [15, 2], [22, 2], [26, 5]],
-    [[0, 3], [10, 2], [15, 2], [22, 2], [26, 2]],
-    [[1, 5], [10, 2], [15, 2], [22, 2], [26, 4]],
-    [[4, 3], [10, 2], [15, 2], [18, 3], [22, 2], [26, 2]],
-    [[1, 5], [9, 4], [15, 4], [20, 4], [26, 5]]
+    [[1, 5], [9, 2], [13, 2], [20, 2], [24, 5]],
+    [[0, 3], [9, 2], [13, 2], [20, 2], [24, 2]],
+    [[1, 5], [9, 2], [13, 2], [17, 1], [20, 2], [24, 4]],
+    [[4, 3], [9, 2], [13, 2], [16, 3], [20, 2], [24, 2]],
+    [[1, 5], [9, 2], [14, 3], [18, 3], [24, 5]]
   ];
 
   var prefs = { speed: 1 };
@@ -113,14 +113,14 @@
 
   var CANVASES = {
     mark: makeCanvas({
-      name: 'mark', w: 31, h: 9,
+      name: 'mark', w: 29, h: 9,
       lines: [0, 2, 4, 6, 8],
       rows: WORDMARK,
       hasField: false
     }),
     /* the wordmark translated by (2, 2), with a clear line above and below */
     field: makeCanvas({
-      name: 'field', w: 35, h: 13,
+      name: 'field', w: 33, h: 13,
       lines: [0, 2, 4, 6, 8, 10, 12],
       rows: [[]].concat(shift(WORDMARK, 2)).concat([[]]),
       hasField: true

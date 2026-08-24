@@ -6,14 +6,14 @@
  * The icon is 7 x 9 — the S's own box, on the wordmark's five lines. It has
  * three readings, and every one of them is exactly one segment per line:
  *
- *   s        [2,5] [0,3] [1,5] [4,3] [1,5]   the wordmark's first glyph
+ *   s        [1,5] [0,3] [1,5] [4,3] [1,5]   the wordmark's first glyph
  *   e        [1,6] [3,2] [1,6] [3,2] [1,6]   three bars and a stem
  *   diamond  [3,2] [2,4] [1,6] [2,4] [3,2]
  *
  * One segment per line is what makes the morph possible: a form reaches
  * another by moving two edges per line, so the icon travels between readings
  * instead of cutting between them. The six-wide ETH forms sit one column in,
- * which puts all of them on the same axis and flush with the S's top arm.
+ * which puts all of them on one axis, flush with the left edge of the S's arms.
  *
  *   var icon = SIWE.mount(host, {canvas: 'icon'});
  *   icon.play('morph');
