@@ -107,11 +107,10 @@ pnpm kamal:deploy
 pnpm kamal:logs
 ```
 
-`config/deploy.yml` claims `siwe.xyz`, `www.siwe.xyz` **and
-`docs.siwe.xyz`** — the documentation moved into `/docs/` here, and `nginx.conf`
-301s every old docs path to its new home. Point the `docs` hostname at this
-container and the old links keep working. If `docs.siwe.xyz` stays on its own
-host instead, that host needs the same redirect block.
+`config/deploy.yml` claims the single hostname in `APP_HOST`. The current
+pre-release deployment uses `next.siwe.xyz`; a future production cutover can
+change that value without changing the image or service name. The nginx image
+already contains the legacy documentation redirects for that cutover.
 
 Do not commit `.env.production`. The repository this replaces committed its deploy
 host and registry username.

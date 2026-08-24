@@ -10,10 +10,6 @@ proxy:
   ssl: true
   hosts:
     - <%= ENV["APP_HOST"] %>
-    - www.<%= ENV["APP_HOST"] %>
-    # The documentation used to live here. nginx.conf redirects the old paths,
-    # so pointing the hostname at this container is all the migration needs.
-    - docs.<%= ENV["APP_HOST"] %>
   app_port: 80
   healthcheck:
     path: /
