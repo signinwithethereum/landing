@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CopyLine from './CopyLine.vue'
+import CopyLine from "./CopyLine.vue";
 </script>
 
 <template>
@@ -8,16 +8,14 @@ import CopyLine from './CopyLine.vue'
       <div class="hero-copy">
         <p class="hero-status">
           <span>ERC&#8209;4361</span>
-          <span aria-hidden="true">·</span>
-          <span>Final standard</span>
         </p>
 
         <h1>Sign in with Ethereum</h1>
 
         <p class="hero-lede">
-          An open standard for signing into apps with an Ethereum account.
-          Users sign a readable message. Your server verifies it. No passwords
-          or identity provider required.
+          An open standard for signing into apps with an Ethereum account. Users
+          sign a readable message. Your server verifies it. No passwords or
+          identity provider required.
         </p>
 
         <div class="hero-start">
@@ -127,21 +125,21 @@ import CopyLine from './CopyLine.vue'
   z-index: 0;
   inset-block: 0;
   inset-inline-end: 0;
-  width: 61%;
+  width: 50%;
   margin: 0;
   overflow: hidden;
   background: #6d8cca;
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0%,
-    rgba(0, 0, 0, 0.18) 16%,
-    #000 46%
+    rgba(0, 0, 0, 0.12) 24%,
+    #000 68%
   );
   mask-image: linear-gradient(
     to right,
     transparent 0%,
-    rgba(0, 0, 0, 0.18) 16%,
-    #000 46%
+    rgba(0, 0, 0, 0.12) 24%,
+    #000 68%
   );
 }
 
@@ -151,11 +149,22 @@ import CopyLine from './CopyLine.vue'
   height: 100%;
   object-fit: cover;
   filter: grayscale(1);
+  transform: scaleX(-1);
+}
+
+.hero-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #bdaaff;
+  mix-blend-mode: hard-light;
+  opacity: 1;
+  pointer-events: none;
 }
 
 @media (max-width: 820px) {
   .hero {
-    min-height: 880px;
+    min-height: 760px;
   }
 
   .hero-in {
@@ -164,7 +173,7 @@ import CopyLine from './CopyLine.vue'
 
   .hero-copy {
     width: 100%;
-    padding-block: var(--s8) 420px;
+    padding-block: var(--s8) 240px;
   }
 
   .hero h1 {
@@ -174,25 +183,29 @@ import CopyLine from './CopyLine.vue'
   .hero-art {
     inset-block: auto 0;
     width: 100%;
-    height: 480px;
+    height: 450px;
     -webkit-mask-image: linear-gradient(
       to bottom,
       transparent 0%,
-      rgba(0, 0, 0, 0.24) 18%,
-      #000 48%
+      rgba(0, 0, 0, 0.16) 24%,
+      #000 66%
     );
     mask-image: linear-gradient(
       to bottom,
       transparent 0%,
-      rgba(0, 0, 0, 0.24) 18%,
-      #000 48%
+      rgba(0, 0, 0, 0.16) 24%,
+      #000 66%
     );
+  }
+
+  .hero-art img {
+    transform: none;
   }
 }
 
 @media (max-width: 640px) {
   .hero {
-    min-height: 840px;
+    min-height: 720px;
   }
 
   .hero h1 {
@@ -200,11 +213,11 @@ import CopyLine from './CopyLine.vue'
   }
 
   .hero-copy {
-    padding-bottom: 390px;
+    padding-bottom: 210px;
   }
 
   .hero-art {
-    height: 440px;
+    height: 420px;
   }
 }
 </style>
