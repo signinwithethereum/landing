@@ -22,7 +22,7 @@ const isPost = computed(() => {
 <template>
   <Default>
     <template #nav-bar-title-before>
-      <Wordmark class="nav-wordmark" title="Sign-In with Ethereum" />
+      <Wordmark class="nav-wordmark" title="Sign in with Ethereum" />
     </template>
 
     <template #doc-before>

@@ -1,6 +1,6 @@
 ---
 title: Brand
-description: The Sign-In with Ethereum wordmark and icon — the files, the palette, the states they run, and the rules for using them.
+description: The Sign in with Ethereum wordmark and icon — the files, the palette, the states they run, and the rules for using them.
 outline: [2, 2]
 ---
 

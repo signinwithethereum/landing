@@ -91,7 +91,7 @@ grant standing permission to the thing the warning was about.
 This is a formalised idea rather than a bespoke feature:
 [ERC-8019](https://eips.ethereum.org/EIPS/eip-8019) specifies it, and Ambire's
 co-founder and CEO, Ivo Georgiev, is one of its authors. Its motivation is exactly
-the complaint above — *"Users repeatedly sign identical Sign-In With Ethereum
+the complaint above — *"Users repeatedly sign identical Sign in with Ethereum
 (SIWE) messages for trusted apps."*
 
 ## A brand-new smart account can sign in

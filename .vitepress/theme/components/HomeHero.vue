@@ -1,188 +1,111 @@
 <script setup lang="ts">
-/* The hero.
- *
- * The thesis is the message. An ERC-4361 message is a short block of plain
- * text with a rigid grammar, and its readability is the security property —
- * so it is shown at a size you can read, on the black screen panel, under the
- * mark. The mark energizes once on load and then holds; the page does not
- * animate at rest. */
-
-import { exampleMessage } from '../lib/example'
-import Mark from './Mark.vue'
-import MessageBlock from './MessageBlock.vue'
 import CopyLine from './CopyLine.vue'
-
-const message = exampleMessage()
 </script>
 
 <template>
   <section class="band hero">
-    <div class="shell hero-grid">
-      <div class="hero-copy">
-        <p class="t-label hero-eyebrow">
-          <a href="https://eips.ethereum.org/EIPS/eip-4361">ERC&#8209;4361</a>
-          <span aria-hidden="true">/</span>
-          <span>Final since August 2025</span>
-        </p>
+    <div class="shell hero-in">
+      <p class="hero-status">
+        <span>ERC&#8209;4361</span>
+        <span aria-hidden="true">·</span>
+        <span>Final standard</span>
+      </p>
 
-        <h1 class="t-display hero-title">
-          Secure authentication for millions of Ethereum&nbsp;users
-        </h1>
+      <h1>Sign in with Ethereum</h1>
 
-        <p class="t-lede hero-lede">
-          A user signs a short, readable message with the key they already hold.
-          Your server checks the signature. There is no password to store, no
-          provider to ask, and nobody in between who can revoke your users.
-        </p>
+      <p class="hero-lede">
+        An open standard for signing into apps with an Ethereum account. Users
+        sign a readable message. Your server verifies it. No passwords or
+        identity provider required.
+      </p>
 
-        <div class="hero-actions">
-          <a class="btn" href="/docs/quickstart/">Start integrating</a>
-          <a class="btn btn-ghost" href="/docs/">Read the docs</a>
-        </div>
-
-        <CopyLine prefix="$ " text="npm i @signinwithethereum/siwe" />
+      <div class="hero-start">
+        <a class="btn" href="/docs/quickstart/">Start integrating</a>
+        <a class="hero-spec" href="https://eips.ethereum.org/EIPS/eip-4361">
+          Read ERC&#8209;4361 <span aria-hidden="true">&rarr;</span>
+        </a>
       </div>
 
-      <div class="screen hero-screen">
-        <div class="hero-screen-in">
-          <Mark canvas="field" state="powerOn" label="Sign-In with Ethereum" />
-          <MessageBlock :message="message" />
-          <p class="hero-screen-foot">
-            <span class="t-label">What the user signs</span>
-            <a href="#anatomy">Every line, explained &rarr;</a>
-          </p>
-        </div>
-      </div>
+      <CopyLine prefix="$ " text="npm i @signinwithethereum/siwe" />
     </div>
   </section>
 </template>
 
 <style scoped>
 .hero {
-  padding-top: var(--s8);
+  padding-block: 88px 80px;
 }
 
-.hero-grid {
-  display: grid;
-  gap: var(--s8);
-  align-items: start;
-}
-
-@media (min-width: 1000px) {
-  .hero-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-    gap: var(--s9);
-    /* Top-aligned, not centred: the eyebrow and the panel's top edge then share
-     * a line the eye can actually see, and they keep sharing it as the headline
-     * rewraps at other widths. Centring made that relationship drift. */
-    align-items: start;
-  }
-}
-
-/* Spacing carries the hierarchy, so it is not uniform. The eyebrow is bound to
- * the headline it labels; the widest gap is the one before the buttons, where
- * reading stops and acting starts; the install line sits close to the buttons
- * because it is another way of doing the same thing. */
-.hero-copy {
+.hero-in {
   display: flex;
   flex-direction: column;
-  gap: 0;
-  align-items: start;
+  align-items: flex-start;
 }
 
-.hero-eyebrow {
-  margin-bottom: var(--s4);
-}
-
-.hero-title {
-  margin-bottom: var(--s5);
-}
-
-.hero-lede {
-  margin-bottom: var(--s6);
-}
-
-.hero-actions {
-  margin-bottom: var(--s3);
-}
-
-.hero-eyebrow {
+.hero-status {
   display: flex;
-  gap: 0.6em;
-  align-items: center;
-}
-
-.hero-eyebrow a {
+  gap: 0.65em;
+  margin: 0 0 var(--s5);
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
   color: var(--ink-3);
-  text-decoration: none;
-  transition: color 0.15s var(--ease);
 }
 
-.hero-eyebrow a:hover {
-  color: var(--accent-ui);
-}
-
-.hero-title {
-  max-width: 17ch;
-}
-
-@media (max-width: 999px) {
-  .hero-title {
-    max-width: 22ch;
-  }
+.hero h1 {
+  max-width: 14ch;
+  margin: 0;
+  font-size: clamp(2.75rem, 5.2vw, 4.5rem);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
 }
 
 .hero-lede {
-  max-width: 44ch;
+  max-width: 43rem;
+  margin: var(--s5) 0 0;
+  font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+  line-height: 1.55;
+  letter-spacing: -0.012em;
+  color: var(--ink-2);
+  text-wrap: pretty;
 }
 
-.hero-actions {
+.hero-start {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s3);
+  gap: var(--s4) var(--s5);
+  align-items: center;
+  margin-top: var(--s6);
 }
 
-/* --------------------------------------------------------------- screen */
-
-.hero-screen {
-  --u: clamp(4px, 0.85vw, 8px);
-}
-
-.hero-screen-in {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  gap: var(--s6);
-  padding: var(--s6);
-}
-
-@media (min-width: 640px) {
-  .hero-screen-in {
-    padding: var(--s7);
-  }
-}
-
-.hero-screen-foot {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s2) var(--s4);
-  align-items: baseline;
-  justify-content: space-between;
-  margin: 0;
-  padding-top: var(--s4);
-  border-top: 1px solid var(--rule);
-}
-
-.hero-screen-foot a {
+.hero-spec {
   font-family: var(--font-mono);
   font-size: var(--t-tiny);
-  color: var(--accent-ui);
+  color: var(--ink-2);
   text-decoration: none;
 }
 
-.hero-screen-foot a:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.hero-spec:hover {
+  color: var(--ink);
+}
+
+.hero :deep(.copyline) {
+  width: min(100%, 390px);
+  margin-top: var(--s4);
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding-block: var(--s8);
+  }
+
+  .hero h1 {
+    max-width: 10ch;
+  }
 }
 </style>

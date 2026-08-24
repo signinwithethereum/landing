@@ -7,9 +7,9 @@ description: Use SIWE with Auth0 by registering a SIWE OIDC provider as a custom
 
 ## Overview
 
-Auth0 supports Sign-In with Ethereum via an OpenID Connect custom social connection. This allows enterprise applications to authenticate users with their Ethereum wallets while leveraging Auth0's existing infrastructure.
+Auth0 supports Sign in with Ethereum via an OpenID Connect custom social connection. This allows enterprise applications to authenticate users with their Ethereum wallets while leveraging Auth0's existing infrastructure.
 
-- [Sign In With Ethereum (SIWE), Now Available on Auth0](https://auth0.com/blog/sign-in-with-ethereum-siwe-now-available-on-auth0/)
+- [Sign in with Ethereum (SIWE), Now Available on Auth0](https://auth0.com/blog/sign-in-with-ethereum-siwe-now-available-on-auth0/)
 
 ## How It Works
 

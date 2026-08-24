@@ -5,7 +5,7 @@ description: The verification parameters that make SIWE safe — domain, nonce, 
 
 # Security Considerations
 
-When implementing Sign-In with Ethereum, most security comes down to one principle: **the server must control what gets verified**. The client asks the user to sign a message, but the server decides whether that message is acceptable. This guide covers the verification parameters that enforce that principle and the common mistakes that undermine it.
+When implementing Sign in with Ethereum, most security comes down to one principle: **the server must control what gets verified**. The client asks the user to sign a message, but the server decides whether that message is acceptable. This guide covers the verification parameters that enforce that principle and the common mistakes that undermine it.
 
 ## Verification Parameters
 

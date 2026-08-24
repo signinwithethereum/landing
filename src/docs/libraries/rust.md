@@ -5,7 +5,7 @@ description: 'API reference for the signinwithethereum crate: the Message struct
 
 # Rust
 
-The Rust implementation of Sign-In with Ethereum can be found here:
+The Rust implementation of Sign in with Ethereum can be found here:
 
 - [signinwithethereum/siwe-rs on GitHub](https://github.com/signinwithethereum/siwe-rs)
 - [signinwithethereum on crates.io](https://crates.io/crates/signinwithethereum)

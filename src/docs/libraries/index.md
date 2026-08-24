@@ -88,7 +88,7 @@ Idiomatic Ruby implementation with built-in smart-wallet support.
 
 All libraries implement:
 
-- [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) (Sign-In with Ethereum)
+- [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) (Sign in with Ethereum)
 - [EIP-191](https://eips.ethereum.org/EIPS/eip-191) (Signed Data Standard)
 - [EIP-1271](https://eips.ethereum.org/EIPS/eip-1271) (Contract Signatures)
 - [EIP-6492](https://eips.ethereum.org/EIPS/eip-6492) (Counterfactual Signatures)

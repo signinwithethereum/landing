@@ -95,6 +95,36 @@
   display: none;
 }
 
+/* The homepage uses the same bounded rail from nav to footer. Docs keep the
+ * wider VitePress frame so their sidebar and outline do not get squeezed. */
+body:has(.home-page) .VPNav {
+  background: var(--home-outer);
+}
+
+body:has(.home-page) .VPNavBar {
+  width: min(100%, var(--home-page));
+  margin-inline: auto;
+  border-inline: 1px solid var(--rule);
+  background: var(--home-rail) !important;
+}
+
+body:has(.home-page) .VPNavBar .container {
+  max-width: none;
+}
+
+body:has(.home-page) .VPNavBarSearchButton {
+  display: flex;
+  width: 36px;
+  min-width: 36px;
+  padding: 0;
+  justify-content: center;
+}
+
+body:has(.home-page) .VPNavBarSearchButton .text,
+body:has(.home-page) .VPNavBarSearchButton .keys {
+  display: none;
+}
+
 .VPNavBarTitle .title {
   gap: 0;
   border-bottom: 0 !important;
@@ -321,6 +351,24 @@
 .page-bleed .VPContent {
   padding-inline: 0 !important;
   padding-bottom: 0 !important;
+}
+
+body:has(.home-page) .VPContent {
+  background: var(--home-outer);
+}
+
+body:has(.home-page) .ft {
+  width: min(100%, var(--home-page));
+  margin: 0 auto;
+  border-inline: 1px solid var(--rule);
+  background: var(--home-rail);
+}
+
+@media (max-width: 1079px) {
+  body:has(.home-page) .VPNavBar,
+  body:has(.home-page) .ft {
+    border-inline: 0;
+  }
 }
 
 @media (min-width: 960px) {

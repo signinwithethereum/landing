@@ -6,14 +6,14 @@ import { generateFeed } from './rss.ts'
 
 const HOST = 'https://siwe.xyz'
 const DESCRIPTION =
-  'Sign-In with Ethereum is an open authentication standard. A user signs a message with a key they already hold, your server verifies the signature, and nobody sits in between.'
+  'Sign in with Ethereum is an open authentication standard. A user signs a readable message with an Ethereum account and the server verifies it.'
 
 export default defineConfig({
   srcDir: 'src',
   outDir: '.vitepress/dist',
   cleanUrls: true,
   lang: 'en-US',
-  title: 'Sign-In with Ethereum',
+  title: 'Sign in with Ethereum',
   titleTemplate: ':title — SIWE',
   description: DESCRIPTION,
   appearance: true,
@@ -28,7 +28,7 @@ export default defineConfig({
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
     ['meta', { name: 'theme-color', content: '#7f00f6' }],
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:site_name', content: 'Sign-In with Ethereum' }],
+    ['meta', { property: 'og:site_name', content: 'Sign in with Ethereum' }],
     ['meta', { property: 'og:image', content: `${HOST}/og.png` }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:site', content: '@signinethereum' }],
@@ -37,7 +37,7 @@ export default defineConfig({
       {
         rel: 'alternate',
         type: 'application/rss+xml',
-        title: 'Sign-In with Ethereum',
+        title: 'Sign in with Ethereum',
         href: `${HOST}/feed.rss`
       }
     ]
@@ -63,15 +63,7 @@ export default defineConfig({
       { text: 'Libraries', link: '/docs/libraries/', activeMatch: '^/docs/libraries' },
       { text: 'Ecosystem', link: '/ecosystem', activeMatch: '^/ecosystem' },
       { text: 'Blog', link: '/blog/', activeMatch: '^/blog' },
-      {
-        text: 'Tools',
-        items: [
-          { text: 'Message validator', link: '/tools/validator' },
-          { text: 'Message builder', link: '/tools/builder' },
-          { text: 'Brand', link: '/brand' }
-        ]
-      },
-      { text: 'ERC-4361', link: 'https://eips.ethereum.org/EIPS/eip-4361' }
+      { text: 'GitHub', link: 'https://github.com/signinwithethereum' }
     ],
 
     sidebar: {
@@ -140,8 +132,6 @@ export default defineConfig({
         detailedView: true
       }
     },
-
-    socialLinks: [{ icon: 'github', link: 'https://github.com/signinwithethereum' }],
 
     editLink: {
       pattern: 'https://github.com/signinwithethereum/landing-next/edit/main/src/:path',

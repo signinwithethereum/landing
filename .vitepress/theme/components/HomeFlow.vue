@@ -1,65 +1,54 @@
 <script setup lang="ts">
-/* How it works.
- *
- * Numbered, because this genuinely is a sequence and the order is the security
- * argument: the nonce exists before the message, the message names the domain
- * before it is signed, and the server checks its own values rather than the
- * ones that arrived. The code comes in through the slot so VitePress
- * highlights it. */
-
 const STEPS = [
   {
     n: '1',
-    title: 'Your server issues a nonce',
-    body: 'Random, single-use, and stored against the session. The client never invents it.'
+    title: 'Issue a nonce',
+    body: 'Your server creates a random, single-use value and stores it with the session.'
   },
   {
     n: '2',
-    title: 'The message is assembled',
-    body: 'Your domain, the user’s address, the nonce, a statement, an expiry. Plain text, fixed order.'
+    title: 'Build the message',
+    body: 'Add the domain, account, chain, nonce, statement and expiry in the ERC-4361 format.'
   },
   {
     n: '3',
-    title: 'The wallet signs it',
-    body: 'A personal_sign over that exact string. Nothing is broadcast and no gas is spent.'
+    title: 'Ask for a signature',
+    body: 'The wallet shows the request and signs the exact message. Nothing is broadcast.'
   },
   {
     n: '4',
-    title: 'Your server verifies',
-    body: 'Recover the signer, then check the domain, the nonce and the clock against values you control.'
+    title: 'Verify and start a session',
+    body: 'Your server checks the signer and its own domain, nonce and time constraints.'
   }
 ]
 </script>
 
 <template>
-  <section id="how" class="band">
+  <section id="how" class="band flow">
     <div class="shell">
       <header class="flow-head">
-        <p class="t-label">How it works</p>
-        <h2 class="t-h2">Four steps, and the server never trusts the client</h2>
+        <h2>How it works</h2>
+        <p>Four steps turn a wallet signature into an application session.</p>
       </header>
 
       <div class="flow-grid">
-        <ol class="flow-steps">
-          <li v-for="s in STEPS" :key="s.n">
-            <span class="flow-n" aria-hidden="true">{{ s.n }}</span>
-            <span class="flow-body">
-              <strong>{{ s.title }}</strong>
-              <span>{{ s.body }}</span>
+        <ol>
+          <li v-for="step in STEPS" :key="step.n">
+            <span class="flow-number" aria-hidden="true">{{ step.n }}</span>
+            <span class="flow-copy">
+              <strong>{{ step.title }}</strong>
+              <span>{{ step.body }}</span>
             </span>
           </li>
         </ol>
 
-        <!-- `vp-doc` because the default theme scopes all of its code-block
-             styling to it, and `layout: page` does not add the class itself.
-             The slot only ever holds a fence, so nothing else is affected. -->
         <div class="flow-code vp-doc">
           <slot />
         </div>
       </div>
 
       <p class="flow-more">
-        <a class="btn btn-ghost btn-mono" href="/docs/quickstart/">Full quickstart, front and back</a>
+        <a href="/docs/quickstart/">Read the full quickstart &rarr;</a>
       </p>
     </div>
   </section>
@@ -67,81 +56,109 @@ const STEPS = [
 
 <style scoped>
 .flow-head {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s4);
-  max-width: 58ch;
-  margin-bottom: var(--s7);
+  display: grid;
+  gap: var(--s3);
+  max-width: 38rem;
+}
+
+.flow h2 {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+}
+
+.flow-head p {
+  margin: 0;
+  font-size: var(--t-small);
+  line-height: 1.65;
+  color: var(--ink-2);
 }
 
 .flow-grid {
   display: grid;
-  gap: var(--s7);
+  gap: var(--s6);
   align-items: start;
+  min-width: 0;
+  margin-top: var(--s6);
 }
 
-@media (min-width: 1000px) {
+.flow-grid > * {
+  min-width: 0;
+}
+
+@media (min-width: 820px) {
   .flow-grid {
-    grid-template-columns: minmax(0, 0.72fr) minmax(0, 1fr);
-    gap: var(--s8);
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+    gap: var(--s7);
   }
 }
 
-/* ---------------------------------------------------------------- steps */
-
-.flow-steps {
+.flow ol {
   margin: 0;
   padding: 0;
-  list-style: none;
-  counter-reset: none;
-}
-
-.flow-steps li {
-  display: grid;
-  grid-template-columns: 2.5rem minmax(0, 1fr);
-  gap: 0 var(--s3);
-  padding: var(--s4) 0;
   border-top: 1px solid var(--rule);
+  list-style: none;
 }
 
-.flow-steps li:last-child {
+.flow li {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: var(--s3);
+  padding-block: var(--s4);
   border-bottom: 1px solid var(--rule);
 }
 
-.flow-n {
+.flow-number {
   font-family: var(--font-mono);
   font-size: var(--t-tiny);
-  line-height: 1.6;
+  line-height: 1.55;
   color: var(--accent-ui);
 }
 
-.flow-body {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+.flow-copy {
+  display: grid;
+  gap: 4px;
 }
 
-.flow-body strong {
-  font-size: var(--t-body);
-  font-weight: 500;
-  letter-spacing: -0.01em;
+.flow-copy strong {
+  font-size: var(--t-small);
+  font-weight: 550;
   color: var(--ink);
 }
 
-.flow-body > span {
+.flow-copy > span {
   font-size: var(--t-small);
   line-height: 1.55;
   color: var(--ink-2);
   text-wrap: pretty;
 }
 
-/* ----------------------------------------------------------------- code */
-
 .flow-code :deep(div[class*='language-']) {
   margin: 0;
 }
 
+.flow-code {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
 .flow-more {
-  margin: var(--s7) 0 0;
+  margin: var(--s5) 0 0;
+}
+
+.flow-more a {
+  font-family: var(--font-mono);
+  font-size: var(--t-tiny);
+  color: var(--accent-ui);
+  text-decoration: none;
+}
+
+.flow-more a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 </style>

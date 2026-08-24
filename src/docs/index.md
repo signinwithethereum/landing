@@ -1,11 +1,11 @@
 ---
 title: Introduction
-description: Sign-In with Ethereum is ERC-4361 — a plain-text message a user signs with a key they already hold, and which your server verifies. Start here.
+description: Sign in with Ethereum is ERC-4361 — a plain-text message a user signs with a key they already hold, and which your server verifies. Start here.
 ---
 
-# Sign-In with Ethereum
+# Sign in with Ethereum
 
-Sign-In with Ethereum is an authentication method for Ethereum accounts,
+Sign in with Ethereum is an authentication method for Ethereum accounts,
 specified in [ERC-4361](https://eips.ethereum.org/EIPS/eip-4361). The
 specification reached **Final** status on 5 August 2025.
 

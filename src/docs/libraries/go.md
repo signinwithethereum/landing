@@ -5,7 +5,7 @@ description: 'API reference for siwe-go: the Message struct, ParseMessage, Verif
 
 # Go
 
-The Go implementation of Sign-In with Ethereum can be found here:
+The Go implementation of Sign in with Ethereum can be found here:
 
 - [signinwithethereum/siwe-go on GitHub](https://github.com/signinwithethereum/siwe-go)
 
@@ -583,7 +583,7 @@ m.ClearResources()         // omits the section entirely
 
 -   **GitHub**: [signinwithethereum/siwe-go](https://github.com/signinwithethereum/siwe-go)
 -   **pkg.go.dev**: [github.com/signinwithethereum/siwe-go](https://pkg.go.dev/github.com/signinwithethereum/siwe-go)
--   **EIP-4361**: [Sign-In with Ethereum specification](https://eips.ethereum.org/EIPS/eip-4361)
+-   **EIP-4361**: [Sign in with Ethereum specification](https://eips.ethereum.org/EIPS/eip-4361)
 
 ---
 

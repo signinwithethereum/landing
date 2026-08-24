@@ -1,49 +1,59 @@
 <script setup lang="ts">
-import { LIBRARIES, INTEGRATIONS } from '../data/libraries'
+import { computed, ref } from 'vue'
+import { LIBRARIES } from '../data/libraries'
+import { STORIES } from '../data/stories'
 import CopyLine from './CopyLine.vue'
+
+const selectedIndex = ref(0)
+const selected = computed(() => LIBRARIES[selectedIndex.value])
 </script>
 
 <template>
-  <section id="libraries" class="band">
+  <section id="libraries" class="band libraries">
     <div class="shell">
-      <header class="lib-head">
-        <p class="t-label">Implementations</p>
-        <h2 class="t-h2">Five languages, one corpus of test vectors</h2>
-        <p class="t-body">
-          Each library is checked against the same shared vectors, so a message
-          built in one parses in all of them. Pick the one your server already
-          speaks &mdash; or, if you are on <a href="https://viem.sh/">viem</a>
-          already, use the SIWE functions it ships and skip a dependency.
+      <header class="libraries-head">
+        <h2>Use the library for your stack</h2>
+        <p>
+          Official implementations share the same message format and test
+          vectors. Choose a language and start with its package.
         </p>
       </header>
 
-      <ul class="lib-list">
-        <li v-for="l in LIBRARIES" :key="l.name">
-          <div class="lib-main">
-            <h3 class="t-h3">
-              <a :href="l.docs">{{ l.name }}</a>
-            </h3>
-            <code class="lib-pkg">{{ l.pkg }}</code>
-            <p class="lib-note">{{ l.note }}</p>
-          </div>
-          <div class="lib-side">
-            <CopyLine :text="l.install" />
-            <p class="lib-links">
-              <a :href="l.docs">Docs</a>
-              <a :href="l.repo">Source</a>
-              <a :href="l.registry">Registry</a>
-            </p>
-          </div>
-        </li>
-      </ul>
+      <div class="install">
+        <div class="install-options" aria-label="Choose a language">
+          <button
+            v-for="(library, index) in LIBRARIES"
+            :key="library.name"
+            type="button"
+            :aria-pressed="selectedIndex === index"
+            @click="selectedIndex = index"
+          >
+            {{ library.name }}
+          </button>
+        </div>
 
-      <div class="lib-integrations">
-        <p class="t-label">Or skip the code entirely</p>
+        <CopyLine :text="selected.install" />
+
+        <p class="install-links">
+          <code>{{ selected.pkg }}</code>
+          <span aria-hidden="true">·</span>
+          <a :href="selected.docs">Documentation</a>
+          <a :href="selected.repo">Source</a>
+        </p>
+      </div>
+
+      <div class="production">
+        <header>
+          <h2>Used in production</h2>
+          <a href="/ecosystem">Explore the ecosystem &rarr;</a>
+        </header>
+
         <ul>
-          <li v-for="i in INTEGRATIONS" :key="i.name">
-            <a class="tile" :href="i.link">
-              <strong>{{ i.name }}</strong>
-              <span>{{ i.what }}</span>
+          <li v-for="story in STORIES" :key="story.org">
+            <a :href="story.link">
+              <strong>{{ story.org }}</strong>
+              <span>{{ story.claim }}</span>
+              <span aria-hidden="true">&rarr;</span>
             </a>
           </li>
         </ul>
@@ -53,131 +63,176 @@ import CopyLine from './CopyLine.vue'
 </template>
 
 <style scoped>
-.lib-head {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s4);
-  max-width: 58ch;
-  margin-bottom: var(--s7);
-}
-
-.lib-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border-top: 1px solid var(--rule);
-}
-
-.lib-list li {
+.libraries-head {
   display: grid;
-  gap: var(--s4);
-  padding: var(--s5) 0;
+  gap: var(--s3);
+  max-width: 42rem;
+}
+
+.libraries h2 {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+}
+
+.libraries-head p {
+  margin: 0;
+  font-size: var(--t-small);
+  line-height: 1.65;
+  color: var(--ink-2);
+}
+
+.install {
+  margin-top: var(--s6);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--canvas-2);
+}
+
+.install-options {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
   border-bottom: 1px solid var(--rule);
 }
 
-@media (min-width: 860px) {
-  .lib-list li {
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
-    gap: var(--s7);
-    align-items: start;
-  }
+.install-options button {
+  flex: none;
+  min-height: 42px;
+  padding-inline: var(--s4);
+  border: 0;
+  border-right: 1px solid var(--rule);
+  background: transparent;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: var(--t-tiny);
+  cursor: pointer;
 }
 
-.lib-main h3 a {
+.install-options button:hover {
   color: var(--ink);
-  text-decoration: none;
 }
 
-.lib-main h3 a:hover {
-  color: var(--accent-ui);
+.install-options button[aria-pressed='true'] {
+  box-shadow: inset 0 -2px 0 var(--ink);
+  color: var(--ink);
 }
 
-.lib-pkg {
-  display: block;
-  margin-top: 4px;
+.install :deep(.copyline) {
+  margin: var(--s4);
+  border-color: var(--rule-strong);
+  background: var(--canvas);
+}
+
+.install-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s4);
+  align-items: center;
+  margin: 0;
+  padding: 0 var(--s4) var(--s4);
+  font-family: var(--font-mono);
+  font-size: var(--t-tiny);
+  color: var(--ink-3);
+}
+
+.install-links code {
   padding: 0;
   background: none;
-  font-family: var(--font-mono);
-  font-size: var(--t-tiny);
-  color: var(--ink-3);
-}
-
-.lib-note {
-  margin: var(--s3) 0 0;
-  max-width: 52ch;
-  font-size: var(--t-small);
-  line-height: 1.6;
+  font-size: inherit;
   color: var(--ink-2);
-  text-wrap: pretty;
 }
 
-.lib-side {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s3);
+.install-links a {
+  color: var(--ink-2);
+  text-decoration: none;
 }
 
-.lib-links {
+.install-links a:hover {
+  color: var(--ink);
+}
+
+.production {
+  margin-top: var(--s8);
+}
+
+.production > header {
   display: flex;
-  gap: var(--s4);
-  margin: 0;
+  flex-wrap: wrap;
+  gap: var(--s3) var(--s5);
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--s4);
+}
+
+.production > header a {
   font-family: var(--font-mono);
   font-size: var(--t-tiny);
-}
-
-.lib-links a {
   color: var(--ink-3);
   text-decoration: none;
 }
 
-.lib-links a:hover {
-  color: var(--accent-ui);
+.production > header a:hover {
+  color: var(--ink);
 }
 
-/* --------------------------------------------------------- integrations */
-
-.lib-integrations {
-  margin-top: var(--s7);
-}
-
-.lib-integrations ul {
-  display: grid;
-  gap: var(--s3);
-  margin: var(--s4) 0 0;
+.production ul {
+  margin: 0;
   padding: 0;
+  border-top: 1px solid var(--rule);
   list-style: none;
 }
 
-@media (min-width: 720px) {
-  .lib-integrations ul {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.production li {
+  border-bottom: 1px solid var(--rule);
 }
 
-@media (min-width: 1080px) {
-  .lib-integrations ul {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
+.production li a {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.5fr) minmax(0, 1fr) auto;
+  gap: var(--s4);
+  align-items: baseline;
+  padding-block: var(--s4);
+  color: inherit;
+  text-decoration: none;
 }
 
-.lib-integrations .tile {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s2);
-  height: 100%;
-  padding: var(--s4);
-}
-
-.lib-integrations strong {
+.production strong {
   font-size: var(--t-small);
-  font-weight: 500;
+  font-weight: 550;
   color: var(--ink);
 }
 
-.lib-integrations span {
-  font-size: var(--t-tiny);
-  line-height: 1.55;
+.production li span {
+  font-size: var(--t-small);
   color: var(--ink-2);
-  text-wrap: pretty;
+}
+
+.production li span:last-child {
+  font-family: var(--font-mono);
+  color: var(--ink-3);
+}
+
+.production li a:hover span:last-child {
+  color: var(--accent-ui);
+}
+
+@media (max-width: 560px) {
+  .production li a {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px var(--s3);
+  }
+
+  .production li span:nth-child(2) {
+    grid-column: 1;
+  }
+
+  .production li span:last-child {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
 }
 </style>

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "siwe.xyz — the site for Sign-In with Ethereum (ERC-4361)",
+  "description": "siwe.xyz — the site for Sign in with Ethereum (ERC-4361)",
   "packageManager": "pnpm@10.33.0",
   "scripts": {
     "dev": "vitepress dev --port 4321",

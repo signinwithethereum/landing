@@ -1,12 +1,12 @@
 ---
 title: ERC-4361 is Final
-description: Sign-In with Ethereum reached Final status on 5 August 2025, four years after it was drafted. Here is what that changes, what it does not, and where the remaining ambiguities are being tracked.
+description: Sign in with Ethereum reached Final status on 5 August 2025, four years after it was drafted. Here is what that changes, what it does not, and where the remaining ambiguities are being tracked.
 date: 2026-08-05
 ---
 
 # ERC-4361 is Final
 
-Sign-In with Ethereum was created as a draft on **11 October 2021**. It moved to
+Sign in with Ethereum was created as a draft on **11 October 2021**. It moved to
 Last Call on **15 July 2025** and to **Final on 5 August 2025**.
 
 If you have been treating SIWE as a promising draft you might adopt once it

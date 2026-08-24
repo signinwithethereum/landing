@@ -1,6 +1,6 @@
 # siwe.xyz
 
-The site for [Sign-In with Ethereum](https://eips.ethereum.org/EIPS/eip-4361).
+The site for [Sign in with Ethereum](https://eips.ethereum.org/EIPS/eip-4361).
 One site, five things: the landing page, the documentation, the libraries, the
 blog, and the tools.
 

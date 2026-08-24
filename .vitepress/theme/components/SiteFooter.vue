@@ -6,26 +6,17 @@ const COLUMNS = [
     label: 'Documentation',
     links: [
       { text: 'Introduction', href: '/docs/' },
-      { text: 'The message', href: '/docs/message' },
       { text: 'Quickstart', href: '/docs/quickstart/' },
-      { text: 'Security considerations', href: '/docs/security-considerations' },
       { text: 'Libraries', href: '/docs/libraries/' }
     ]
   },
   {
-    label: 'Tools',
-    links: [
-      { text: 'Message validator', href: '/tools/validator' },
-      { text: 'Message builder', href: '/tools/builder' },
-      { text: 'Brand', href: '/brand' }
-    ]
-  },
-  {
-    label: 'Around the standard',
+    label: 'Explore',
     links: [
       { text: 'Ecosystem', href: '/ecosystem' },
       { text: 'Blog', href: '/blog/' },
-      { text: 'Success stories', href: '/blog/success-stories/' }
+      { text: 'Message validator', href: '/tools/validator' },
+      { text: 'Message builder', href: '/tools/builder' }
     ]
   },
   {
@@ -43,7 +34,7 @@ const COLUMNS = [
   <footer class="ft">
     <div class="shell ft-in">
       <div class="ft-brand">
-        <a href="/" aria-label="Sign-In with Ethereum, home">
+        <a href="/" aria-label="Sign in with Ethereum, home">
           <Wordmark />
         </a>
         <p>
@@ -138,7 +129,7 @@ const COLUMNS = [
 
 @media (min-width: 700px) {
   .ft-cols {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 

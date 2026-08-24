@@ -5,7 +5,7 @@ description: 'API reference for @signinwithethereum/siwe: message construction, 
 
 # TypeScript
 
-The TypeScript implementation of Sign-In with Ethereum can be found here:
+The TypeScript implementation of Sign in with Ethereum can be found here:
 
 - [signinwithethereum/siwe on GitHub](https://github.com/signinwithethereum/siwe)
 

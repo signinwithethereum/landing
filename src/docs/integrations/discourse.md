@@ -7,7 +7,7 @@ description: Install and configure the discourse-siwe-auth plugin so people can 
 
 ## Overview
 
-**Discourse** is an open-source discussion platform used for crypto governance and project discussions. This guide explains how to add Sign-In with Ethereum (SIWE) authentication to your Discourse instance. Injected wallets (MetaMask, Safe, etc.) work out of the box. ENS names and avatars are resolved server-side when an RPC endpoint is configured.
+**Discourse** is an open-source discussion platform used for crypto governance and project discussions. This guide explains how to add Sign in with Ethereum (SIWE) authentication to your Discourse instance. Injected wallets (MetaMask, Safe, etc.) work out of the box. ENS names and avatars are resolved server-side when an RPC endpoint is configured.
 
 - [signinwithethereum/discourse-siwe-auth on GitHub](https://github.com/signinwithethereum/discourse-siwe-auth)
 
@@ -61,7 +61,7 @@ From here you can customize the sign-in statement and optionally add a WalletCon
 
 | Setting                      | Description                                                                                                                                                                                                                                                                                   |
 | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Discourse siwe enabled**   | Enable or disable Sign-In with Ethereum authentication.                                                                                                                                                                                                                                       |
+| **Discourse siwe enabled**   | Enable or disable Sign in with Ethereum authentication.                                                                                                                                                                                                                                       |
 | **Siwe ethereum rpc url**    | _Optional._ An Ethereum JSON-RPC endpoint used for ENS name/avatar resolution and EIP-1271 signature verification (required for smart contract wallets like Safe). A dedicated provider (Alchemy, Infura) is recommended. Example: `https://mainnet.infura.io/v3/YOUR_KEY`. |
 | **Siwe project ID**         | _Optional._ A WalletConnect / Reown project ID. Without it, only injected wallets (MetaMask, Safe, etc.) are available. To enable WalletConnect, create a free project ID at [dashboard.reown.com](https://dashboard.reown.com).                                                              |
 | **Siwe statement**           | The human-readable statement shown in the SIWE message. Defaults to "Sign in with Ethereum".                                                                                                                                                                                                  |

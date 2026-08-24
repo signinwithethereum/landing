@@ -3,7 +3,7 @@
  * light and dark copy. Cells read straight off brand/wordmark.svg: a 31 x 9
  * grid, ink on rows 0 2 4 6 8, 80 cells. */
 
-withDefaults(defineProps<{ title?: string }>(), { title: 'Sign-In with Ethereum' })
+withDefaults(defineProps<{ title?: string }>(), { title: 'Sign in with Ethereum' })
 
 // [x, y, width] per ink run
 const CELLS: [number, number, number][] = [

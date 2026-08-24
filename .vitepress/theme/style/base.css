@@ -170,6 +170,36 @@ body {
   margin: 0;
 }
 
+/* -------------------------------------------------------- landing rail */
+
+.home-page {
+  width: min(100%, var(--home-page));
+  margin-inline: auto;
+  border-inline: 1px solid var(--rule);
+  background: var(--home-rail);
+}
+
+.home-page .shell {
+  max-width: none;
+  padding-inline: clamp(var(--s5), 6vw, 72px);
+}
+
+.home-page .band {
+  padding-block: 72px;
+}
+
+@media (max-width: 1079px) {
+  .home-page {
+    border-inline: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-page .band {
+    padding-block: var(--s8);
+  }
+}
+
 /* --------------------------------------------------------------- screen */
 
 /* The dark panel. The field canvas of the mark reads as a screen and carries

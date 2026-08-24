@@ -5,7 +5,7 @@ description: An OpenID Connect identity provider that authenticates users with t
 
 # OIDC Provider
 
-An OpenID Connect identity provider that authenticates users with their Ethereum wallets via [Sign-In with Ethereum](https://eips.ethereum.org/EIPS/eip-4361) (EIP-4361).
+An OpenID Connect identity provider that authenticates users with their Ethereum wallets via [Sign in with Ethereum](https://eips.ethereum.org/EIPS/eip-4361) (EIP-4361).
 
 Any application that supports OIDC can use this provider to let users log in with their Ethereum address — no passwords, no email, no custodial accounts.
 
@@ -46,7 +46,7 @@ The user's SIWE signature **is** their consent — no additional consent screen 
 ## Tech Stack
 
 - [oidc-provider](https://github.com/panva/node-oidc-provider) v9 — certified OIDC implementation
-- [@signinwithethereum/siwe](https://github.com/signinwithethereum/siwe) v4 — Sign-In with Ethereum
+- [@signinwithethereum/siwe](https://github.com/signinwithethereum/siwe) v4 — Sign in with Ethereum
 - [viem](https://viem.sh) — Ethereum client
 - [Nuxt 4](https://nuxt.com) — full-stack framework (Node.js 22+)
 - [ioredis](https://github.com/redis/ioredis) — Redis client
