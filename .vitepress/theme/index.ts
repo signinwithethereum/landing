@@ -11,7 +11,6 @@ import Layout from './Layout.vue'
 import HomeHero from './components/HomeHero.vue'
 import WalletComparison from './components/WalletComparison.vue'
 import HomeWhy from './components/HomeWhy.vue'
-import HomeFlow from './components/HomeFlow.vue'
 import HomeLibraries from './components/HomeLibraries.vue'
 
 import Ecosystem from './components/Ecosystem.vue'
@@ -28,7 +27,6 @@ export default {
     app.component('HomeHero', HomeHero)
     app.component('WalletComparison', WalletComparison)
     app.component('HomeWhy', HomeWhy)
-    app.component('HomeFlow', HomeFlow)
     app.component('HomeLibraries', HomeLibraries)
 
     /* Pages */

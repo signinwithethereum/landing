@@ -23,11 +23,13 @@ const rows = [
   <section id="message" class="band proof">
     <div class="shell">
       <header class="section-head">
-        <h2>A message the wallet can understand</h2>
+        <h2>Human readable, machine readable</h2>
         <p>
-          ERC&#8209;4361 gives every field a fixed place. A wallet can turn the
-          signed text into a clear sign-in screen and compare the site in the
-          message with the site making the request.
+          ERC&#8209;4361 gives every field a fixed place, so the text a person
+          reads is the same text software can parse. A wallet or an app can
+          build a real sign-in screen out of it &mdash; site, account, network,
+          expiry &mdash; instead of asking someone to approve a scrambled blob
+          of hex.
         </p>
       </header>
 
@@ -97,8 +99,9 @@ const rows = [
       </div>
 
       <p class="proof-foot">
-        The cryptography is unchanged. The structure gives the wallet enough
-        context to explain the request and catch a mismatch before signing.
+        The cryptography is unchanged. The structure is what lets an interface
+        explain the request in its own words, shape it around your product, and
+        catch a mismatch before anyone signs.
         <a href="/docs/message">Read the message format &rarr;</a>
       </p>
     </div>
