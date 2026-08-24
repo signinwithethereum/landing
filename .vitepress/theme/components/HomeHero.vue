@@ -17,9 +17,9 @@ const { isDark } = useData();
         <h1>Sign in with Ethereum</h1>
 
         <p class="hero-lede">
-          An open standard for signing into apps with an Ethereum account. Users
-          sign a readable message. Your server verifies it. No passwords or
-          identity provider required.
+          Ditch passwords and third&#8209;party providers. An open standard for
+          signing into apps with an Ethereum account. Onboard millions of
+          Ethereum users to your app.
         </p>
 
         <div class="hero-start">
