@@ -80,10 +80,9 @@
   border-bottom: 0;
 }
 
-/* The rule pair, under the nav. */
+/* The nav closes on the same hairline the bands are separated by. */
 .VPNavBar {
   border-bottom: 1px solid var(--rule) !important;
-  box-shadow: 0 2px 0 -1px var(--rule);
 }
 
 .VPNavBar.has-sidebar .content-body,
@@ -311,7 +310,6 @@ body:has(.home-page) .VPNavBarSearchButton .keys {
 
 .VPFooter {
   border-top: 1px solid var(--rule);
-  box-shadow: 0 -2px 0 -1px var(--rule);
   background: transparent !important;
 }
 
@@ -353,6 +351,10 @@ body:has(.home-page) .VPNavBarSearchButton .keys {
   padding-bottom: 0 !important;
 }
 
+/* The rail floats on the outer field from the nav all the way down. `.ft` sits
+ * outside `.VPContent`, so without this the page ground shows through beside
+ * the footer and the field stops at the last band. */
+body:has(.home-page),
 body:has(.home-page) .VPContent {
   background: var(--home-outer);
 }

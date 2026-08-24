@@ -142,24 +142,17 @@ body {
   }
 }
 
-/* The rule pair. Two hairlines one cell apart — the mark's ink row and its
- * gap row, at page scale. */
-.band + .band::before,
-.rule-pair {
+/* The band separator. One hairline, the same weight as every other rule on the
+ * page — the nav and the footer close their edges with the same line. */
+.band + .band::before {
   content: '';
   display: block;
   position: absolute;
   inset-inline: 0;
   top: 0;
-  height: 3px;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
+  height: 1px;
+  background: var(--rule);
   pointer-events: none;
-}
-
-.rule-pair {
-  position: relative;
-  inset: auto;
 }
 
 /* A single hairline, for inside a section. */
