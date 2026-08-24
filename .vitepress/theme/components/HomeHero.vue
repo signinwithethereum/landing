@@ -5,41 +5,64 @@ import CopyLine from './CopyLine.vue'
 <template>
   <section class="band hero">
     <div class="shell hero-in">
-      <p class="hero-status">
-        <span>ERC&#8209;4361</span>
-        <span aria-hidden="true">·</span>
-        <span>Final standard</span>
-      </p>
+      <div class="hero-copy">
+        <p class="hero-status">
+          <span>ERC&#8209;4361</span>
+          <span aria-hidden="true">·</span>
+          <span>Final standard</span>
+        </p>
 
-      <h1>Sign in with Ethereum</h1>
+        <h1>Sign in with Ethereum</h1>
 
-      <p class="hero-lede">
-        An open standard for signing into apps with an Ethereum account. Users
-        sign a readable message. Your server verifies it. No passwords or
-        identity provider required.
-      </p>
+        <p class="hero-lede">
+          An open standard for signing into apps with an Ethereum account.
+          Users sign a readable message. Your server verifies it. No passwords
+          or identity provider required.
+        </p>
 
-      <div class="hero-start">
-        <a class="btn" href="/docs/quickstart/">Start integrating</a>
-        <a class="hero-spec" href="https://eips.ethereum.org/EIPS/eip-4361">
-          Read ERC&#8209;4361 <span aria-hidden="true">&rarr;</span>
-        </a>
+        <div class="hero-start">
+          <a class="btn" href="/docs/quickstart/">Start integrating</a>
+          <a class="hero-spec" href="https://eips.ethereum.org/EIPS/eip-4361">
+            Read ERC&#8209;4361 <span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+
+        <CopyLine prefix="$ " text="npm i @signinwithethereum/siwe" />
       </div>
 
-      <CopyLine prefix="$ " text="npm i @signinwithethereum/siwe" />
+      <figure class="hero-art">
+        <img
+          src="/hero/siwe-illustration.webp"
+          width="1024"
+          height="1024"
+          alt="A person at a computer beneath a globe-wide digital network."
+          fetchpriority="high"
+          decoding="async"
+        />
+      </figure>
     </div>
   </section>
 </template>
 
 <style scoped>
 .hero {
-  padding-block: 88px 80px;
+  display: flex;
+  min-height: 586px;
+  padding-block: 0;
+  overflow: hidden;
 }
 
 .hero-in {
+  position: relative;
+  z-index: 1;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+}
+
+.hero-copy {
+  width: min(55%, 35rem);
+  min-width: 0;
+  padding-block: 72px;
 }
 
 .hero-status {
@@ -56,7 +79,7 @@ import CopyLine from './CopyLine.vue'
 }
 
 .hero h1 {
-  max-width: 14ch;
+  max-width: 10ch;
   margin: 0;
   font-size: clamp(2.75rem, 5.2vw, 4.5rem);
   font-weight: 500;
@@ -66,7 +89,7 @@ import CopyLine from './CopyLine.vue'
 }
 
 .hero-lede {
-  max-width: 43rem;
+  max-width: 35rem;
   margin: var(--s5) 0 0;
   font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
   line-height: 1.55;
@@ -99,13 +122,89 @@ import CopyLine from './CopyLine.vue'
   margin-top: var(--s4);
 }
 
+.hero-art {
+  position: absolute;
+  z-index: 0;
+  inset-block: 0;
+  inset-inline-end: 0;
+  width: 61%;
+  margin: 0;
+  overflow: hidden;
+  background: #6d8cca;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0, 0, 0, 0.18) 16%,
+    #000 46%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0, 0, 0, 0.18) 16%,
+    #000 46%
+  );
+}
+
+.hero-art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+}
+
+@media (max-width: 820px) {
+  .hero {
+    min-height: 880px;
+  }
+
+  .hero-in {
+    align-items: flex-start;
+  }
+
+  .hero-copy {
+    width: 100%;
+    padding-block: var(--s8) 420px;
+  }
+
+  .hero h1 {
+    max-width: 12ch;
+  }
+
+  .hero-art {
+    inset-block: auto 0;
+    width: 100%;
+    height: 480px;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.24) 18%,
+      #000 48%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.24) 18%,
+      #000 48%
+    );
+  }
+}
+
 @media (max-width: 640px) {
   .hero {
-    padding-block: var(--s8);
+    min-height: 840px;
   }
 
   .hero h1 {
     max-width: 10ch;
+  }
+
+  .hero-copy {
+    padding-bottom: 390px;
+  }
+
+  .hero-art {
+    height: 440px;
   }
 }
 </style>
