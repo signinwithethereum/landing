@@ -124,6 +124,7 @@ const listed = computed(() => CATEGORIES.filter((c) => counts.value[c.slug] > 0)
 }
 
 .bl-list h3 {
+  margin: 0;
   color: var(--ink);
 }
 
