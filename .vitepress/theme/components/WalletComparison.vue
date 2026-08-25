@@ -95,7 +95,6 @@ type Lane = (typeof LANES)[number]["id"];
 const MARKERS: { step: Step; label: string }[] = [
   { step: "idle", label: "Start" },
   { step: "review", label: "Review" },
-  { step: "signing", label: "Sign" },
   { step: "done", label: "Signed" },
 ];
 
@@ -142,25 +141,22 @@ const step = ref<Step>("idle");
  * one the page is arguing for. */
 const lane = ref<Lane>("siwe");
 
-/* Each visible state gets five seconds for a reader to interact before the
- * machine advances. The completed state is terminal. */
+/* START advances after five seconds if the reader does not choose the next
+ * action themselves. Only the sheet's sign action completes after its brief
+ * pending state; selecting a step in the toolbar always remains there. */
 let stepTimer: ReturnType<typeof setTimeout>;
 
-const NEXT_STEP: Partial<Record<Step, Step>> = {
-  idle: "review",
-  review: "signing",
-  signing: "done",
-};
-
-function scheduleNextStep() {
-  const next = NEXT_STEP[step.value];
-  if (next) stepTimer = setTimeout(() => go(next), 5_000);
+function scheduleNextStep(completeSigning = false) {
+  if (step.value === "idle") stepTimer = setTimeout(() => go("review"), 5_000);
+  if (step.value === "signing" && completeSigning) {
+    stepTimer = setTimeout(() => go("done"), 900);
+  }
 }
 
-function go(next: Step) {
+function go(next: Step, completeSigning = false) {
   clearTimeout(stepTimer);
   step.value = next;
-  scheduleNextStep();
+  scheduleNextStep(completeSigning);
 }
 
 onMounted(scheduleNextStep);
@@ -285,6 +281,14 @@ const ctaState = computed(() =>
                       <span>{{ SHORT_ADDRESS }}</span>
                       <span class="t-label app-session-state">Signed in</span>
                     </p>
+                    <button
+                      v-if="step === 'done'"
+                      type="button"
+                      class="app-signout"
+                      @click="go('idle')"
+                    >
+                      Sign out
+                    </button>
                   </div>
                 </div>
               </div>
@@ -351,7 +355,7 @@ const ctaState = computed(() =>
                     type="button"
                     class="primary"
                     :disabled="step !== 'review'"
-                    @click="go('signing')"
+                    @click="go('signing', true)"
                   >
                     {{ step === "signing" ? "Signing…" : l.sign }}
                   </button>
@@ -895,6 +899,24 @@ const ctaState = computed(() =>
 .app-session-state {
   margin-left: auto;
   color: var(--ok);
+}
+
+.app-signout {
+  margin-top: var(--s5);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: var(--t-tiny);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+.app-signout:hover,
+.app-signout:focus-visible {
+  color: var(--ink);
 }
 
 /* --------------------------------------------------------- wallet sheet */
