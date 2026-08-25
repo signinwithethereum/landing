@@ -201,9 +201,9 @@ const INTEGRATORS = [
 
 .integrator-mark {
   display: flex;
-  width: 26px;
-  height: 18px;
-  flex: 0 0 26px;
+  width: 30px;
+  height: 21px;
+  flex: 0 0 30px;
   align-items: center;
   justify-content: center;
 }
@@ -248,9 +248,9 @@ const INTEGRATORS = [
   }
 
   .integrator-mark {
-    width: 24px;
-    height: 16px;
-    flex-basis: 24px;
+    width: 27px;
+    height: 19px;
+    flex-basis: 27px;
   }
 
   .integrator-name {
