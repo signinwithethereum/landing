@@ -234,12 +234,12 @@ const INTEGRATORS = [
   .used-by {
     --used-by-height: 80px;
 
-    grid-template-columns: 88px minmax(0, 1fr);
+    grid-template-columns: 96px minmax(0, 1fr);
   }
 
   .used-by-label {
     gap: var(--s2);
-    padding-inline: var(--s4);
+    padding-inline: var(--s2);
   }
 
   .integrator {
