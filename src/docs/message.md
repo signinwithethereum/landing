@@ -172,33 +172,6 @@ ERC-4361 is concerned — it does not grant anything by itself.
 on top of this field; if you are reaching for `Resources` to express permissions
 rather than to show someone a list, read that first.
 
-## Blank lines
-
-Under published ERC-4361, the message has a fixed seam between the account
-address and `URI:`:
-
-`address` → empty line → optional statement → empty line → `URI:`
-
-The statement can disappear. Its surrounding empty lines cannot.
-
-<BlankLines />
-
-::: info Proposed update — work in progress
-The [draft erratum](https://github.com/signinwithethereum/ERCs/pull/1) explores
-a no-statement form with one empty line between the address and `URI:`. It is
-not final and does not change the rule above today.
-:::
-
-::: tip
-For published ERC-4361, one empty line with no statement is the classic
-hand-rolled bug. It can still verify against your own parser because the same
-wrong code built the message, then fail everywhere else. Build messages with a
-library, or paste the finished string into the [validator](/tools/validator).
-:::
-
-There is no trailing newline. The message ends with the last character of the
-last field.
-
 ## A complete example
 
 ```
@@ -288,6 +261,33 @@ request-id      = *pchar
 resources       = *( LF resource )
 resource        = "- " URI
 ```
+
+## Blank lines
+
+Under published ERC-4361, the message has a fixed seam between the account
+address and `URI:`:
+
+`address` → empty line → optional statement → empty line → `URI:`
+
+The statement can disappear. Its surrounding empty lines cannot.
+
+<BlankLines />
+
+There is no trailing newline. The message ends with the last character of the
+last field.
+
+::: info Proposed update — work in progress
+The [draft erratum](https://github.com/signinwithethereum/ERCs/pull/1) explores
+a no-statement form with one empty line between the address and `URI:`. It is
+not final and does not change the rule above today.
+:::
+
+::: tip
+For published ERC-4361, one empty line with no statement is the classic
+hand-rolled bug. It can still verify against your own parser because the same
+wrong code built the message, then fail everywhere else. Build messages with a
+library, or paste the finished string into the [validator](/tools/validator).
+:::
 
 ## Check your work
 
