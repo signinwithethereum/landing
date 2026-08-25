@@ -208,7 +208,7 @@ const INTEGRATORS = [
   justify-content: center;
   color: rgba(255, 255, 255, 0.76);
   text-decoration: none;
-  opacity: 0.82;
+  opacity: 0.9;
   transition: opacity 160ms var(--ease);
 }
 
