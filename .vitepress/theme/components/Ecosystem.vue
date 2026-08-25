@@ -9,10 +9,11 @@ import { computed, ref } from 'vue'
 import { ECOSYSTEM, TYPES, type EcosystemType } from '../data/ecosystem'
 
 const query = ref('')
-const type = ref<EcosystemType | 'all'>('all')
+const type = ref<EcosystemType | 'all' | 'stories'>('all')
 
 const counts = computed(() => ({
   all: ECOSYSTEM.length,
+  stories: ECOSYSTEM.filter((e) => e.story).length,
   wallet: ECOSYSTEM.filter((e) => e.type === 'wallet').length,
   app: ECOSYSTEM.filter((e) => e.type === 'app').length,
   tool: ECOSYSTEM.filter((e) => e.type === 'tool').length
@@ -21,7 +22,8 @@ const counts = computed(() => ({
 const shown = computed(() => {
   const q = query.value.trim().toLowerCase()
   return ECOSYSTEM.filter((e) => {
-    if (type.value !== 'all' && e.type !== type.value) return false
+    if (type.value === 'stories' && !e.story) return false
+    if (type.value !== 'all' && type.value !== 'stories' && e.type !== type.value) return false
     if (!q) return true
     return e.name.toLowerCase().includes(q) || (e.note ?? '').toLowerCase().includes(q)
   }).sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }))
@@ -40,7 +42,7 @@ function reset() {
 <template>
   <div class="eco">
     <div class="eco-controls">
-      <div class="eco-filters" role="group" aria-label="Filter by kind">
+      <div class="eco-filters" role="group" aria-label="Filter ecosystem">
         <button
           type="button"
           :class="{ 'is-on': type === 'all' }"
@@ -58,6 +60,14 @@ function reset() {
           @click="type = t.key"
         >
           {{ t.plural }} <span>{{ counts[t.key] }}</span>
+        </button>
+        <button
+          type="button"
+          :class="{ 'is-on': type === 'stories' }"
+          :aria-pressed="type === 'stories'"
+          @click="type = 'stories'"
+        >
+          Case studies <span>{{ counts.stories }}</span>
         </button>
       </div>
 
