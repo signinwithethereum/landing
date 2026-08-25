@@ -1,118 +1,369 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { EXAMPLE, exampleMessage } from '../lib/example'
-import MessageBlock from './MessageBlock.vue'
+/* Two sign-in flows, run side by side off one state machine.
+ *
+ * The argument the section makes is that the cryptography is identical — both
+ * lanes call personal_sign over bytes — and the only thing that differs is the
+ * payload. Sign a raw challenge and the wallet has nothing to parse, so it
+ * falls back to showing hex and a warning. Follow ERC-4361 and the wallet can
+ * recognise the request and draw an actual sign-in screen. So both phones are
+ * the same object with the same palette and the same buttons: any difference a
+ * reader sees is content, which is the point. */
 
-const HONEST_ORIGIN = EXAMPLE.domain
-const LOOKALIKE_ORIGIN = 'app-example.com'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { EXAMPLE } from '../lib/example'
 
-const lookalike = ref(false)
-const origin = computed(() => (lookalike.value ? LOOKALIKE_ORIGIN : HONEST_ORIGIN))
-const shortAddress = `${EXAMPLE.address.slice(0, 6)}…${EXAMPLE.address.slice(-4)}`
-const message = exampleMessage()
+type Step = 'idle' | 'review' | 'signing' | 'done'
 
-const rows = [
-  { label: 'Site', value: EXAMPLE.domain },
-  { label: 'Account', value: shortAddress },
-  { label: 'Network', value: 'Ethereum' },
-  { label: 'Expires', value: '10 minutes' }
+const SHORT_ADDRESS = `${EXAMPLE.address.slice(0, 6)}…${EXAMPLE.address.slice(-4)}`
+
+/* A 32-byte challenge, which is what login looked like before the standard:
+ * the server hands out random bytes and asks for a signature over them. There
+ * is nothing in here for a wallet to render, and nothing binding it to a site. */
+const CHALLENGE =
+  '0x4a8f2c17b0d95e3f6c81aa47d2e05b9317fc6a8e4b23d70f95c18ae62d4b0f3a'
+
+const MARKERS: { step: Step; label: string }[] = [
+  { step: 'idle', label: 'Start' },
+  { step: 'review', label: 'Review' },
+  { step: 'signing', label: 'Sign' },
+  { step: 'done', label: 'Signed' }
 ]
+
+const NOTES: Record<Step, string> = {
+  idle: 'Same account, same signing call. Press sign in on either phone.',
+  review: 'This is everything the person has to decide from. Press sign on either phone.',
+  signing: 'Both wallets sign the exact bytes they were handed.',
+  done: 'Identical cryptography. Two very different things a person saw.'
+}
+
+const CAPTIONS: Record<'adhoc' | 'siwe', Record<Step, string>> = {
+  adhoc: {
+    idle: 'Without a standard, the app asks for a signature over some random bytes.',
+    review:
+      'The wallet has no format to interpret, so it falls back to raw bytes and a generic warning that leaves the intent hidden.',
+    signing: 'Signing bytes whose meaning nothing on this screen can explain.',
+    done: 'Signed in, with no way of knowing what was actually agreed to.'
+  },
+  siwe: {
+    idle: 'With SIWE, the app builds a message in a format wallets already know how to read.',
+    review:
+      'With SIWE, wallets and apps can display easy to understand, secure signing interfaces that make the intent clear.',
+    signing: 'The bytes being signed are exactly the text that was on screen.',
+    done: 'Signed in, knowing which site was authorised and for how long.'
+  }
+}
+
+const APP_SUB = {
+  open: 'Continue with your Ethereum account.',
+  done: 'Session started, no password involved.'
+}
+
+/* The status bar reads the reader's own clock, which is a small thing that
+ * makes the mock feel like a device rather than a picture of one. It starts on
+ * the canonical 9:41 so the server-rendered markup and the first client render
+ * agree, then takes the real time once mounted, and re-ticks on the minute. */
+const now = ref('9:41')
+
+function readClock() {
+  return new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' })
+    .formatToParts(new Date())
+    .filter((part) => part.type !== 'dayPeriod')
+    .map((part) => part.value)
+    .join('')
+    .trim()
+}
+
+let clockTimer: ReturnType<typeof setTimeout>
+
+function tickClock() {
+  now.value = readClock()
+  clockTimer = setTimeout(tickClock, 60_000 - (Date.now() % 60_000))
+}
+
+onMounted(tickClock)
+onBeforeUnmount(() => clearTimeout(clockTimer))
+
+const step = ref<Step>('idle')
+/* Narrow screens show one lane at a time, and the one worth landing on is the
+ * one the page is arguing for. */
+const lane = ref<'adhoc' | 'siwe'>('siwe')
+
+let timers: ReturnType<typeof setTimeout>[] = []
+
+function clear() {
+  timers.forEach(clearTimeout)
+  timers = []
+}
+
+function go(next: Step) {
+  clear()
+  step.value = next
+  if (next === 'signing') timers.push(setTimeout(() => go('done'), 900))
+}
+
+const start = () => go('review')
+const approve = () => go('signing')
+const reset = () => go('idle')
+
+const sheetUp = () => ['review', 'signing'].includes(step.value)
+
+onBeforeUnmount(clear)
 </script>
 
 <template>
-  <section id="message" class="band proof">
+  <section id="message" class="band flow">
     <div class="shell">
       <header class="section-head">
         <h2>Human readable, machine readable</h2>
         <p>
-          ERC&#8209;4361 gives every field a fixed place, so the text a person
-          reads is the same text software can parse. A wallet or an app can
-          build a real sign-in screen out of it &mdash; site, account, network,
-          expiry &mdash; instead of asking someone to approve a scrambled blob
-          of hex.
+          A signature request is only as safe as what the person can read. Ask
+          someone to sign a raw challenge and the wallet has nothing to work
+          with, so it shows the bytes and a warning. ERC&#8209;4361 gives every
+          field a fixed place, so the wallet can recognise the request and draw
+          a real sign-in screen: which site, which account, which network, when
+          it expires. <a href="/docs/message">Read the message format &rarr;</a>
         </p>
       </header>
 
-      <div class="proof-control">
+      <div class="lane-switch" role="group" aria-label="Choose a flow">
         <button
           type="button"
-          :aria-pressed="lookalike"
-          @click="lookalike = !lookalike"
+          :aria-pressed="lane === 'adhoc'"
+          class="switch-no"
+          @click="lane = 'adhoc'"
         >
-          {{ lookalike ? 'Show the matching request' : 'Show a lookalike request' }}
+          <span aria-hidden="true">&#10005;</span> No standard
         </button>
-        <p aria-live="polite">
-          <template v-if="lookalike">
-            <b>{{ LOOKALIKE_ORIGIN }}</b> is asking for a message written for
-            <b>{{ EXAMPLE.domain }}</b>.
-          </template>
-          <template v-else>
-            The requesting site and the signed domain match.
-          </template>
-        </p>
+        <button
+          type="button"
+          :aria-pressed="lane === 'siwe'"
+          class="switch-yes"
+          @click="lane = 'siwe'"
+        >
+          <span aria-hidden="true">&#10003;</span> With SIWE
+        </button>
       </div>
 
-      <div class="proof-grid">
-        <article class="proof-message screen">
-          <header>
-            <span>Signed message</span>
-            <span>Plain text</span>
-          </header>
-          <div class="proof-message-body">
-            <MessageBlock :message="message" />
-          </div>
-        </article>
+      <div class="stage">
+        <!-- ------------------------------------------------ ad-hoc lane -->
+        <article class="lane lane-a" :class="{ 'is-hidden': lane !== 'adhoc' }">
+          <p class="verdict verdict-no">
+            <span aria-hidden="true">&#10005;</span> No standard
+          </p>
 
-        <article class="wallet" :class="{ 'is-warning': lookalike }">
-          <header>
-            <span class="wallet-dot" aria-hidden="true" />
-            <span>Wallet view</span>
-            <span>Ethereum</span>
-          </header>
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="app" :class="{ 'is-behind': sheetUp() }">
+                <div class="status" aria-hidden="true">
+                  <span>{{ now }}</span>
+                  <span class="bars"><i /><i /><i /></span>
+                </div>
+                <div class="app-body">
+                  <p class="app-brand"><span class="glyph" aria-hidden="true" />Example App</p>
+                  <div class="app-center">
+                    <p class="app-h">Welcome back</p>
+                    <p class="app-sub">{{ APP_SUB[step === 'done' ? 'done' : 'open'] }}</p>
 
-          <div class="wallet-body">
-            <p class="wallet-title">Sign-in request</p>
-            <p class="wallet-origin">{{ origin }}</p>
+                    <template v-if="step !== 'done'">
+                      <button
+                        type="button"
+                        class="app-cta"
+                        :class="{ 'is-hinting': step === 'idle' }"
+                        :disabled="sheetUp()"
+                        @click="start"
+                      >
+                        Sign In
+                      </button>
+                      <p class="app-terms">By continuing you agree to the terms.</p>
+                    </template>
 
-            <p v-if="lookalike" class="wallet-warning" role="status">
-              <strong>Domain mismatch</strong>
-              This request was written for another site. Do not sign it.
-            </p>
-
-            <dl>
-              <div
-                v-for="row in rows"
-                :key="row.label"
-                :class="{ 'is-flagged': lookalike && row.label === 'Site' }"
-              >
-                <dt>{{ row.label }}</dt>
-                <dd>{{ row.value }}</dd>
+                    <p v-else class="app-session">
+                      <span class="glyph" aria-hidden="true" />
+                      <span>{{ SHORT_ADDRESS }}</span>
+                      <span class="app-session-state">Signed in</span>
+                    </p>
+                  </div>
+                </div>
               </div>
-            </dl>
 
-            <div class="wallet-actions">
-              <span>Reject</span>
-              <span :class="{ disabled: lookalike }">Sign in</span>
+              <span class="scrim" :class="{ 'is-on': sheetUp() }" aria-hidden="true" />
+
+              <div class="sheet" :class="{ 'is-up': sheetUp() }" :inert="!sheetUp()">
+                <span class="grabber" />
+                <p class="sheet-title">Signature request</p>
+                <p class="sheet-origin">{{ EXAMPLE.domain }}</p>
+
+                <p class="sheet-label">Message</p>
+                <p class="hex">{{ CHALLENGE }}</p>
+                <p class="hex-meta">32 bytes &middot; nothing a person can read</p>
+
+                <p class="alert">
+                  <strong>Sign at your own risk</strong>
+                  This message names no site, no purpose and no expiry, and
+                  nothing ties the signature to this page.
+                </p>
+
+                <div class="sheet-actions">
+                  <button
+                    type="button"
+                    :disabled="step !== 'review'"
+                    @click="reset"
+                  >
+                    Reject
+                  </button>
+                  <button
+                    type="button"
+                    class="primary"
+                    :disabled="step !== 'review'"
+                    @click="approve"
+                  >
+                    {{ step === 'signing' ? 'Signing…' : 'Sign' }}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
+
+          <p class="lane-caption">{{ CAPTIONS.adhoc[step] }}</p>
+        </article>
+
+        <!-- -------------------------------------------------- siwe lane -->
+        <article class="lane lane-b" :class="{ 'is-hidden': lane !== 'siwe' }">
+          <p class="verdict verdict-yes">
+            <span aria-hidden="true">&#10003;</span> With SIWE
+          </p>
+
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="app" :class="{ 'is-behind': sheetUp() }">
+                <div class="status" aria-hidden="true">
+                  <span>{{ now }}</span>
+                  <span class="bars"><i /><i /><i /></span>
+                </div>
+                <div class="app-body">
+                  <p class="app-brand"><span class="glyph" aria-hidden="true" />Example App</p>
+                  <div class="app-center">
+                    <p class="app-h">Welcome back</p>
+                    <p class="app-sub">{{ APP_SUB[step === 'done' ? 'done' : 'open'] }}</p>
+
+                    <template v-if="step !== 'done'">
+                      <button
+                        type="button"
+                        class="app-cta"
+                        :class="{ 'is-hinting': step === 'idle' }"
+                        :disabled="sheetUp()"
+                        @click="start"
+                      >
+                        Sign in with Ethereum
+                      </button>
+                      <p class="app-terms">By continuing you agree to the terms.</p>
+                    </template>
+
+                    <p v-else class="app-session">
+                      <span class="glyph" aria-hidden="true" />
+                      <span>{{ SHORT_ADDRESS }}</span>
+                      <span class="app-session-state">Signed in</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <span class="scrim" :class="{ 'is-on': sheetUp() }" aria-hidden="true" />
+
+              <div class="sheet" :class="{ 'is-up': sheetUp() }" :inert="!sheetUp()">
+                <span class="grabber" />
+                <p class="sheet-title">Sign-in request</p>
+                <p class="sheet-origin">{{ EXAMPLE.domain }}</p>
+
+                <p class="statement">{{ EXAMPLE.statement }}</p>
+
+                <dl class="rows">
+                  <div>
+                    <dt>Site</dt>
+                    <dd>
+                      {{ EXAMPLE.domain }}
+                      <span class="check">&check; matches this page</span>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Account</dt>
+                    <dd>{{ SHORT_ADDRESS }}</dd>
+                  </div>
+                  <div>
+                    <dt>Network</dt>
+                    <dd>Ethereum</dd>
+                  </div>
+                  <div>
+                    <dt>Expires</dt>
+                    <dd>in 10 minutes</dd>
+                  </div>
+                </dl>
+
+                <p class="sheet-foot">
+                  No transaction, no gas, nothing moves onchain.
+                </p>
+
+                <div class="sheet-actions">
+                  <button
+                    type="button"
+                    :disabled="step !== 'review'"
+                    @click="reset"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    class="primary"
+                    :disabled="step !== 'review'"
+                    @click="approve"
+                  >
+                    {{ step === 'signing' ? 'Signing…' : 'Sign in' }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="lane-caption">{{ CAPTIONS.siwe[step] }}</p>
         </article>
       </div>
 
-      <p class="proof-foot">
-        The cryptography is unchanged. The structure is what lets an interface
-        explain the request in its own words, shape it around your product, and
-        catch a mismatch before anyone signs.
-        <a href="/docs/message">Read the message format &rarr;</a>
-      </p>
+      <div class="control">
+        <ol class="steps">
+          <li v-for="marker in MARKERS" :key="marker.step">
+            <button
+              type="button"
+              :aria-current="step === marker.step ? 'step' : undefined"
+              @click="go(marker.step)"
+            >
+              {{ marker.label }}
+            </button>
+          </li>
+        </ol>
+        <p class="note" aria-live="polite">{{ NOTES[step] }}</p>
+      </div>
     </div>
   </section>
 </template>
 
 <style scoped>
+/* ------------------------------------------------------------- section */
+
 .section-head {
   display: grid;
   gap: var(--s3);
   max-width: 42rem;
+}
+
+.section-head a {
+  color: var(--accent-ui);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.section-head a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .section-head h2 {
@@ -124,8 +375,7 @@ const rows = [
   letter-spacing: -0.015em;
 }
 
-.section-head p,
-.proof-foot {
+.section-head p {
   margin: 0;
   font-size: var(--t-small);
   line-height: 1.65;
@@ -133,72 +383,324 @@ const rows = [
   text-wrap: pretty;
 }
 
-.proof-control {
+/* ------------------------------------------------------------- control */
+
+.control {
+  display: grid;
+  justify-items: center;
+  gap: var(--s3);
+  margin-top: var(--s7);
+}
+
+.steps {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--s3) var(--s4);
-  align-items: center;
-  margin-top: var(--s6);
-}
-
-.proof-control button {
-  min-height: 36px;
-  padding: 7px var(--s3);
-  border: 1px solid var(--rule-strong);
+  gap: var(--s1);
+  margin: 0;
+  padding: 3px;
+  border: 1px solid var(--rule);
   border-radius: var(--radius);
+  list-style: none;
+}
+
+.steps button {
+  min-height: 28px;
+  padding-inline: 10px;
+  border: 0;
+  border-radius: 2px;
   background: transparent;
-  color: var(--ink);
+  color: var(--ink-3);
   font-family: var(--font-mono);
-  font-size: var(--t-tiny);
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
   cursor: pointer;
+  transition: color 0.15s var(--ease), background 0.15s var(--ease);
 }
 
-.proof-control button:hover,
-.proof-control button[aria-pressed='true'] {
-  border-color: var(--ink);
+.steps button:hover {
+  color: var(--ink);
 }
 
-.proof-control p {
+.steps button[aria-current='step'] {
+  background: var(--ink);
+  color: var(--canvas);
+}
+
+.note {
+  max-width: 44ch;
   margin: 0;
   font-size: var(--t-tiny);
   line-height: 1.5;
+  text-align: center;
+  text-wrap: pretty;
   color: var(--ink-3);
 }
 
-.proof-control b {
+/* The one-at-a-time switch, for widths where two phones will not sit side by
+ * side. Above that it is off and both lanes are always on screen. */
+.lane-switch {
+  display: none;
+  gap: var(--s1);
+  margin-top: var(--s5);
+  padding: 3px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+.lane-switch button {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-height: 34px;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink-3);
   font-family: var(--font-mono);
-  font-weight: 500;
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* On narrow the switch stands in for the chips, so the selected side carries
+ * the verdict rather than a neutral fill. */
+.lane-switch button[aria-pressed='true'].switch-no {
+  background: color-mix(in srgb, var(--danger) 12%, transparent);
+  color: var(--danger);
+}
+
+.lane-switch button[aria-pressed='true'].switch-yes {
+  background: color-mix(in srgb, var(--ok) 12%, transparent);
+  color: var(--ok);
+}
+
+/* --------------------------------------------------------------- stage */
+
+.stage {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s6);
+  justify-items: center;
+  margin-top: var(--s6);
+}
+
+.lane {
+  display: grid;
+  /* Both lanes stretch to the taller of the two, and without this the surplus
+   * is shared out among the rows — which the phone answers by growing its
+   * bezel, since the screen inside it is pinned to an aspect ratio. Whichever
+   * caption wraps to fewer lines would get the taller phone. */
+  align-content: start;
+  gap: var(--s4);
+  justify-items: center;
+  width: 100%;
+  max-width: 320px;
+}
+
+/* Names the lane and delivers the verdict in one mark, above the phone it
+ * judges. */
+.verdict {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  margin: 0;
+  padding: 7px 12px;
+  border: 1px solid;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+
+.verdict span {
+  font-size: 1.1em;
+}
+
+.verdict-no {
+  border-color: color-mix(in srgb, var(--danger) 40%, transparent);
+  background: color-mix(in srgb, var(--danger) 8%, transparent);
+  color: var(--danger);
+}
+
+.verdict-yes {
+  border-color: color-mix(in srgb, var(--ok) 40%, transparent);
+  background: color-mix(in srgb, var(--ok) 8%, transparent);
+  color: var(--ok);
+}
+
+.lane-caption {
+  margin: 0;
+  /* Three lines held open, so stepping through the flow does not shunt the
+   * step bar and the closing copy up and down under the reader. */
+  min-height: 4.65em;
+  max-width: 34ch;
+  font-size: var(--t-tiny);
+  line-height: 1.55;
+  text-align: center;
+  text-wrap: pretty;
   color: var(--ink-2);
 }
 
-.proof-grid {
-  display: grid;
-  gap: var(--s4);
-  margin-top: var(--s5);
+/* --------------------------------------------------------------- phone */
+
+/* Just enough of a device to read as one: a bezel, a radius, a status bar.
+ * The tilt is small on purpose — the two phones lean towards each other like
+ * an open book, and straighten when you reach for one. */
+.phone {
+  width: 100%;
+  padding: 7px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 30px;
+  background: var(--canvas-3);
+  box-shadow: 0 24px 48px -28px rgba(0, 0, 0, 0.45);
+  transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
 }
 
-@media (min-width: 820px) {
-  .proof-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.lane-a .phone {
+  transform: perspective(1600px) rotateY(7deg) rotateX(2deg);
 }
 
-.proof-message,
-.wallet {
-  min-width: 0;
-  border: 1px solid var(--rule);
-  border-radius: var(--radius);
+.lane-b .phone {
+  transform: perspective(1600px) rotateY(-7deg) rotateX(2deg);
+}
+
+.lane-a .phone:hover,
+.lane-a .phone:focus-within {
+  transform: perspective(1600px) rotateY(7deg) rotateX(2deg) translateY(-3px);
+}
+
+.lane-b .phone:hover,
+.lane-b .phone:focus-within {
+  transform: perspective(1600px) rotateY(-7deg) rotateX(2deg) translateY(-3px);
+}
+
+.phone:hover,
+.phone:focus-within {
+  box-shadow: 0 30px 56px -28px rgba(0, 0, 0, 0.52);
+}
+
+/* The device inherits the page's four colour roles rather than forcing the
+ * screen palette, so it is a light phone under a light page and a dark one
+ * under a dark page — which is also what a real wallet does. The only thing
+ * it adds is one step of elevation for the sheet, because "raised" is white
+ * over a dimmed white on light and a lighter grey over black on dark. */
+.phone-screen {
+  --sheet: var(--canvas);
+  --sheet-shadow: 0 -18px 40px -20px rgba(0, 0, 0, 0.3);
+
+  position: relative;
+  aspect-ratio: 300 / 580;
+  border-radius: 24px;
+  background: var(--canvas);
+  color: var(--ink);
+  /* A hairline so the screen has an edge against the bezel, which matters most
+   * on light, where both are within a few percent of white. */
+  box-shadow: inset 0 0 0 1px var(--rule);
   overflow: hidden;
 }
 
-.proof-message > header,
-.wallet > header {
+.dark .phone-screen {
+  --sheet: var(--canvas-3);
+  --sheet-shadow: 0 -18px 40px -20px rgba(0, 0, 0, 0.6);
+}
+
+/* ----------------------------------------------------------- app layer */
+
+.app {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s var(--ease);
+}
+
+.app.is-behind {
+  transform: scale(0.985);
+}
+
+/* Black in both themes on purpose. Over a light screen it dims the page behind
+ * the sheet; over a dark one the ground is already black, so it reads as the
+ * text losing its contrast. Either way the sheet is what you look at. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.42s var(--ease-out);
+}
+
+.scrim.is-on {
+  opacity: 0.45;
+}
+
+.dark .scrim.is-on {
+  opacity: 0.62;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px var(--s4) 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-3);
+}
+
+.bars {
+  display: flex;
+  gap: 2px;
+  align-items: flex-end;
+}
+
+.bars i {
+  width: 3px;
+  height: 5px;
+  background: var(--ink-3);
+  border-radius: 1px;
+}
+
+.bars i:nth-child(2) {
+  height: 7px;
+}
+
+.bars i:nth-child(3) {
+  height: 9px;
+}
+
+.app-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--s5) var(--s4);
+}
+
+/* The brand sits at the top like a real app header; the sign-in block takes
+ * the optical centre of what is left. */
+.app-center {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  margin-block: auto;
+  padding-bottom: 8%;
+}
+
+.app-brand {
   display: flex;
   gap: var(--s2);
   align-items: center;
-  min-height: 40px;
-  padding-inline: var(--s4);
-  border-bottom: 1px solid var(--rule);
+  margin: 0;
   font-family: var(--font-mono);
   font-size: var(--t-label);
   letter-spacing: var(--track-label);
@@ -206,98 +708,216 @@ const rows = [
   color: var(--ink-3);
 }
 
-.proof-message > header span:last-child,
-.wallet > header span:last-child {
-  margin-left: auto;
+.glyph {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--field);
 }
 
-.proof-message-body {
-  position: relative;
-  z-index: 3;
-  padding: var(--s5);
-}
-
-.proof-message :deep(.msg) {
-  font-size: 0.75rem;
-  line-height: 1.7;
-}
-
-.wallet {
-  background: var(--canvas);
-  border-color: var(--rule-strong);
-  transition: border-color 0.16s var(--ease);
-}
-
-.wallet.is-warning {
-  border-color: var(--danger);
-}
-
-.wallet > header {
-  background: var(--canvas-2);
-}
-
-.wallet-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--rule-strong);
-}
-
-.wallet-body {
-  padding: var(--s5);
-}
-
-.wallet-title {
+.app-h {
   margin: 0;
-  font-size: 1rem;
-  font-weight: 550;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--ink);
 }
 
-.wallet-origin {
-  margin: 5px 0 0;
-  font-family: var(--font-mono);
-  font-size: var(--t-tiny);
-  color: var(--ink-2);
-}
-
-.wallet-warning {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  margin: var(--s4) 0 0;
-  padding: var(--s3);
-  border: 1px solid color-mix(in srgb, var(--danger) 42%, transparent);
-  background: color-mix(in srgb, var(--danger) 7%, transparent);
+.app-sub {
+  margin: var(--s2) 0 0;
   font-size: var(--t-tiny);
   line-height: 1.5;
   color: var(--ink-2);
 }
 
-.wallet-warning strong {
-  font-family: var(--font-mono);
-  font-weight: 600;
-  color: var(--danger);
-}
-
-.wallet dl {
-  margin: var(--s5) 0 0;
-}
-
-.wallet dl > div {
-  display: grid;
-  grid-template-columns: 6rem minmax(0, 1fr);
-  gap: var(--s4);
-  padding-block: 10px;
-  border-top: 1px solid var(--rule);
+.app-cta {
+  width: 100%;
+  min-height: 40px;
+  margin-top: var(--s6);
+  padding-inline: var(--s4);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--canvas);
+  font-family: var(--font-sans);
   font-size: var(--t-tiny);
+  font-weight: 550;
+  cursor: pointer;
+  transition: opacity 0.2s var(--ease);
 }
 
-.wallet dt {
+.app-cta:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* A quiet breathing edge, so it is obvious the phone is the control. */
+.app-cta.is-hinting {
+  animation: hint 2.4s var(--ease) infinite;
+}
+
+@keyframes hint {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 var(--accent-line);
+  }
+  50% {
+    box-shadow: 0 0 0 4px transparent;
+  }
+}
+
+.app-terms {
+  width: 100%;
+  margin: var(--s3) 0 0;
+  font-size: 10px;
+  line-height: 1.5;
+  text-align: center;
   color: var(--ink-3);
 }
 
-.wallet dd {
+.app-session {
+  display: flex;
+  gap: var(--s2);
+  align-items: center;
+  width: 100%;
+  min-height: 40px;
+  margin: var(--s6) 0 0;
+  padding-inline: var(--s3);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: var(--t-tiny);
+  color: var(--ink);
+}
+
+.app-session-state {
+  margin-left: auto;
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ok);
+}
+
+/* --------------------------------------------------------- wallet sheet */
+
+.sheet {
+  position: absolute;
+  z-index: 2;
+  inset: auto 0 0;
+  display: flex;
+  flex-direction: column;
+  padding: 10px var(--s4) var(--s4);
+  border-top: 1px solid var(--rule);
+  border-radius: 18px 18px 24px 24px;
+  background: var(--sheet);
+  box-shadow: var(--sheet-shadow);
+  transform: translateY(101%);
+  transition: transform 0.42s var(--ease-out);
+}
+
+.sheet.is-up {
+  transform: translateY(0);
+}
+
+.grabber {
+  width: 32px;
+  height: 3px;
+  margin: 0 auto var(--s4);
+  border-radius: 2px;
+  background: var(--rule-strong);
+}
+
+.sheet-title {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.sheet-origin {
+  margin: 3px 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  color: var(--ink-3);
+}
+
+.sheet-label {
+  margin: var(--s4) 0 var(--s2);
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.hex {
+  margin: 0;
+  padding: 10px;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.7;
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+
+.hex-meta {
+  margin: var(--s2) 0 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-3);
+}
+
+.alert {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: var(--s4) 0 0;
+  padding: 10px;
+  border: 1px solid color-mix(in srgb, var(--danger) 42%, transparent);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--danger) 9%, transparent);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.alert strong {
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--danger);
+}
+
+.statement {
+  margin: var(--s4) 0 0;
+  font-size: var(--t-tiny);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.rows {
+  margin: var(--s4) 0 0;
+}
+
+.rows > div {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  gap: var(--s3);
+  padding-block: 8px;
+  border-top: 1px solid var(--rule);
+  font-size: 11px;
+}
+
+.rows dt {
+  color: var(--ink-3);
+}
+
+.rows dd {
   min-width: 0;
   margin: 0;
   font-family: var(--font-mono);
@@ -305,52 +925,108 @@ const rows = [
   overflow-wrap: anywhere;
 }
 
-.wallet .is-flagged dd {
-  color: var(--danger);
+.check {
+  display: block;
+  margin-top: 2px;
+  font-size: 10px;
+  color: var(--ok);
 }
 
-.wallet-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--s2);
-  margin-top: var(--s5);
-}
-
-.wallet-actions span {
-  display: inline-flex;
-  align-items: center;
-  min-height: 34px;
-  padding-inline: var(--s4);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--radius);
-  font-size: var(--t-tiny);
-  color: var(--ink-2);
-}
-
-.wallet-actions span:last-child {
-  border-color: var(--ink);
-  background: var(--ink);
-  color: var(--canvas);
-}
-
-.wallet-actions span.disabled {
-  border-color: var(--rule);
-  background: var(--canvas-2);
+.sheet-foot {
+  margin: var(--s3) 0 0;
+  font-size: 10px;
+  line-height: 1.5;
   color: var(--ink-3);
 }
 
-.proof-foot {
-  max-width: 48rem;
-  margin-top: var(--s5);
+.sheet-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s2);
+  margin-top: var(--s4);
 }
 
-.proof-foot a {
-  color: var(--accent-ui);
-  text-decoration: none;
+.sheet-actions > * {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding-inline: var(--s3);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  color: var(--ink-2);
+  cursor: pointer;
 }
 
-.proof-foot a:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.sheet-actions > *:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.sheet-actions > *:not(.primary):hover:not(:disabled) {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.sheet-actions .primary {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--canvas);
+  font-weight: 550;
+}
+
+/* ---------------------------------------------------------------- foot */
+
+/* -------------------------------------------------------------- narrow */
+
+@media (max-width: 819px) {
+  .lane-switch {
+    display: flex;
+  }
+
+  .stage {
+    grid-template-columns: minmax(0, 1fr);
+    perspective: none;
+  }
+
+  .lane.is-hidden {
+    display: none;
+  }
+
+  /* The switch sits directly above and now says the same thing. */
+  .verdict {
+    display: none;
+  }
+
+  /* Flat once there is only one phone — there is nothing left to lean into. */
+  .lane-a .phone,
+  .lane-b .phone {
+    transform: none;
+  }
+
+  .lane-a .phone:hover,
+  .lane-b .phone:hover,
+  .lane-a .phone:focus-within,
+  .lane-b .phone:focus-within {
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lane-a .phone,
+  .lane-b .phone,
+  .lane-a .phone:hover,
+  .lane-b .phone:hover,
+  .lane-a .phone:focus-within,
+  .lane-b .phone:focus-within {
+    transform: none;
+  }
+
+  .app-cta.is-hinting {
+    animation: none;
+  }
 }
 </style>

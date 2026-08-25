@@ -1,4 +1,5 @@
-/* One example message for the homepage proof and the validator. The address is
+/* One example account and message, shared by the homepage sign-in demo and the
+ * validator, so the site tells the same story twice. The address is
  * EIP-55 checksummed and the nonce is 16 alphanumeric characters, so the site's
  * own example survives the site's own linter. */
 
