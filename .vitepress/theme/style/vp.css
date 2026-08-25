@@ -86,9 +86,16 @@
   border-bottom: 1px solid var(--rule) !important;
 }
 
-.VPNavBar.has-sidebar .content-body,
 .VPNavBar .content-body {
   background: transparent !important;
+}
+
+/* On desktop docs pages the nav is fixed above scrolling content. Keep its
+ * main pane opaque so headings and links cannot show through it. */
+@media (min-width: 960px) {
+  .VPNavBar.has-sidebar .content-body {
+    background: var(--vp-nav-bg-color) !important;
+  }
 }
 
 .VPNavBar .divider {
@@ -322,6 +329,21 @@ body:has(.home-page) .VPNavBarSearchButton .keys {
 .VPFooter {
   border-top: 1px solid var(--rule);
   background: transparent !important;
+}
+
+/* `layout-bottom` is outside `.VPContent`, so VitePress does not apply its
+ * desktop sidebar offset to our custom footer. Match that offset here. */
+@media (min-width: 960px) {
+  .Layout:has(> .VPContent.has-sidebar) > .ft {
+    margin-left: var(--vp-sidebar-width);
+  }
+}
+
+@media (min-width: 1440px) {
+  .Layout:has(> .VPContent.has-sidebar) > .ft {
+    margin-right: calc((100% - var(--vp-layout-max-width)) / 2);
+    margin-left: calc((100% - var(--vp-layout-max-width)) / 2 + var(--vp-sidebar-width));
+  }
 }
 
 /* ------------------------------------------------------------ wide pages */
