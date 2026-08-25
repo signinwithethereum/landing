@@ -53,31 +53,18 @@ const INTEGRATORS = [
           :inert="copy === 2"
         >
           <a
-            v-for="(integrator, index) in INTEGRATORS"
+            v-for="integrator in INTEGRATORS"
             :key="integrator.name"
             class="integrator"
             :href="integrator.href"
             :aria-label="integrator.name"
             :tabindex="copy === 2 ? -1 : undefined"
-            :style="`--slot: ${index}`"
             target="_blank"
             rel="noreferrer"
           >
             <span class="integrator-mark" aria-hidden="true">
               <img
                 :class="['integrator-mark-image', integrator.markClass]"
-                :src="integrator.mark"
-                alt=""
-                width="32"
-                height="32"
-                loading="eager"
-              />
-              <img
-                :class="[
-                  'integrator-mark-image',
-                  'integrator-mark-image--cyan',
-                  integrator.markClass
-                ]"
                 :src="integrator.mark"
                 alt=""
                 width="32"
@@ -95,10 +82,10 @@ const INTEGRATORS = [
 
 <style scoped>
 .used-by {
-  --used-by-height: 124px;
+  --used-by-height: 96px;
 
   display: grid;
-  grid-template-columns: 132px minmax(0, 1fr);
+  grid-template-columns: 120px minmax(0, 1fr);
   height: var(--used-by-height);
   padding: 0 !important;
   overflow: hidden;
@@ -212,23 +199,22 @@ const INTEGRATORS = [
 }
 
 .integrator {
-  --pulse-delay: calc(var(--slot) * -1.9s);
-
   display: flex;
-  width: 174px;
+  width: 150px;
   height: var(--used-by-height);
-  flex: 0 0 174px;
-  gap: var(--s3);
+  flex: 0 0 150px;
+  gap: var(--s2);
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.88);
+  color: rgba(255, 255, 255, 0.76);
   text-decoration: none;
-  transition: background 160ms var(--ease);
+  opacity: 0.82;
+  transition: opacity 160ms var(--ease);
 }
 
 .integrator:hover,
 .integrator:focus-visible {
-  background: rgba(255, 255, 255, 0.045);
+  opacity: 1;
   outline: none;
 }
 
@@ -239,9 +225,9 @@ const INTEGRATORS = [
 .integrator-mark {
   position: relative;
   display: block;
-  width: 32px;
-  height: 32px;
-  flex: 0 0 32px;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
   overflow: hidden;
 }
 
@@ -249,11 +235,11 @@ const INTEGRATORS = [
   position: absolute;
   inset: 0;
   display: block;
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   object-fit: contain;
   filter: grayscale(1) brightness(0) invert(1);
-  opacity: 0.88;
+  opacity: 1;
 }
 
 .integrator-mark-image--ambire {
@@ -262,31 +248,17 @@ const INTEGRATORS = [
   max-width: none;
 }
 
-.integrator-mark-image--cyan {
-  filter: brightness(0) saturate(100%) invert(81%) sepia(96%) saturate(1450%)
-    hue-rotate(127deg) brightness(100%) contrast(105%);
-  opacity: 0;
-  animation: used-by-mark-pulse 11.4s ease-in-out infinite;
-  animation-delay: var(--pulse-delay);
-}
-
 .integrator-mark-image--native {
   filter: none;
   opacity: 1;
 }
 
-.integrator-mark-image--cyan.integrator-mark-image--native {
-  display: none;
-}
-
 .integrator-name {
-  font-size: 0.9375rem;
+  font-size: 0.8125rem;
   font-weight: 560;
   line-height: 1;
   letter-spacing: -0.018em;
   white-space: nowrap;
-  animation: used-by-name-pulse 11.4s ease-in-out infinite;
-  animation-delay: var(--pulse-delay);
 }
 
 @keyframes used-by-scroll {
@@ -295,37 +267,11 @@ const INTEGRATORS = [
   }
 }
 
-@keyframes used-by-mark-pulse {
-  0%,
-  24%,
-  56%,
-  100% {
-    opacity: 0;
-  }
-  34%,
-  46% {
-    opacity: 1;
-  }
-}
-
-@keyframes used-by-name-pulse {
-  0%,
-  24%,
-  56%,
-  100% {
-    color: rgba(255, 255, 255, 0.88);
-  }
-  34%,
-  46% {
-    color: var(--accent);
-  }
-}
-
 @media (max-width: 640px) {
   .used-by {
-    --used-by-height: 104px;
+    --used-by-height: 80px;
 
-    grid-template-columns: 96px minmax(0, 1fr);
+    grid-template-columns: 88px minmax(0, 1fr);
   }
 
   .used-by-label {
@@ -334,19 +280,19 @@ const INTEGRATORS = [
   }
 
   .integrator {
-    width: 154px;
-    flex-basis: 154px;
+    width: 130px;
+    flex-basis: 130px;
   }
 
   .integrator-mark {
-    width: 28px;
-    height: 28px;
-    flex-basis: 28px;
+    width: 22px;
+    height: 22px;
+    flex-basis: 22px;
   }
 
   .integrator-mark-image {
-    width: 28px;
-    height: 28px;
+    width: 22px;
+    height: 22px;
   }
 
   .integrator-mark-image--ambire {
@@ -372,11 +318,6 @@ const INTEGRATORS = [
   }
 
   .used-by-track,
-  .integrator-mark-image--cyan,
-  .integrator-name {
-    animation: none !important;
-  }
-
   .used-by-set:last-child {
     display: none;
   }
