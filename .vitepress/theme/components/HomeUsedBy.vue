@@ -24,8 +24,7 @@ const INTEGRATORS = [
   {
     name: 'EVM.NOW',
     href: 'https://evm.now/',
-    mark: '/stories/evm-now.svg',
-    markClass: 'integrator-mark-image--native'
+    mark: '/integrators/evm-now-e.svg'
   },
   {
     name: 'Privy',
