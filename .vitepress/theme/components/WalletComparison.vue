@@ -135,23 +135,35 @@ function tickClock() {
 onMounted(tickClock);
 onBeforeUnmount(() => clearTimeout(clockTimer));
 
-/* The signing sheet is the thing worth seeing, so the demo opens on it
- * rather than on an app screen the reader has to click through. */
-const step = ref<Step>("review");
+/* Begin at START so the complete sign-in flow is visible. */
+const step = ref<Step>("idle");
 
 /* Narrow screens show one lane at a time, and the one worth landing on is the
  * one the page is arguing for. */
 const lane = ref<Lane>("siwe");
 
-/* The machine schedules at most one hop, so one handle is the whole story. */
+/* Each visible state gets five seconds for a reader to interact before the
+ * machine advances. The completed state is terminal. */
 let stepTimer: ReturnType<typeof setTimeout>;
+
+const NEXT_STEP: Partial<Record<Step, Step>> = {
+  idle: "review",
+  review: "signing",
+  signing: "done",
+};
+
+function scheduleNextStep() {
+  const next = NEXT_STEP[step.value];
+  if (next) stepTimer = setTimeout(() => go(next), 5_000);
+}
 
 function go(next: Step) {
   clearTimeout(stepTimer);
   step.value = next;
-  if (next === "signing") stepTimer = setTimeout(() => go("done"), 900);
+  scheduleNextStep();
 }
 
+onMounted(scheduleNextStep);
 onBeforeUnmount(() => clearTimeout(stepTimer));
 
 const sheetUp = computed(
