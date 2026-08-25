@@ -89,7 +89,7 @@ const INTEGRATORS = [
   padding: 0 !important;
   overflow: hidden;
   background: var(--screen);
-  color: #fff;
+  color: var(--screen-ink);
 }
 
 .used-by::after {
@@ -114,8 +114,8 @@ const INTEGRATORS = [
   gap: 10px;
   align-items: center;
   padding-inline: var(--s5);
-  border-inline-end: 1px solid #25252a;
-  background: #000;
+  border-inline-end: 1px solid var(--rule);
+  background: var(--screen);
 }
 
 .used-by-label h2 {
@@ -127,7 +127,7 @@ const INTEGRATORS = [
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   white-space: nowrap;
-  color: #fff;
+  color: var(--screen-ink);
 }
 
 .used-by-signal {
@@ -159,26 +159,6 @@ const INTEGRATORS = [
   );
 }
 
-.used-by-marquee::before,
-.used-by-marquee::after {
-  content: '';
-  position: absolute;
-  inset-block: 0;
-  z-index: 2;
-  width: 48px;
-  pointer-events: none;
-}
-
-.used-by-marquee::before {
-  inset-inline-start: 0;
-  background: linear-gradient(to right, #000, transparent);
-}
-
-.used-by-marquee::after {
-  inset-inline-end: 0;
-  background: linear-gradient(to left, #000, transparent);
-}
-
 .used-by-track {
   display: flex;
   width: max-content;
@@ -200,7 +180,7 @@ const INTEGRATORS = [
 .integrator {
   display: flex;
   width: 150px;
-  height: var(--used-by-height);
+  height: 100%;
   flex: 0 0 150px;
   gap: var(--s2);
   align-items: center;
@@ -316,7 +296,10 @@ const INTEGRATORS = [
     display: none;
   }
 
-  .used-by-track,
+  .used-by-track {
+    animation: none;
+  }
+
   .used-by-set:last-child {
     display: none;
   }

@@ -145,17 +145,10 @@ body {
   }
 }
 
-/* The band separator. One hairline, the same weight as every other rule on the
- * page — the nav and the footer close their edges with the same line. */
-.band + .band::before {
-  content: '';
-  display: block;
-  position: absolute;
-  inset-inline: 0;
-  top: 0;
-  height: 1px;
-  background: var(--rule);
-  pointer-events: none;
+/* Adjacent bands share the same border primitive as their internal dividers,
+ * so every rule keeps the same weight at any browser zoom. */
+.band + .band {
+  border-top: 1px solid var(--rule);
 }
 
 /* A single hairline, for inside a section. */
