@@ -13,8 +13,7 @@ const INTEGRATORS = [
   {
     name: 'OpenSea',
     href: 'https://opensea.io/',
-    mark: '/integrators/opensea.svg',
-    markClass: 'integrator-mark-image--native'
+    mark: '/integrators/opensea.svg'
   },
   {
     name: 'Ambire',
