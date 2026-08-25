@@ -778,9 +778,15 @@ const ctaState = computed(() =>
    * to the mark rather than given a length of its own. */
   --u: 1.5px;
 
-  display: flex;
+  /* Three columns with the outer two equal, which centres the middle one on the
+   * button rather than on the space the mark leaves — a label centred in the
+   * remainder sits visibly right of centre. The outer columns cannot shrink
+   * past their content, so a label too wide to centre pushes the lockup instead
+   * of running underneath it. */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 10px;
+  column-gap: 10px;
   padding-inline: 12px;
 }
 
@@ -789,14 +795,13 @@ const ctaState = computed(() =>
  * this file could predict. */
 .cta-lockup {
   display: flex;
-  flex: none;
   align-items: stretch;
+  justify-self: start;
   gap: 10px;
 }
 
 .cta-label {
-  flex: 1;
-  text-align: left;
+  text-align: center;
 }
 
 /* The engine writes the four colour roles straight onto the cells, so the mark
