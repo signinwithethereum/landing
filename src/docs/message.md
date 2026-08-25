@@ -14,7 +14,7 @@ to save you.
 
 [ERC-4361](https://eips.ethereum.org/EIPS/eip-4361) fixes the format: which
 lines appear, in which order, with which labels, and where the blank lines go.
-Everything below follows the ABNF grammar in the standard.
+Everything below follows the published standard.
 
 ## The template
 
@@ -174,40 +174,26 @@ rather than to show someone a list, read that first.
 
 ## Blank lines
 
-This is the part implementations get wrong.
-
-The grammar puts a blank line after the address, then the optional statement,
-then another blank line before `URI:`. Both blank lines are unconditional. The
-*statement* is optional; the blank lines around it are not.
-
-With a statement, that gives one blank line on each side:
-
-```
-app.example.com wants you to sign in with your Ethereum account:
-0x7291BB770D168a6fD41AE73CcA7C709cba4d558f
-
-Sign in to Example.
-
-URI: https://app.example.com
-```
-
-Without a statement, the statement line disappears and the two blank lines
-collapse against each other — so there are **two** blank lines between the
+Under published ERC-4361, the message has a fixed seam between the account
 address and `URI:`:
 
-```
-app.example.com wants you to sign in with your Ethereum account:
-0x7291BB770D168a6fD41AE73CcA7C709cba4d558f
+`address` → empty line → optional statement → empty line → `URI:`
 
+The statement can disappear. Its surrounding empty lines cannot.
 
-URI: https://app.example.com
-```
+<BlankLines />
+
+::: info Proposed update — work in progress
+The [draft erratum](https://github.com/signinwithethereum/ERCs/pull/1) explores
+a no-statement form with one empty line between the address and `URI:`. It is
+not final and does not change the rule above today.
+:::
 
 ::: tip
-A message with one blank line and no statement is the classic hand-rolled bug.
-It usually still verifies against your own parser, because the same wrong code
-built it, and then fails everywhere else. Build the message with a library, or
-paste it into the [validator](/tools/validator).
+For published ERC-4361, one empty line with no statement is the classic
+hand-rolled bug. It can still verify against your own parser because the same
+wrong code built the message, then fail everywhere else. Build messages with a
+library, or paste the finished string into the [validator](/tools/validator).
 :::
 
 There is no trailing newline. The message ends with the last character of the
@@ -219,7 +205,7 @@ last field.
 app.example.com wants you to sign in with your Ethereum account:
 0x7291BB770D168a6fD41AE73CcA7C709cba4d558f
 
-Sign in to Example.
+Sign in to Example App.
 
 URI: https://app.example.com
 Version: 1
@@ -236,7 +222,7 @@ Line by line:
 | 1 | `app.example.com` | The authority. Your server compares this against its own hostname. |
 | 2 | `0x7291BB770D168a6fD41AE73CcA7C709cba4d558f` | ERC-55 checksummed. |
 | 3 | | Blank. Always. |
-| 4 | `Sign in to Example.` | The statement. One line, no newline in it. |
+| 4 | `Sign in to Example App.` | The statement. One line, no newline in it. |
 | 5 | | Blank. Always. |
 | 6 | `https://app.example.com` | Agrees with the domain on line 1. |
 | 7 | `1` | The only version. |
@@ -253,7 +239,7 @@ import { SiweMessage, generateNonce } from '@signinwithethereum/siwe'
 const message = new SiweMessage({
   domain: 'app.example.com',
   address: '0x7291BB770D168a6fD41AE73CcA7C709cba4d558f',
-  statement: 'Sign in to Example.',
+  statement: 'Sign in to Example App.',
   uri: 'https://app.example.com',
   version: '1',
   chainId: 1,
