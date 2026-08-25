@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { useData } from 'vitepress'
 import DefaultTheme from 'vitepress/theme-without-fonts'
 
-import Wordmark from './components/Wordmark.vue'
+import NavMark from './components/NavMark.vue'
 import PostMeta from './components/PostMeta.vue'
 import SiteFooter from './components/SiteFooter.vue'
 
@@ -22,7 +22,7 @@ const isPost = computed(() => {
 <template>
   <Default>
     <template #nav-bar-title-before>
-      <Wordmark class="nav-wordmark" title="Sign in with Ethereum" />
+      <NavMark />
     </template>
 
     <template #doc-before>
@@ -36,11 +36,6 @@ const isPost = computed(() => {
 </template>
 
 <style>
-.nav-wordmark {
-  --u: 2px;
-  color: var(--ink);
-}
-
 /* The default footer is replaced by SiteFooter, which renders on every layout
  * rather than only where there is no sidebar. */
 .VPFooter {

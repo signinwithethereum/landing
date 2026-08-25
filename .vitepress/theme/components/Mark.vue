@@ -26,6 +26,12 @@ const props = withDefaults(
   { canvas: 'mark', state: null, background: undefined, unit: undefined, label: undefined }
 )
 
+/* A one-shot tells the parent when it has finished, which is what lets an
+ * interaction hand the mark back — a press can run `confirm` to the end and
+ * only then fall back to whatever hover state it interrupted. Loops never
+ * resolve, so they never emit. */
+const emit = defineEmits<{ done: [MarkState] }>()
+
 const host = ref<HTMLElement | null>(null)
 
 /* shallowRef, not ref: the engine keeps typed arrays, DOM nodes and a rAF
@@ -45,11 +51,22 @@ function canRun() {
   return onScreen && typeof document !== 'undefined' && !document.hidden
 }
 
+/* Bumped on every apply, so a one-shot that was superseded — by a new state,
+ * by the mark leaving the viewport — resolves into nothing. */
+let run = 0
+
 function apply() {
   const m = mark.value
   if (!m) return
-  if (props.state && canRun()) m.play(props.state)
-  else m.stop().rest()
+  const token = ++run
+  const state = props.state
+  if (state && canRun()) {
+    void m.play(state).then(() => {
+      if (token === run) emit('done', state)
+    })
+  } else {
+    m.stop().rest()
+  }
 }
 
 function onVisibility() {
