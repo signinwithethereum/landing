@@ -73,9 +73,14 @@ export default defineConfig({
           items: [
             { text: 'Introduction', link: '/docs/' },
             { text: 'The message', link: '/docs/message' },
-            { text: 'Quickstart', link: '/docs/quickstart/' },
-            { text: 'Frontend', link: '/docs/quickstart/frontend' },
-            { text: 'Backend', link: '/docs/quickstart/backend' }
+            {
+              text: 'Quickstart',
+              link: '/docs/quickstart/',
+              items: [
+                { text: 'Frontend', link: '/docs/quickstart/frontend' },
+                { text: 'Backend', link: '/docs/quickstart/backend' }
+              ]
+            }
           ]
         },
         {
