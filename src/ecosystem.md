@@ -1,7 +1,7 @@
 ---
 title: Ecosystem
 description: Wallets, apps and tools that sign people in with ERC-4361.
-pageClass: wide
+pageClass: wide overview-rail
 outline: false
 aside: false
 ---
