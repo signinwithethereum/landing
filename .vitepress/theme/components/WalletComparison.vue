@@ -14,12 +14,12 @@
  * the claim it is making. Only the sheet body branches, because that is the
  * difference the section exists to show. */
 
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { EXAMPLE } from '../lib/example'
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { EXAMPLE } from "../lib/example";
 
-type Step = 'idle' | 'review' | 'signing' | 'done'
+type Step = "idle" | "review" | "signing" | "done";
 
-const SHORT_ADDRESS = `${EXAMPLE.address.slice(0, 6)}…${EXAMPLE.address.slice(-4)}`
+const SHORT_ADDRESS = `${EXAMPLE.address.slice(0, 6)}…${EXAMPLE.address.slice(-4)}`;
 
 /* A 32-byte challenge, which is what login looked like before the standard:
  * the server hands out random bytes and asks for a signature over them. There
@@ -27,77 +27,84 @@ const SHORT_ADDRESS = `${EXAMPLE.address.slice(0, 6)}…${EXAMPLE.address.slice(
  * It stays local rather than joining `example.ts` — it is the anti-example,
  * and the validator has no business importing a deliberately bad payload. */
 const CHALLENGE =
-  '0x4a8f2c17b0d95e3f6c81aa47d2e05b9317fc6a8e4b23d70f95c18ae62d4b0f3a'
+  "0x4a8f2c17b0d95e3f6c81aa47d2e05b9317fc6a8e4b23d70f95c18ae62d4b0f3a";
 
-const CHAIN_NAMES: Record<string, string> = { '1': 'Ethereum' }
+const CHAIN_NAMES: Record<string, string> = { "1": "Ethereum" };
 
 /* The rows a wallet can draw once it has parsed the message. Every value is
  * read off the same example the validator uses, so the phone cannot end up
  * describing a different message than the one the site documents. */
 const ROWS = [
-  { label: 'Site', value: EXAMPLE.domain, check: 'matches this page' },
-  { label: 'Account', value: SHORT_ADDRESS },
-  { label: 'Network', value: CHAIN_NAMES[EXAMPLE.chainId] ?? `Chain ${EXAMPLE.chainId}` },
+  { label: "Site", value: EXAMPLE.domain, check: "matches this page" },
+  { label: "Account", value: SHORT_ADDRESS },
   {
-    label: 'Expires',
+    label: "Network",
+    value: CHAIN_NAMES[EXAMPLE.chainId] ?? `Chain ${EXAMPLE.chainId}`,
+  },
+  {
+    label: "Expires",
     value: `in ${Math.round(
-      (Date.parse(EXAMPLE.expirationTime) - Date.parse(EXAMPLE.issuedAt)) / 60_000
-    )} minutes`
-  }
-]
+      (Date.parse(EXAMPLE.expirationTime) - Date.parse(EXAMPLE.issuedAt)) /
+        60_000,
+    )} minutes`,
+  },
+];
 
 const LANES = [
   {
-    id: 'adhoc',
-    tone: 'tone-no',
-    mark: '✕',
-    verdict: 'No standard',
-    cta: 'Sign In',
-    sheetTitle: 'Signature request',
-    reject: 'Reject',
-    sign: 'Sign',
+    id: "adhoc",
+    tone: "tone-no",
+    mark: "✕",
+    verdict: "No standard",
+    cta: "Sign In",
+    sheetTitle: "Signature request",
+    reject: "Reject",
+    sign: "Sign",
     captions: {
-      idle: 'Without a standard, the app asks for a signature over some random bytes.',
+      idle: "Without a standard, the app asks for a signature over some random bytes.",
       review:
-        'The wallet has no format to interpret, so it falls back to raw bytes and a generic warning that leaves the intent hidden.',
-      signing: 'Signing bytes whose meaning nothing on this screen can explain.',
-      done: 'Signed in, with no way of knowing what was actually agreed to.'
-    }
+        "The wallet has no format to interpret, so it falls back to raw bytes and a generic warning that leaves the intent hidden.",
+      signing:
+        "Signing bytes whose meaning nothing on this screen can explain.",
+      done: "Signed in, with no way of knowing what was actually agreed to.",
+    },
   },
   {
-    id: 'siwe',
-    tone: 'tone-yes',
-    mark: '✓',
-    verdict: 'With SIWE',
-    cta: 'Sign in with Ethereum',
-    sheetTitle: 'Sign In',
-    reject: 'Cancel',
-    sign: 'Sign in',
+    id: "siwe",
+    tone: "tone-yes",
+    mark: "✓",
+    verdict: "With SIWE",
+    cta: "Sign in with Ethereum",
+    sheetTitle: "Sign In",
+    reject: "Cancel",
+    sign: "Sign in",
     captions: {
-      idle: 'With SIWE, the app builds a message in a format wallets already know how to read.',
+      idle: "With SIWE, the app builds a message in a format wallets already know how to read.",
       review:
-        'With SIWE, wallets and apps can display easy to understand, secure signing interfaces that make the intent clear.',
-      signing: 'The bytes being signed are exactly the text that was on screen.',
-      done: 'Signed in, knowing which site was authorised and for how long.'
-    }
-  }
-] as const
+        "With SIWE, wallets and apps can display easy to understand, secure signing interfaces that make the intent clear.",
+      signing:
+        "The bytes being signed are exactly the text that was on screen.",
+      done: "Signed in, knowing which site was authorised and for how long.",
+    },
+  },
+] as const;
 
-type Lane = (typeof LANES)[number]['id']
+type Lane = (typeof LANES)[number]["id"];
 
 const MARKERS: { step: Step; label: string }[] = [
-  { step: 'idle', label: 'Start' },
-  { step: 'review', label: 'Review' },
-  { step: 'signing', label: 'Sign' },
-  { step: 'done', label: 'Signed' }
-]
+  { step: "idle", label: "Start" },
+  { step: "review", label: "Review" },
+  { step: "signing", label: "Sign" },
+  { step: "done", label: "Signed" },
+];
 
 const NOTES: Record<Step, string> = {
-  idle: 'Same account, same signing call. Press sign in on either phone.',
-  review: 'This is everything the person has to decide from. Press sign on either phone.',
-  signing: 'Both wallets sign the exact bytes they were handed.',
-  done: 'Identical cryptography. Two very different things a person saw.'
-}
+  idle: "Same account, same signing call. Press sign in on either phone.",
+  review:
+    "This is everything the person has to decide from. Press sign on either phone.",
+  signing: "Both wallets sign the exact bytes they were handed.",
+  done: "Identical cryptography. Two very different things a person saw.",
+};
 
 /* The status bar reads the reader's own clock, which is a small thing that
  * makes the mock feel like a device rather than a picture of one. It starts on
@@ -105,65 +112,70 @@ const NOTES: Record<Step, string> = {
  * agree, then takes the real time once mounted, and re-ticks on the minute.
  * Building the formatter is the costly half of Intl, so it is built once. */
 const CLOCK_FORMAT = new Intl.DateTimeFormat(undefined, {
-  hour: 'numeric',
-  minute: '2-digit'
-})
+  hour: "numeric",
+  minute: "2-digit",
+});
 
-const now = ref('9:41')
+const now = ref("9:41");
 
-let clockTimer: ReturnType<typeof setTimeout>
+let clockTimer: ReturnType<typeof setTimeout>;
 
 function tickClock() {
   now.value = CLOCK_FORMAT.formatToParts(new Date())
-    .filter((part) => part.type !== 'dayPeriod')
+    .filter((part) => part.type !== "dayPeriod")
     .map((part) => part.value)
-    .join('')
-    .trim()
+    .join("")
+    .trim();
 
-  clockTimer = setTimeout(tickClock, 60_000 - (Date.now() % 60_000))
+  clockTimer = setTimeout(tickClock, 60_000 - (Date.now() % 60_000));
 }
 
-onMounted(tickClock)
-onBeforeUnmount(() => clearTimeout(clockTimer))
+onMounted(tickClock);
+onBeforeUnmount(() => clearTimeout(clockTimer));
 
-const step = ref<Step>('idle')
+/* The signing sheet is the thing worth seeing, so the demo opens on it
+ * rather than on an app screen the reader has to click through. */
+const step = ref<Step>("review");
 
 /* Narrow screens show one lane at a time, and the one worth landing on is the
  * one the page is arguing for. */
-const lane = ref<Lane>('siwe')
+const lane = ref<Lane>("siwe");
 
 /* The machine schedules at most one hop, so one handle is the whole story. */
-let stepTimer: ReturnType<typeof setTimeout>
+let stepTimer: ReturnType<typeof setTimeout>;
 
 function go(next: Step) {
-  clearTimeout(stepTimer)
-  step.value = next
-  if (next === 'signing') stepTimer = setTimeout(() => go('done'), 900)
+  clearTimeout(stepTimer);
+  step.value = next;
+  if (next === "signing") stepTimer = setTimeout(() => go("done"), 900);
 }
 
-onBeforeUnmount(() => clearTimeout(stepTimer))
+onBeforeUnmount(() => clearTimeout(stepTimer));
 
-const sheetUp = computed(() => step.value === 'review' || step.value === 'signing')
+const sheetUp = computed(
+  () => step.value === "review" || step.value === "signing",
+);
 
 const appSub = computed(() =>
-  step.value === 'done'
-    ? 'Session started, no password involved.'
-    : 'Continue with your Ethereum account.'
-)
+  step.value === "done"
+    ? "Session started, no password involved."
+    : "Continue with your Ethereum account.",
+);
 </script>
 
 <template>
   <section id="message" class="band">
     <div class="shell">
       <header class="section-head">
-        <h2>Human readable, machine readable</h2>
+        <h2>Signing shouldn't mean guessing.</h2>
         <p>
-          A signature request is only as safe as what the person can read. Ask
-          someone to sign a raw challenge and the wallet has nothing to work
-          with, so it shows the bytes and a warning. ERC&#8209;4361 gives every
-          field a fixed place, so the wallet can recognise the request and draw
-          a real sign-in screen: which site, which account, which network, when
-          it expires. <a href="/docs/message">Read the message format &rarr;</a>
+          A signature request is only as safe as what the person can read, and
+          asking someone to sign a raw challenge leaves the wallet nothing to
+          work with, so it shows the bytes and a warning. ERC&#8209;4361 gives
+          every field a fixed place, so the wallet can recognise the request and
+          draw a real sign-in screen: which site, which account, which network,
+          when it expires.
+          <a href="/docs/message">Read the message format &rarr;</a>
         </p>
       </header>
 
@@ -216,7 +228,9 @@ const appSub = computed(() =>
                       >
                         {{ l.cta }}
                       </button>
-                      <p class="app-terms">By continuing you agree to the terms.</p>
+                      <p class="app-terms">
+                        By continuing you agree to the terms.
+                      </p>
                     </template>
 
                     <p v-else class="app-session">
@@ -228,9 +242,17 @@ const appSub = computed(() =>
                 </div>
               </div>
 
-              <span class="scrim" :class="{ 'is-on': sheetUp }" aria-hidden="true" />
+              <span
+                class="scrim"
+                :class="{ 'is-on': sheetUp }"
+                aria-hidden="true"
+              />
 
-              <div class="sheet" :class="{ 'is-up': sheetUp }" :inert="!sheetUp">
+              <div
+                class="sheet"
+                :class="{ 'is-up': sheetUp }"
+                :inert="!sheetUp"
+              >
                 <span class="grabber" />
                 <p class="sheet-title">{{ l.sheetTitle }}</p>
                 <p class="sheet-origin">{{ EXAMPLE.domain }}</p>
@@ -239,7 +261,9 @@ const appSub = computed(() =>
                 <template v-if="l.id === 'adhoc'">
                   <p class="t-label sheet-label">Message</p>
                   <p class="hex">{{ CHALLENGE }}</p>
-                  <p class="hex-meta">32 bytes &middot; nothing a person can read</p>
+                  <p class="hex-meta">
+                    32 bytes &middot; nothing a person can read
+                  </p>
 
                   <p class="alert">
                     <strong class="t-label">Sign at your own risk</strong>
@@ -269,7 +293,11 @@ const appSub = computed(() =>
                 </template>
 
                 <div class="sheet-actions">
-                  <button type="button" :disabled="step !== 'review'" @click="go('idle')">
+                  <button
+                    type="button"
+                    :disabled="step !== 'review'"
+                    @click="go('idle')"
+                  >
                     {{ l.reject }}
                   </button>
                   <button
@@ -278,7 +306,7 @@ const appSub = computed(() =>
                     :disabled="step !== 'review'"
                     @click="go('signing')"
                   >
-                    {{ step === 'signing' ? 'Signing…' : l.sign }}
+                    {{ step === "signing" ? "Signing…" : l.sign }}
                   </button>
                 </div>
               </div>
@@ -375,7 +403,9 @@ const appSub = computed(() =>
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   cursor: pointer;
-  transition: color 0.15s var(--ease), background 0.15s var(--ease);
+  transition:
+    color 0.15s var(--ease),
+    background 0.15s var(--ease);
 }
 
 .seg button:hover {
@@ -401,7 +431,7 @@ const appSub = computed(() =>
   margin-top: var(--s7);
 }
 
-.steps button[aria-current='step'] {
+.steps button[aria-current="step"] {
   background: var(--ink);
   color: var(--canvas);
 }
@@ -430,7 +460,7 @@ const appSub = computed(() =>
 
 /* On narrow the switch stands in for the chips, so the selected side carries
  * the verdict rather than a neutral fill. */
-.lane-switch button[aria-pressed='true'] {
+.lane-switch button[aria-pressed="true"] {
   background: color-mix(in srgb, var(--tone) 12%, transparent);
   color: var(--tone);
 }
@@ -523,7 +553,9 @@ const appSub = computed(() =>
   background: var(--canvas-3);
   box-shadow: 0 24px 48px -28px rgba(0, 0, 0, 0.45);
   transform: perspective(1600px) rotateY(var(--lean)) rotateX(var(--pitch));
-  transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
+  transition:
+    transform 0.45s var(--ease-out),
+    box-shadow 0.45s var(--ease-out);
 }
 
 .phone:hover,
@@ -573,21 +605,26 @@ const appSub = computed(() =>
   transform: scale(0.985);
 }
 
-/* Black in both themes on purpose. Over a light screen it dims the page behind
- * the sheet; over a dark one the ground is already black, so it reads as the
- * text losing its contrast. Either way the sheet is what you look at. */
+/* The scrim veils rather than darkens in light mode: white over a light screen
+ * washes the app out without turning the phone into a black rectangle. Dark
+ * mode keeps black, where the ground is already dark and the effect reads as
+ * the text losing its contrast. Either way the sheet is what you look at. */
 .scrim {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: #000;
+  background: #fff;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.42s var(--ease-out);
 }
 
 .scrim.is-on {
-  opacity: 0.45;
+  opacity: 0.62;
+}
+
+.dark .scrim {
+  background: #000;
 }
 
 .dark .scrim.is-on {
@@ -699,7 +736,7 @@ const appSub = computed(() =>
  * moves only opacity and transform — a box-shadow keyframe would repaint the
  * phone's layer sixty times a second for as long as the page is open. */
 .app-cta::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
