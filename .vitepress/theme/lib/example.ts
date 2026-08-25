@@ -6,7 +6,7 @@
 export const EXAMPLE = {
   domain: 'app.example.com',
   address: '0x7291BB770D168a6fD41AE73CcA7C709cba4d558f',
-  statement: 'Sign in to Example App.',
+  statement: 'Welcome to the Example App.',
   uri: 'https://app.example.com',
   version: '1',
   chainId: '1',

@@ -15,6 +15,7 @@
  * difference the section exists to show. */
 
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import Mark from "./Mark.vue";
 import { EXAMPLE } from "../lib/example";
 
 type Step = "idle" | "review" | "signing" | "done";
@@ -114,6 +115,7 @@ const NOTES: Record<Step, string> = {
 const CLOCK_FORMAT = new Intl.DateTimeFormat(undefined, {
   hour: "numeric",
   minute: "2-digit",
+  hourCycle: "h23",
 });
 
 const now = ref("9:41");
@@ -160,6 +162,25 @@ const appSub = computed(() =>
   step.value === "done"
     ? "Session started, no password involved."
     : "Continue with your Ethereum account.",
+);
+
+/* ------------------------------------------------------- the SIWE button */
+
+/* Only the SIWE lane carries a mark, so one flag covers the button: the other
+ * lane's CTA is a word, and a disabled button sends no pointer events, so the
+ * hover state cannot survive the press that opens the sheet. */
+const ctaHot = ref(false);
+
+/* The icon says what the button is doing, which is the whole reason it is a
+ * mark and not a picture of one. It rests until the wallet has been asked,
+ * traces its own outline under a pointer that is about to press it, and runs
+ * `pending` for as long as the sheet is up and the answer is outstanding.
+ *
+ * Both states work in level rather than in colour, which is what they have to
+ * do here: the mark sits on the button's own ink, so it is drawn in the
+ * button's foreground and has no second colour to swap to. */
+const ctaState = computed(() =>
+  sheetUp.value ? "pending" : ctaHot.value ? "trace" : null,
 );
 </script>
 
@@ -222,11 +243,25 @@ const appSub = computed(() =>
                       <button
                         type="button"
                         class="app-cta"
-                        :class="{ 'is-hinting': step === 'idle' }"
+                        :class="{
+                          'is-hinting': step === 'idle',
+                          'has-mark': l.id === 'siwe',
+                        }"
                         :disabled="sheetUp"
                         @click="go('review')"
+                        @pointerenter="ctaHot = true"
+                        @pointerleave="ctaHot = false"
                       >
-                        {{ l.cta }}
+                        <span v-if="l.id === 'siwe'" class="cta-lockup">
+                          <Mark
+                            class="cta-mark"
+                            canvas="icon"
+                            :background="false"
+                            :state="ctaState"
+                          />
+                          <span class="cta-rule" aria-hidden="true" />
+                        </span>
+                        <span class="cta-label">{{ l.cta }}</span>
                       </button>
                       <p class="app-terms">
                         By continuing you agree to the terms.
@@ -729,6 +764,61 @@ const appSub = computed(() =>
 .app-cta:disabled {
   cursor: default;
   opacity: 0.5;
+}
+
+/* The provider button, the shape every social sign-in has settled on: the
+ * mark at the leading edge, a hairline holding it apart from the sentence, and
+ * the label centred in what is left. It is the same button as the other lane —
+ * same fill, same height, same radius — because the section's whole claim is
+ * that only the content differs. */
+.app-cta.has-mark {
+  /* One cell of the icon, which stands nine cells tall. Mark.vue rounds this to
+   * whole device pixels before drawing, so the height it ends up at is not a
+   * figure this file can restate — which is why the rule beside it is stretched
+   * to the mark rather than given a length of its own. */
+  --u: 1.5px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-inline: 12px;
+}
+
+/* The rule is stretched rather than given a height, so it is the mark's height
+ * by construction — including after the device-pixel rounding, which no rule in
+ * this file could predict. */
+.cta-lockup {
+  display: flex;
+  flex: none;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.cta-label {
+  flex: 1;
+  text-align: left;
+}
+
+/* The engine writes the four colour roles straight onto the cells, so the mark
+ * is told what "ink" means inside a button that is filled with it. Accent goes
+ * the same way: on a ground this small and this dark the states have to carry
+ * themselves on level and geometry, which is what they were built to do — and
+ * a violet flash on the button's own ink is not a colour anyone chose. */
+.cta-mark {
+  --ink: var(--canvas);
+  --accent: var(--canvas);
+
+  flex: none;
+}
+
+.cta-rule {
+  flex: none;
+  width: 1px;
+  background: currentColor;
+  /* Enough to hold its full length against the solid glyph beside it. Fainter
+   * and the ends fade out, and a rule that is the mark's height stops reading
+   * as one. */
+  opacity: 0.45;
 }
 
 /* A quiet breathing edge, so it is obvious the phone is the control. It runs

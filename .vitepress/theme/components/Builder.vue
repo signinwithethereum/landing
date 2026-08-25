@@ -31,7 +31,7 @@ function isoNow(offsetMinutes = 0): string {
 const f = ref({
   domain: 'app.example.com',
   address: '0x7291BB770D168a6fD41AE73CcA7C709cba4d558f',
-  statement: 'Sign in to Example App.',
+  statement: 'Welcome to the Example App.',
   uri: 'https://app.example.com',
   chainId: '1',
   nonce: 'kR8vQ2mZ7pLx4Tn9',

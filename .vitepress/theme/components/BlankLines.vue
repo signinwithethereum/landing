@@ -11,7 +11,7 @@
           <strong>With a statement</strong>
           <span>one empty line on each side</span>
         </figcaption>
-        <pre><code><span>0x7291…4d558f</span><span class="blank-lines__empty" aria-label="required empty line"></span><span>Sign in to Example App.</span><span class="blank-lines__empty" aria-label="required empty line"></span><span>URI: https://app.example.com</span></code></pre>
+        <pre><code><span>0x7291…4d558f</span><span class="blank-lines__empty" aria-label="required empty line"></span><span>Welcome to the Example App.</span><span class="blank-lines__empty" aria-label="required empty line"></span><span>URI: https://app.example.com</span></code></pre>
       </figure>
 
       <figure class="blank-lines__example">

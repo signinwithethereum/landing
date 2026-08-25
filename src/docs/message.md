@@ -178,7 +178,7 @@ rather than to show someone a list, read that first.
 app.example.com wants you to sign in with your Ethereum account:
 0x7291BB770D168a6fD41AE73CcA7C709cba4d558f
 
-Sign in to Example App.
+Welcome to the Example App.
 
 URI: https://app.example.com
 Version: 1
@@ -195,7 +195,7 @@ Line by line:
 | 1 | `app.example.com` | The authority. Your server compares this against its own hostname. |
 | 2 | `0x7291BB770D168a6fD41AE73CcA7C709cba4d558f` | ERC-55 checksummed. |
 | 3 | | Blank. Always. |
-| 4 | `Sign in to Example App.` | The statement. One line, no newline in it. |
+| 4 | `Welcome to the Example App.` | The statement. One line, no newline in it. |
 | 5 | | Blank. Always. |
 | 6 | `https://app.example.com` | Agrees with the domain on line 1. |
 | 7 | `1` | The only version. |
@@ -212,7 +212,7 @@ import { SiweMessage, generateNonce } from '@signinwithethereum/siwe'
 const message = new SiweMessage({
   domain: 'app.example.com',
   address: '0x7291BB770D168a6fD41AE73CcA7C709cba4d558f',
-  statement: 'Sign in to Example App.',
+  statement: 'Welcome to the Example App.',
   uri: 'https://app.example.com',
   version: '1',
   chainId: 1,

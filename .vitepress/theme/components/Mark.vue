@@ -132,9 +132,23 @@ defineExpose({ mark })
 
 /* The SVG publishes its own cell count, so one rule sizes every canvas. */
 .markbox > svg {
+  --cell: var(--u);
+
   display: block;
-  width: calc(var(--u) * var(--cw));
-  height: calc(var(--u) * var(--ch));
+  width: calc(var(--cell) * var(--cw));
+  height: calc(var(--cell) * var(--ch));
+}
+
+/* `crispEdges` snaps every cell edge to a device pixel, so a cell that is not a
+ * whole number of them gets rounded — one of the mark's lines to three pixels,
+ * the next to two, and lines that are equal by construction stop looking it.
+ * Rounding the cell first is what holds them level. The ratio comes from
+ * `lib/dpr.ts`; browsers without `round()` keep the unsnapped size, which is
+ * the behaviour this replaces. */
+@supports (width: round(1px, 1px)) {
+  .markbox > svg {
+    --cell: calc(max(1px, round(var(--u) * var(--dpr, 1), 1px)) / var(--dpr, 1));
+  }
 }
 
 .markbox .mark-bg {

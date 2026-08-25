@@ -7,6 +7,7 @@ import './style/base.css'
 import './style/vp.css'
 
 import Layout from './Layout.vue'
+import { trackDevicePixelRatio } from './lib/dpr'
 
 import HomeHero from './components/HomeHero.vue'
 import HomeUsedBy from './components/HomeUsedBy.vue'
@@ -25,6 +26,9 @@ export default {
   extends: DefaultTheme,
   Layout,
   enhanceApp({ app }) {
+    /* Every mark reads it, so it is published once for the whole app. */
+    trackDevicePixelRatio()
+
     /* Landing */
     app.component('HomeHero', HomeHero)
     app.component('HomeUsedBy', HomeUsedBy)
