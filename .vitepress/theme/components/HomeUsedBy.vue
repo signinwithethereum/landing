@@ -80,14 +80,25 @@ const INTEGRATORS = [
 <style scoped>
 .used-by {
   --used-by-height: 96px;
+  --used-by-surface: var(--canvas-2);
+  --used-by-ink: var(--ink);
+  --used-by-muted: var(--ink-2);
+  --used-by-rule: var(--rule-strong);
+  --used-by-scanline: rgba(0, 0, 0, 0.035);
+  --used-by-logo-filter: grayscale(1) brightness(0);
 
   display: grid;
   grid-template-columns: 120px minmax(0, 1fr);
   height: var(--used-by-height);
   padding: 0 !important;
   overflow: hidden;
-  background: var(--screen);
-  color: var(--screen-ink);
+  background: var(--used-by-surface);
+  color: var(--used-by-ink);
+}
+
+.dark .used-by {
+  --used-by-scanline: rgba(255, 255, 255, 0.025);
+  --used-by-logo-filter: grayscale(1) brightness(0) invert(1);
 }
 
 .used-by::after {
@@ -97,8 +108,8 @@ const INTEGRATORS = [
   z-index: 2;
   background: repeating-linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.025) 0,
-    rgba(255, 255, 255, 0.025) 1px,
+    var(--used-by-scanline) 0,
+    var(--used-by-scanline) 1px,
     transparent 1px,
     transparent 3px
   );
@@ -112,8 +123,8 @@ const INTEGRATORS = [
   gap: 10px;
   align-items: center;
   padding-inline: var(--s5);
-  border-inline-end: 1px solid var(--rule);
-  background: var(--screen);
+  border-inline-end: 1px solid var(--used-by-rule);
+  background: var(--used-by-surface);
 }
 
 .used-by-label h2 {
@@ -125,15 +136,15 @@ const INTEGRATORS = [
   letter-spacing: var(--track-label);
   text-transform: uppercase;
   white-space: nowrap;
-  color: var(--screen-ink);
+  color: var(--used-by-ink);
 }
 
 .used-by-signal {
   width: 6px;
   height: 6px;
   flex: 0 0 auto;
-  background: var(--accent);
-  box-shadow: 0 0 14px rgba(0, 234, 242, 0.72);
+  background: var(--accent-ui);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent-ui) 56%, transparent);
 }
 
 .used-by-marquee {
@@ -183,7 +194,7 @@ const INTEGRATORS = [
   gap: var(--s2);
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.76);
+  color: var(--used-by-muted);
   text-decoration: none;
   opacity: 0.9;
   transition: opacity 160ms var(--ease);
@@ -213,7 +224,7 @@ const INTEGRATORS = [
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: grayscale(1) brightness(0) invert(1);
+  filter: var(--used-by-logo-filter);
 }
 
 .integrator-name {
