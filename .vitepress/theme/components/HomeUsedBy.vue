@@ -3,32 +3,38 @@ const INTEGRATORS = [
   {
     name: 'MetaMask',
     href: 'https://metamask.io/',
-    mark: '/integrators/metamask.svg'
+    mark: '/integrators/metamask.svg',
+    opticalScale: 1.06
   },
   {
     name: 'OpenRouter',
     href: 'https://openrouter.ai/',
-    mark: '/integrators/openrouter.svg'
+    mark: '/integrators/openrouter.svg',
+    opticalScale: 1
   },
   {
     name: 'OpenSea',
     href: 'https://opensea.io/',
-    mark: '/integrators/opensea.svg'
+    mark: '/integrators/opensea.svg',
+    opticalScale: 1.04
   },
   {
     name: 'Ambire',
     href: 'https://www.ambire.com/',
-    mark: '/integrators/ambire.svg'
+    mark: '/integrators/ambire.svg',
+    opticalScale: 1.24
   },
   {
     name: 'EVM.NOW',
     href: 'https://evm.now/',
-    mark: '/integrators/evm-now-e.svg'
+    mark: '/integrators/evm-now-e.svg',
+    opticalScale: 1.18
   },
   {
     name: 'Privy',
     href: 'https://www.privy.io/',
-    mark: '/integrators/privy.svg'
+    mark: '/integrators/privy.svg',
+    opticalScale: 1.16
   }
 ]
 </script>
@@ -59,7 +65,11 @@ const INTEGRATORS = [
             target="_blank"
             rel="noreferrer"
           >
-            <span class="integrator-mark" aria-hidden="true">
+            <span
+              class="integrator-mark"
+              :style="`--mark-optical-scale: ${integrator.opticalScale}`"
+              aria-hidden="true"
+            >
               <img
                 class="integrator-mark-image"
                 :src="integrator.mark"
@@ -225,6 +235,7 @@ const INTEGRATORS = [
   height: 100%;
   object-fit: contain;
   filter: var(--used-by-logo-filter);
+  transform: scale(var(--mark-optical-scale));
 }
 
 .integrator-name {
