@@ -504,6 +504,41 @@ body:has(.home-page) .VPNavBar .container {
   max-width: 68ch;
 }
 
+/* -------------------------------------------------------- overview rail */
+
+/* The index pages are reading destinations, not reference pages: use the
+ * homepage rail so navigation, content and footer share one continuous frame.
+ * Their VitePress doc shell stays intact inside it. */
+body:has(.overview-rail),
+body:has(.overview-rail) .VPContent {
+  background: var(--home-outer);
+}
+
+body:has(.overview-rail) .VPNav {
+  background: var(--home-outer);
+}
+
+body:has(.overview-rail) .VPNavBar,
+body:has(.overview-rail) .overview-rail .VPDoc,
+body:has(.overview-rail) .ft {
+  width: min(100%, var(--home-page));
+  margin-inline: auto;
+  border-inline: 1px solid var(--rule);
+  background: var(--home-rail);
+}
+
+body:has(.overview-rail) .VPNavBar .container {
+  max-width: none;
+}
+
+@media (max-width: 1079px) {
+  body:has(.overview-rail) .VPNavBar,
+  body:has(.overview-rail) .overview-rail .VPDoc,
+  body:has(.overview-rail) .ft {
+    border-inline: 0;
+  }
+}
+
 /* ----------------------------------------------------------- page shell */
 
 /* Pages that draw their own full-width sections opt out of the doc measure. */
