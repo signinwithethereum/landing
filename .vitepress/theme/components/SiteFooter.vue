@@ -23,6 +23,7 @@ const COLUMNS = [
     label: 'Source',
     links: [
       { text: 'GitHub', href: 'https://github.com/signinwithethereum' },
+      { text: 'X', href: 'https://x.com/signinethereum' },
       { text: 'ERC-4361', href: 'https://eips.ethereum.org/EIPS/eip-4361' },
       { text: 'contact@siwe.xyz', href: 'mailto:contact@siwe.xyz' }
     ]
@@ -54,16 +55,6 @@ const COLUMNS = [
           </ul>
         </div>
       </nav>
-    </div>
-
-    <div class="ft-base-rule">
-      <div class="shell ft-base">
-        <p>ERC&#8209;4361</p>
-        <p>
-          <a href="https://github.com/signinwithethereum/landing-next">Source of this site</a>
-          &middot; MIT
-        </p>
-      </div>
     </div>
   </footer>
 </template>
@@ -152,35 +143,4 @@ const COLUMNS = [
   color: var(--ink);
 }
 
-/* The rule is full bleed; the row inside it keeps the page measure, so the
- * divider lines up with the section rules further up the page. */
-.ft-base-rule {
-  border-top: 1px solid var(--rule);
-}
-
-.ft-base {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s4);
-  justify-content: space-between;
-  padding-block: var(--s4) var(--s6);
-}
-
-.ft-base p {
-  margin: 0;
-  font-family: var(--font-mono);
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
-
-.ft-base a {
-  color: var(--ink-3);
-  text-decoration: none;
-}
-
-.ft-base a:hover {
-  color: var(--ink-2);
-}
 </style>
