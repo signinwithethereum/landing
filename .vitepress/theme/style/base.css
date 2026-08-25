@@ -202,7 +202,12 @@ body {
   --field: var(--screen-field);
   --rule: #1e1e22;
   --rule-strong: #33333a;
+  /* The panel is black under a light page too, so it takes the dark weight of
+   * the accent rather than the page's. */
+  --accent: #00eaf2;
   --accent-ui: #00eaf2;
+  --accent-soft: rgba(0, 234, 242, 0.1);
+  --accent-line: rgba(0, 234, 242, 0.28);
 
   position: relative;
   background: var(--screen);

@@ -21,13 +21,13 @@ const INTEGRATORS = [
   {
     name: 'Ambire',
     href: 'https://www.ambire.com/',
-    mark: '/integrators/ambire.svg',
+    mark: '/integrators/ambire-wallet.png',
     opticalScale: 1.24
   },
   {
     name: 'EVM.NOW',
     href: 'https://evm.now/',
-    mark: '/integrators/evm-now-e.svg',
+    mark: '/stories/evm-now.svg',
     opticalScale: 1.18
   },
   {
@@ -53,7 +53,6 @@ const INTEGRATORS = [
           :key="copy"
           class="used-by-set"
           :aria-hidden="copy === 2 ? 'true' : undefined"
-          :inert="copy === 2"
         >
           <a
             v-for="integrator in INTEGRATORS"
@@ -89,26 +88,23 @@ const INTEGRATORS = [
 
 <style scoped>
 .used-by {
-  --used-by-height: 96px;
+  --used-by-height: 72px;
   --used-by-surface: var(--canvas-2);
   --used-by-ink: var(--ink);
   --used-by-muted: var(--ink-2);
   --used-by-rule: var(--rule-strong);
   --used-by-scanline: rgba(0, 0, 0, 0.035);
-  --used-by-logo-filter: grayscale(1) brightness(0);
 
   display: grid;
   grid-template-columns: 120px minmax(0, 1fr);
   height: var(--used-by-height);
   padding: 0 !important;
-  overflow: hidden;
   background: var(--used-by-surface);
   color: var(--used-by-ink);
 }
 
 .dark .used-by {
   --used-by-scanline: rgba(255, 255, 255, 0.025);
-  --used-by-logo-filter: grayscale(1) brightness(0) invert(1);
 }
 
 .used-by::after {
@@ -207,11 +203,12 @@ const INTEGRATORS = [
   color: var(--used-by-muted);
   text-decoration: none;
   opacity: 0.9;
-  transition: opacity 160ms var(--ease);
+  transition: color 160ms var(--ease), opacity 160ms var(--ease);
 }
 
 .integrator:hover,
 .integrator:focus-visible {
+  color: var(--used-by-ink);
   opacity: 1;
   outline: none;
 }
@@ -227,6 +224,7 @@ const INTEGRATORS = [
   flex: 0 0 30px;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .integrator-mark-image {
@@ -234,7 +232,6 @@ const INTEGRATORS = [
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: var(--used-by-logo-filter);
   transform: scale(var(--mark-optical-scale));
 }
 
@@ -254,7 +251,7 @@ const INTEGRATORS = [
 
 @media (max-width: 640px) {
   .used-by {
-    --used-by-height: 80px;
+    --used-by-height: 64px;
 
     grid-template-columns: 96px minmax(0, 1fr);
   }

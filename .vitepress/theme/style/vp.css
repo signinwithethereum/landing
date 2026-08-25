@@ -119,18 +119,23 @@ body:has(.home-page) .VPNavBar .container {
   max-width: none;
 }
 
-body:has(.home-page) .VPNavBarSearchButton {
-  display: flex;
-  width: 36px;
-  min-width: 36px;
-  height: 36px;
-  padding: 0;
-  justify-content: center;
-}
+/* Narrow homepage nav has no room for the full search bar, so it collapses to
+ * a square icon button. From 768px up the homepage keeps the same bar as the
+ * docs, placeholder and shortcut hint included. */
+@media (max-width: 767px) {
+  body:has(.home-page) .VPNavBarSearchButton {
+    display: flex;
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+    padding: 0;
+    justify-content: center;
+  }
 
-body:has(.home-page) .VPNavBarSearchButton .text,
-body:has(.home-page) .VPNavBarSearchButton .keys {
-  display: none;
+  body:has(.home-page) .VPNavBarSearchButton .text,
+  body:has(.home-page) .VPNavBarSearchButton .keys {
+    display: none;
+  }
 }
 
 .VPNavBarTitle .title {

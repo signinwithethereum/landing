@@ -4,10 +4,11 @@
  * grey field behind them, so the site has exactly four colour roles — canvas,
  * field, ink, accent — and a neutral ramp between ink and canvas for prose.
  *
- * The accent is the one brand constant: #00eaf2 in both themes. It is too
- * light on white to carry text, so `--accent-ui` darkens it on light surfaces
- * while the exact accent remains readable on black. `--accent` stays exact for
- * fills, the mark, and anything sitting on the screen panel.
+ * The accent is one hue in two weights: #1c9ba0 on light surfaces, #00eaf2 on
+ * dark ones. #00eaf2 is too light on white to carry text or read as a fill, so
+ * light mode takes the darker weight across the board — text, links, fills and
+ * the mark alike — and dark mode keeps the exact accent. Screen panels are
+ * black in both themes, so they take the dark weight wherever they sit.
  *
  * `--screen` is black in both themes. The field canvas of the mark reads as a
  * screen and carries its own ground, so panels that hold it stay dark whether
@@ -37,11 +38,11 @@
   --rule: #e4e4e8;
   --rule-strong: #cbcbd2;
 
-  --accent: #00eaf2;
-  --accent-ui: #00777c;
+  --accent: #1c9ba0;
+  --accent-ui: #1c9ba0;
   --accent-ink: #000;
-  --accent-soft: rgba(0, 234, 242, 0.07);
-  --accent-line: rgba(0, 234, 242, 0.25);
+  --accent-soft: rgba(28, 155, 160, 0.07);
+  --accent-line: rgba(28, 155, 160, 0.25);
 
   --warn: #b45309;
   --danger: #b91c1c;
