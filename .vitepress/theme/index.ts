@@ -19,6 +19,7 @@ import Validator from './components/Validator.vue'
 import Builder from './components/Builder.vue'
 import BlogIndex from './components/BlogIndex.vue'
 import BrandKit from './components/BrandKit.vue'
+import BlankLines from './components/BlankLines.vue'
 
 export default {
   extends: DefaultTheme,
@@ -37,5 +38,6 @@ export default {
     app.component('Builder', Builder)
     app.component('BlogIndex', BlogIndex)
     app.component('BrandKit', BrandKit)
+    app.component('BlankLines', BlankLines)
   }
 } satisfies Theme

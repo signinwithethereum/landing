@@ -296,6 +296,142 @@ body:has(.home-page) .VPNavBar .container {
   text-transform: uppercase;
 }
 
+/* A structural diagram for the two otherwise invisible line-break shapes in a
+ * SIWE message. It intentionally uses the same code surface as the surrounding
+ * examples, but marks empty lines as data rather than letting them disappear. */
+.blank-lines {
+  margin: 1.5rem 0;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--vp-code-block-bg);
+}
+
+.blank-lines__key {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  min-height: 40px;
+  padding: 0 var(--s4);
+  border-bottom: 1px solid var(--rule);
+  background: var(--canvas);
+}
+
+.blank-lines__key-item,
+.blank-lines__example figcaption span,
+.blank-lines__note {
+  color: var(--ink-3);
+}
+
+.blank-lines__key-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  letter-spacing: -0.01em;
+}
+
+.blank-lines__key-item i {
+  display: inline-block;
+  width: 14px;
+  height: 8px;
+  border: 1px solid var(--accent-line);
+  background: var(--accent-soft);
+}
+
+.blank-lines__examples {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.blank-lines__example {
+  min-width: 0;
+  margin: 0;
+}
+
+.blank-lines__example + .blank-lines__example {
+  border-left: 1px solid var(--rule);
+}
+
+.blank-lines__example figcaption {
+  display: grid;
+  gap: 3px;
+  padding: var(--s4);
+  border-bottom: 1px solid var(--rule);
+}
+
+.blank-lines__example figcaption strong {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.blank-lines__example figcaption span {
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  letter-spacing: -0.01em;
+}
+
+.blank-lines__example pre {
+  margin: 0;
+  padding: var(--s4);
+  overflow-x: auto;
+  background: transparent;
+}
+
+.blank-lines__example code {
+  display: block;
+  min-width: max-content;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.7;
+}
+
+.blank-lines__example code > span {
+  display: block;
+  white-space: pre;
+}
+
+.blank-lines__example .blank-lines__empty {
+  position: relative;
+  height: 1.7em;
+  background: var(--accent-soft);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+.blank-lines__example .blank-lines__empty::after {
+  position: absolute;
+  top: 50%;
+  left: var(--s2);
+  content: 'empty line';
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.02em;
+  color: var(--accent-ui);
+}
+
+.blank-lines__note {
+  margin: 0;
+  padding: var(--s3) var(--s4);
+  border-top: 1px solid var(--rule);
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .blank-lines__examples {
+    grid-template-columns: 1fr;
+  }
+
+  .blank-lines__example + .blank-lines__example {
+    border-top: 1px solid var(--rule);
+    border-left: 0;
+  }
+}
+
 /* ---------------------------------------------------------------- aside */
 
 .VPDocOutlineItem a,

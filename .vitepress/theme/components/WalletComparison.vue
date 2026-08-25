@@ -7,9 +7,14 @@
  * falls back to showing hex and a warning. Follow ERC-4361 and the wallet can
  * recognise the request and draw an actual sign-in screen. So both phones are
  * the same object with the same palette and the same buttons: any difference a
- * reader sees is content, which is the point. */
+ * reader sees is content, which is the point.
+ *
+ * That invariant is why the lanes are one template rendered twice off LANES
+ * rather than two blocks kept in sync by hand — the markup cannot drift from
+ * the claim it is making. Only the sheet body branches, because that is the
+ * difference the section exists to show. */
 
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { EXAMPLE } from '../lib/example'
 
 type Step = 'idle' | 'review' | 'signing' | 'done'
@@ -18,9 +23,67 @@ const SHORT_ADDRESS = `${EXAMPLE.address.slice(0, 6)}…${EXAMPLE.address.slice(
 
 /* A 32-byte challenge, which is what login looked like before the standard:
  * the server hands out random bytes and asks for a signature over them. There
- * is nothing in here for a wallet to render, and nothing binding it to a site. */
+ * is nothing in here for a wallet to render, and nothing binding it to a site.
+ * It stays local rather than joining `example.ts` — it is the anti-example,
+ * and the validator has no business importing a deliberately bad payload. */
 const CHALLENGE =
   '0x4a8f2c17b0d95e3f6c81aa47d2e05b9317fc6a8e4b23d70f95c18ae62d4b0f3a'
+
+const CHAIN_NAMES: Record<string, string> = { '1': 'Ethereum' }
+
+/* The rows a wallet can draw once it has parsed the message. Every value is
+ * read off the same example the validator uses, so the phone cannot end up
+ * describing a different message than the one the site documents. */
+const ROWS = [
+  { label: 'Site', value: EXAMPLE.domain, check: 'matches this page' },
+  { label: 'Account', value: SHORT_ADDRESS },
+  { label: 'Network', value: CHAIN_NAMES[EXAMPLE.chainId] ?? `Chain ${EXAMPLE.chainId}` },
+  {
+    label: 'Expires',
+    value: `in ${Math.round(
+      (Date.parse(EXAMPLE.expirationTime) - Date.parse(EXAMPLE.issuedAt)) / 60_000
+    )} minutes`
+  }
+]
+
+const LANES = [
+  {
+    id: 'adhoc',
+    tone: 'tone-no',
+    mark: '✕',
+    verdict: 'No standard',
+    cta: 'Sign In',
+    sheetTitle: 'Signature request',
+    reject: 'Reject',
+    sign: 'Sign',
+    captions: {
+      idle: 'Without a standard, the app asks for a signature over some random bytes.',
+      review:
+        'The wallet has no format to interpret, so it falls back to raw bytes and a generic warning that leaves the intent hidden.',
+      signing: 'Signing bytes whose meaning nothing on this screen can explain.',
+      done: 'Signed in, with no way of knowing what was actually agreed to.'
+    }
+  },
+  {
+    id: 'siwe',
+    tone: 'tone-yes',
+    mark: '✓',
+    verdict: 'With SIWE',
+    cta: 'Sign in with Ethereum',
+    sheetTitle: 'Sign In',
+    reject: 'Cancel',
+    sign: 'Sign in',
+    captions: {
+      idle: 'With SIWE, the app builds a message in a format wallets already know how to read.',
+      review:
+        'With SIWE, wallets and apps can display easy to understand, secure signing interfaces that make the intent clear.',
+      signing: 'The bytes being signed are exactly the text that was on screen.',
+      done: 'Signed in, knowing which site was authorised and for how long.'
+    }
+  }
+] as const
+
+type Lane = (typeof LANES)[number]['id']
 
 const MARKERS: { step: Step; label: string }[] = [
   { step: 'idle', label: 'Start' },
@@ -36,47 +99,27 @@ const NOTES: Record<Step, string> = {
   done: 'Identical cryptography. Two very different things a person saw.'
 }
 
-const CAPTIONS: Record<'adhoc' | 'siwe', Record<Step, string>> = {
-  adhoc: {
-    idle: 'Without a standard, the app asks for a signature over some random bytes.',
-    review:
-      'The wallet has no format to interpret, so it falls back to raw bytes and a generic warning that leaves the intent hidden.',
-    signing: 'Signing bytes whose meaning nothing on this screen can explain.',
-    done: 'Signed in, with no way of knowing what was actually agreed to.'
-  },
-  siwe: {
-    idle: 'With SIWE, the app builds a message in a format wallets already know how to read.',
-    review:
-      'With SIWE, wallets and apps can display easy to understand, secure signing interfaces that make the intent clear.',
-    signing: 'The bytes being signed are exactly the text that was on screen.',
-    done: 'Signed in, knowing which site was authorised and for how long.'
-  }
-}
-
-const APP_SUB = {
-  open: 'Continue with your Ethereum account.',
-  done: 'Session started, no password involved.'
-}
-
 /* The status bar reads the reader's own clock, which is a small thing that
  * makes the mock feel like a device rather than a picture of one. It starts on
  * the canonical 9:41 so the server-rendered markup and the first client render
- * agree, then takes the real time once mounted, and re-ticks on the minute. */
-const now = ref('9:41')
+ * agree, then takes the real time once mounted, and re-ticks on the minute.
+ * Building the formatter is the costly half of Intl, so it is built once. */
+const CLOCK_FORMAT = new Intl.DateTimeFormat(undefined, {
+  hour: 'numeric',
+  minute: '2-digit'
+})
 
-function readClock() {
-  return new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' })
-    .formatToParts(new Date())
-    .filter((part) => part.type !== 'dayPeriod')
-    .map((part) => part.value)
-    .join('')
-    .trim()
-}
+const now = ref('9:41')
 
 let clockTimer: ReturnType<typeof setTimeout>
 
 function tickClock() {
-  now.value = readClock()
+  now.value = CLOCK_FORMAT.formatToParts(new Date())
+    .filter((part) => part.type !== 'dayPeriod')
+    .map((part) => part.value)
+    .join('')
+    .trim()
+
   clockTimer = setTimeout(tickClock, 60_000 - (Date.now() % 60_000))
 }
 
@@ -84,34 +127,33 @@ onMounted(tickClock)
 onBeforeUnmount(() => clearTimeout(clockTimer))
 
 const step = ref<Step>('idle')
+
 /* Narrow screens show one lane at a time, and the one worth landing on is the
  * one the page is arguing for. */
-const lane = ref<'adhoc' | 'siwe'>('siwe')
+const lane = ref<Lane>('siwe')
 
-let timers: ReturnType<typeof setTimeout>[] = []
-
-function clear() {
-  timers.forEach(clearTimeout)
-  timers = []
-}
+/* The machine schedules at most one hop, so one handle is the whole story. */
+let stepTimer: ReturnType<typeof setTimeout>
 
 function go(next: Step) {
-  clear()
+  clearTimeout(stepTimer)
   step.value = next
-  if (next === 'signing') timers.push(setTimeout(() => go('done'), 900))
+  if (next === 'signing') stepTimer = setTimeout(() => go('done'), 900)
 }
 
-const start = () => go('review')
-const approve = () => go('signing')
-const reset = () => go('idle')
+onBeforeUnmount(() => clearTimeout(stepTimer))
 
-const sheetUp = () => ['review', 'signing'].includes(step.value)
+const sheetUp = computed(() => step.value === 'review' || step.value === 'signing')
 
-onBeforeUnmount(clear)
+const appSub = computed(() =>
+  step.value === 'done'
+    ? 'Session started, no password involved.'
+    : 'Continue with your Ethereum account.'
+)
 </script>
 
 <template>
-  <section id="message" class="band flow">
+  <section id="message" class="band">
     <div class="shell">
       <header class="section-head">
         <h2>Human readable, machine readable</h2>
@@ -125,54 +167,54 @@ onBeforeUnmount(clear)
         </p>
       </header>
 
-      <div class="lane-switch" role="group" aria-label="Choose a flow">
+      <div class="lane-switch seg" role="group" aria-label="Choose a flow">
         <button
+          v-for="l in LANES"
+          :key="l.id"
           type="button"
-          :aria-pressed="lane === 'adhoc'"
-          class="switch-no"
-          @click="lane = 'adhoc'"
+          :class="l.tone"
+          :aria-pressed="lane === l.id"
+          @click="lane = l.id"
         >
-          <span aria-hidden="true">&#10005;</span> No standard
-        </button>
-        <button
-          type="button"
-          :aria-pressed="lane === 'siwe'"
-          class="switch-yes"
-          @click="lane = 'siwe'"
-        >
-          <span aria-hidden="true">&#10003;</span> With SIWE
+          <span aria-hidden="true">{{ l.mark }}</span> {{ l.verdict }}
         </button>
       </div>
 
       <div class="stage">
-        <!-- ------------------------------------------------ ad-hoc lane -->
-        <article class="lane lane-a" :class="{ 'is-hidden': lane !== 'adhoc' }">
-          <p class="verdict verdict-no">
-            <span aria-hidden="true">&#10005;</span> No standard
+        <article
+          v-for="l in LANES"
+          :key="l.id"
+          class="lane"
+          :class="[`lane-${l.id}`, l.tone, { 'is-hidden': lane !== l.id }]"
+        >
+          <p class="verdict">
+            <span aria-hidden="true">{{ l.mark }}</span> {{ l.verdict }}
           </p>
 
           <div class="phone">
             <div class="phone-screen">
-              <div class="app" :class="{ 'is-behind': sheetUp() }">
+              <div class="app" :class="{ 'is-behind': sheetUp }">
                 <div class="status" aria-hidden="true">
                   <span>{{ now }}</span>
                   <span class="bars"><i /><i /><i /></span>
                 </div>
                 <div class="app-body">
-                  <p class="app-brand"><span class="glyph" aria-hidden="true" />Example App</p>
+                  <p class="t-label app-brand">
+                    <span class="glyph" aria-hidden="true" />Example App
+                  </p>
                   <div class="app-center">
                     <p class="app-h">Welcome back</p>
-                    <p class="app-sub">{{ APP_SUB[step === 'done' ? 'done' : 'open'] }}</p>
+                    <p class="app-sub">{{ appSub }}</p>
 
                     <template v-if="step !== 'done'">
                       <button
                         type="button"
                         class="app-cta"
                         :class="{ 'is-hinting': step === 'idle' }"
-                        :disabled="sheetUp()"
-                        @click="start"
+                        :disabled="sheetUp"
+                        @click="go('review')"
                       >
-                        Sign In
+                        {{ l.cta }}
                       </button>
                       <p class="app-terms">By continuing you agree to the terms.</p>
                     </template>
@@ -180,156 +222,75 @@ onBeforeUnmount(clear)
                     <p v-else class="app-session">
                       <span class="glyph" aria-hidden="true" />
                       <span>{{ SHORT_ADDRESS }}</span>
-                      <span class="app-session-state">Signed in</span>
+                      <span class="t-label app-session-state">Signed in</span>
                     </p>
                   </div>
                 </div>
               </div>
 
-              <span class="scrim" :class="{ 'is-on': sheetUp() }" aria-hidden="true" />
+              <span class="scrim" :class="{ 'is-on': sheetUp }" aria-hidden="true" />
 
-              <div class="sheet" :class="{ 'is-up': sheetUp() }" :inert="!sheetUp()">
+              <div class="sheet" :class="{ 'is-up': sheetUp }" :inert="!sheetUp">
                 <span class="grabber" />
-                <p class="sheet-title">Signature request</p>
+                <p class="sheet-title">{{ l.sheetTitle }}</p>
                 <p class="sheet-origin">{{ EXAMPLE.domain }}</p>
 
-                <p class="sheet-label">Message</p>
-                <p class="hex">{{ CHALLENGE }}</p>
-                <p class="hex-meta">32 bytes &middot; nothing a person can read</p>
+                <!-- The one place the two phones are allowed to differ. -->
+                <template v-if="l.id === 'adhoc'">
+                  <p class="t-label sheet-label">Message</p>
+                  <p class="hex">{{ CHALLENGE }}</p>
+                  <p class="hex-meta">32 bytes &middot; nothing a person can read</p>
 
-                <p class="alert">
-                  <strong>Sign at your own risk</strong>
-                  This message names no site, no purpose and no expiry, and
-                  nothing ties the signature to this page.
-                </p>
+                  <p class="alert">
+                    <strong class="t-label">Sign at your own risk</strong>
+                    Only sign this message if you understand what it does and
+                    trust the site asking for it.
+                  </p>
+                </template>
+
+                <template v-else>
+                  <p class="statement">{{ EXAMPLE.statement }}</p>
+
+                  <dl class="rows">
+                    <div v-for="row in ROWS" :key="row.label">
+                      <dt>{{ row.label }}</dt>
+                      <dd>
+                        {{ row.value }}
+                        <span v-if="row.check" class="check">
+                          &check; {{ row.check }}
+                        </span>
+                      </dd>
+                    </div>
+                  </dl>
+
+                  <p class="sheet-foot">
+                    No transaction, no gas, nothing moves onchain.
+                  </p>
+                </template>
 
                 <div class="sheet-actions">
-                  <button
-                    type="button"
-                    :disabled="step !== 'review'"
-                    @click="reset"
-                  >
-                    Reject
+                  <button type="button" :disabled="step !== 'review'" @click="go('idle')">
+                    {{ l.reject }}
                   </button>
                   <button
                     type="button"
                     class="primary"
                     :disabled="step !== 'review'"
-                    @click="approve"
+                    @click="go('signing')"
                   >
-                    {{ step === 'signing' ? 'Signing…' : 'Sign' }}
+                    {{ step === 'signing' ? 'Signing…' : l.sign }}
                   </button>
                 </div>
               </div>
             </div>
           </div>
 
-          <p class="lane-caption">{{ CAPTIONS.adhoc[step] }}</p>
-        </article>
-
-        <!-- -------------------------------------------------- siwe lane -->
-        <article class="lane lane-b" :class="{ 'is-hidden': lane !== 'siwe' }">
-          <p class="verdict verdict-yes">
-            <span aria-hidden="true">&#10003;</span> With SIWE
-          </p>
-
-          <div class="phone">
-            <div class="phone-screen">
-              <div class="app" :class="{ 'is-behind': sheetUp() }">
-                <div class="status" aria-hidden="true">
-                  <span>{{ now }}</span>
-                  <span class="bars"><i /><i /><i /></span>
-                </div>
-                <div class="app-body">
-                  <p class="app-brand"><span class="glyph" aria-hidden="true" />Example App</p>
-                  <div class="app-center">
-                    <p class="app-h">Welcome back</p>
-                    <p class="app-sub">{{ APP_SUB[step === 'done' ? 'done' : 'open'] }}</p>
-
-                    <template v-if="step !== 'done'">
-                      <button
-                        type="button"
-                        class="app-cta"
-                        :class="{ 'is-hinting': step === 'idle' }"
-                        :disabled="sheetUp()"
-                        @click="start"
-                      >
-                        Sign in with Ethereum
-                      </button>
-                      <p class="app-terms">By continuing you agree to the terms.</p>
-                    </template>
-
-                    <p v-else class="app-session">
-                      <span class="glyph" aria-hidden="true" />
-                      <span>{{ SHORT_ADDRESS }}</span>
-                      <span class="app-session-state">Signed in</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <span class="scrim" :class="{ 'is-on': sheetUp() }" aria-hidden="true" />
-
-              <div class="sheet" :class="{ 'is-up': sheetUp() }" :inert="!sheetUp()">
-                <span class="grabber" />
-                <p class="sheet-title">Sign-in request</p>
-                <p class="sheet-origin">{{ EXAMPLE.domain }}</p>
-
-                <p class="statement">{{ EXAMPLE.statement }}</p>
-
-                <dl class="rows">
-                  <div>
-                    <dt>Site</dt>
-                    <dd>
-                      {{ EXAMPLE.domain }}
-                      <span class="check">&check; matches this page</span>
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>Account</dt>
-                    <dd>{{ SHORT_ADDRESS }}</dd>
-                  </div>
-                  <div>
-                    <dt>Network</dt>
-                    <dd>Ethereum</dd>
-                  </div>
-                  <div>
-                    <dt>Expires</dt>
-                    <dd>in 10 minutes</dd>
-                  </div>
-                </dl>
-
-                <p class="sheet-foot">
-                  No transaction, no gas, nothing moves onchain.
-                </p>
-
-                <div class="sheet-actions">
-                  <button
-                    type="button"
-                    :disabled="step !== 'review'"
-                    @click="reset"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    class="primary"
-                    :disabled="step !== 'review'"
-                    @click="approve"
-                  >
-                    {{ step === 'signing' ? 'Signing…' : 'Sign in' }}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <p class="lane-caption">{{ CAPTIONS.siwe[step] }}</p>
+          <p class="lane-caption">{{ l.captions[step] }}</p>
         </article>
       </div>
 
       <div class="control">
-        <ol class="steps">
+        <ol class="steps seg">
           <li v-for="marker in MARKERS" :key="marker.step">
             <button
               type="button"
@@ -383,16 +344,12 @@ onBeforeUnmount(clear)
   text-wrap: pretty;
 }
 
-/* ------------------------------------------------------------- control */
+/* ------------------------------------------------------------ segments */
 
-.control {
-  display: grid;
-  justify-items: center;
-  gap: var(--s3);
-  margin-top: var(--s7);
-}
-
-.steps {
+/* Both button groups in this section are the same control: a bordered pill of
+ * mono labels with one selected. They differ only in what "selected" looks
+ * like, so only that is written twice. */
+.seg {
   display: flex;
   gap: var(--s1);
   margin: 0;
@@ -402,7 +359,11 @@ onBeforeUnmount(clear)
   list-style: none;
 }
 
-.steps button {
+.seg button {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
   min-height: 28px;
   padding-inline: 10px;
   border: 0;
@@ -417,8 +378,27 @@ onBeforeUnmount(clear)
   transition: color 0.15s var(--ease), background 0.15s var(--ease);
 }
 
-.steps button:hover {
+.seg button:hover {
   color: var(--ink);
+}
+
+/* The verdict colour, set once per lane and read by the chip above the phone
+ * and by the switch that stands in for it on narrow screens. */
+.tone-no {
+  --tone: var(--danger);
+}
+
+.tone-yes {
+  --tone: var(--ok);
+}
+
+/* ------------------------------------------------------------- control */
+
+.control {
+  display: grid;
+  justify-items: center;
+  gap: var(--s3);
+  margin-top: var(--s7);
 }
 
 .steps button[aria-current='step'] {
@@ -440,41 +420,19 @@ onBeforeUnmount(clear)
  * side. Above that it is off and both lanes are always on screen. */
 .lane-switch {
   display: none;
-  gap: var(--s1);
   margin-top: var(--s5);
-  padding: 3px;
-  border: 1px solid var(--rule);
-  border-radius: var(--radius);
 }
 
 .lane-switch button {
-  display: inline-flex;
-  gap: 6px;
-  align-items: center;
-  justify-content: center;
   flex: 1;
   min-height: 34px;
-  border: 0;
-  border-radius: 2px;
-  background: transparent;
-  color: var(--ink-3);
-  font-family: var(--font-mono);
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  cursor: pointer;
 }
 
 /* On narrow the switch stands in for the chips, so the selected side carries
  * the verdict rather than a neutral fill. */
-.lane-switch button[aria-pressed='true'].switch-no {
-  background: color-mix(in srgb, var(--danger) 12%, transparent);
-  color: var(--danger);
-}
-
-.lane-switch button[aria-pressed='true'].switch-yes {
-  background: color-mix(in srgb, var(--ok) 12%, transparent);
-  color: var(--ok);
+.lane-switch button[aria-pressed='true'] {
+  background: color-mix(in srgb, var(--tone) 12%, transparent);
+  color: var(--tone);
 }
 
 /* --------------------------------------------------------------- stage */
@@ -488,6 +446,13 @@ onBeforeUnmount(clear)
 }
 
 .lane {
+  /* How this lane's phone sits: its lean, its pitch, and how far it lifts on
+   * hover. Declared here so the narrow and reduced-motion blocks can flatten
+   * the device by resetting values instead of restating the transform. */
+  --lean: 0deg;
+  --pitch: 2deg;
+  --lift: -3px;
+
   display: grid;
   /* Both lanes stretch to the taller of the two, and without this the surplus
    * is shared out among the rows — which the phone answers by growing its
@@ -500,6 +465,14 @@ onBeforeUnmount(clear)
   max-width: 320px;
 }
 
+.lane-adhoc {
+  --lean: 7deg;
+}
+
+.lane-siwe {
+  --lean: -7deg;
+}
+
 /* Names the lane and delivers the verdict in one mark, above the phone it
  * judges. */
 .verdict {
@@ -508,8 +481,10 @@ onBeforeUnmount(clear)
   align-items: center;
   margin: 0;
   padding: 7px 12px;
-  border: 1px solid;
+  border: 1px solid color-mix(in srgb, var(--tone) 40%, transparent);
   border-radius: var(--radius);
+  background: color-mix(in srgb, var(--tone) 8%, transparent);
+  color: var(--tone);
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 600;
@@ -520,18 +495,6 @@ onBeforeUnmount(clear)
 
 .verdict span {
   font-size: 1.1em;
-}
-
-.verdict-no {
-  border-color: color-mix(in srgb, var(--danger) 40%, transparent);
-  background: color-mix(in srgb, var(--danger) 8%, transparent);
-  color: var(--danger);
-}
-
-.verdict-yes {
-  border-color: color-mix(in srgb, var(--ok) 40%, transparent);
-  background: color-mix(in srgb, var(--ok) 8%, transparent);
-  color: var(--ok);
 }
 
 .lane-caption {
@@ -551,7 +514,7 @@ onBeforeUnmount(clear)
 
 /* Just enough of a device to read as one: a bezel, a radius, a status bar.
  * The tilt is small on purpose — the two phones lean towards each other like
- * an open book, and straighten when you reach for one. */
+ * an open book, and lift when you reach for one. */
 .phone {
   width: 100%;
   padding: 7px;
@@ -559,29 +522,14 @@ onBeforeUnmount(clear)
   border-radius: 30px;
   background: var(--canvas-3);
   box-shadow: 0 24px 48px -28px rgba(0, 0, 0, 0.45);
+  transform: perspective(1600px) rotateY(var(--lean)) rotateX(var(--pitch));
   transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
-}
-
-.lane-a .phone {
-  transform: perspective(1600px) rotateY(7deg) rotateX(2deg);
-}
-
-.lane-b .phone {
-  transform: perspective(1600px) rotateY(-7deg) rotateX(2deg);
-}
-
-.lane-a .phone:hover,
-.lane-a .phone:focus-within {
-  transform: perspective(1600px) rotateY(7deg) rotateX(2deg) translateY(-3px);
-}
-
-.lane-b .phone:hover,
-.lane-b .phone:focus-within {
-  transform: perspective(1600px) rotateY(-7deg) rotateX(2deg) translateY(-3px);
 }
 
 .phone:hover,
 .phone:focus-within {
+  transform: perspective(1600px) rotateY(var(--lean)) rotateX(var(--pitch))
+    translateY(var(--lift));
   box-shadow: 0 30px 56px -28px rgba(0, 0, 0, 0.52);
 }
 
@@ -700,12 +648,6 @@ onBeforeUnmount(clear)
   display: flex;
   gap: var(--s2);
   align-items: center;
-  margin: 0;
-  font-family: var(--font-mono);
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  color: var(--ink-3);
 }
 
 .glyph {
@@ -731,6 +673,7 @@ onBeforeUnmount(clear)
 }
 
 .app-cta {
+  position: relative;
   width: 100%;
   min-height: 40px;
   margin-top: var(--s6);
@@ -751,18 +694,33 @@ onBeforeUnmount(clear)
   opacity: 0.5;
 }
 
-/* A quiet breathing edge, so it is obvious the phone is the control. */
-.app-cta.is-hinting {
+/* A quiet breathing edge, so it is obvious the phone is the control. It runs
+ * until the reader presses the button, so it rides on a pseudo-element and
+ * moves only opacity and transform — a box-shadow keyframe would repaint the
+ * phone's layer sixty times a second for as long as the page is open. */
+.app-cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 2px var(--accent-line);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.app-cta.is-hinting::after {
   animation: hint 2.4s var(--ease) infinite;
 }
 
 @keyframes hint {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 var(--accent-line);
+  0% {
+    opacity: 0.9;
+    transform: scale(1);
   }
-  50% {
-    box-shadow: 0 0 0 4px transparent;
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(1.05);
   }
 }
 
@@ -792,9 +750,6 @@ onBeforeUnmount(clear)
 
 .app-session-state {
   margin-left: auto;
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
   color: var(--ok);
 }
 
@@ -844,11 +799,6 @@ onBeforeUnmount(clear)
 
 .sheet-label {
   margin: var(--s4) 0 var(--s2);
-  font-family: var(--font-mono);
-  font-size: var(--t-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  color: var(--ink-3);
 }
 
 .hex {
@@ -885,11 +835,7 @@ onBeforeUnmount(clear)
 }
 
 .alert strong {
-  font-family: var(--font-mono);
-  font-size: var(--t-label);
   font-weight: 600;
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
   color: var(--danger);
 }
 
@@ -978,8 +924,6 @@ onBeforeUnmount(clear)
   font-weight: 550;
 }
 
-/* ---------------------------------------------------------------- foot */
-
 /* -------------------------------------------------------------- narrow */
 
 @media (max-width: 819px) {
@@ -989,7 +933,6 @@ onBeforeUnmount(clear)
 
   .stage {
     grid-template-columns: minmax(0, 1fr);
-    perspective: none;
   }
 
   .lane.is-hidden {
@@ -1002,31 +945,24 @@ onBeforeUnmount(clear)
   }
 
   /* Flat once there is only one phone — there is nothing left to lean into. */
-  .lane-a .phone,
-  .lane-b .phone {
-    transform: none;
-  }
-
-  .lane-a .phone:hover,
-  .lane-b .phone:hover,
-  .lane-a .phone:focus-within,
-  .lane-b .phone:focus-within {
-    transform: translateY(-4px);
+  .lane-adhoc,
+  .lane-siwe {
+    --lean: 0deg;
+    --pitch: 0deg;
+    --lift: -4px;
   }
 }
 
+/* base.css already clamps every animation and transition under this query, so
+ * the only thing left to say is that the resting tilt is a static transform
+ * rather than motion — and a 3D object is not something to hand a vestibular
+ * reader either. */
 @media (prefers-reduced-motion: reduce) {
-  .lane-a .phone,
-  .lane-b .phone,
-  .lane-a .phone:hover,
-  .lane-b .phone:hover,
-  .lane-a .phone:focus-within,
-  .lane-b .phone:focus-within {
-    transform: none;
-  }
-
-  .app-cta.is-hinting {
-    animation: none;
+  .lane-adhoc,
+  .lane-siwe {
+    --lean: 0deg;
+    --pitch: 0deg;
+    --lift: 0px;
   }
 }
 </style>
