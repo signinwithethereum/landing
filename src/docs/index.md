@@ -38,7 +38,7 @@ the page that matters most.
 | [Smart accounts](/docs/smart-accounts) | Verifying signatures from contract accounts, including ones not deployed yet. |
 | [Sessions](/docs/sessions) | What happens after verification succeeds. A signature is not a session. |
 | [Libraries](/docs/libraries/) | Official implementations in TypeScript, Python, Rust, Go and Ruby. |
-| [Integrations](/docs/integrations/) | Discourse and Auth0, for when you would rather not write verification code. |
+| [Integrations](/docs/integrations/) | Discourse and the OIDC provider, for when you would rather not write verification code. |
 | [OIDC provider](/docs/oidc-provider/) | Put SIWE behind a standard OpenID Connect endpoint. |
 | [Message validator](/tools/validator) | Paste a message, see everything wrong with it. |
 

@@ -74,7 +74,6 @@ configure(await createEthersConfig(provider))
 The library supports various integrations:
 
 - [Discourse](/docs/integrations/discourse)
-- [Auth0](/docs/integrations/auth0)
 
 ## API Reference
 

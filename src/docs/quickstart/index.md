@@ -60,4 +60,4 @@ The next two pages walk through how this is implemented:
 
 - **Documentation**: [TypeScript Library](/docs/libraries/typescript)
 - **Issues**: [GitHub](https://github.com/signinwithethereum/siwe)
-- **Integrations**: [Auth0, Discourse](/docs/integrations/)
+- **Integrations**: [Discourse, OIDC](/docs/integrations/)

@@ -1,6 +1,6 @@
 ---
 title: Integrations
-description: Ready-made ways to add SIWE to an existing platform — Discourse, Auth0, Django, or any OpenID Connect client — without writing verification code.
+description: Ready-made ways to add SIWE to an existing platform — Discourse, Django, or any OpenID Connect client — without writing verification code.
 ---
 
 # Integrations
@@ -11,14 +11,12 @@ that already exist.
 | | | |
 | --- | --- | --- |
 | [Discourse](/docs/integrations/discourse) | A plugin | Wallet sign-in for a forum, with ENS names and avatars resolved server-side. |
-| [Auth0](/docs/integrations/auth0) | A connection | Wire SIWE into Auth0 as a custom social connection, via the OIDC provider. |
 | [Django](/docs/libraries/python#django) | A reusable app | Nonce and verify endpoints, an auth backend, sessions and wallet linking. |
 | [OIDC provider](/docs/oidc-provider/) | A service you host | Put SIWE behind a standard OpenID Connect endpoint, and any OIDC client can use it. |
 
 The OIDC provider is the general answer. If your platform can talk to an OpenID
 Connect identity provider — and most enterprise software can — it can accept SIWE
-without ever learning what an Ethereum address is. Auth0 is one worked example of
-exactly that.
+without ever learning what an Ethereum address is.
 
 ## Building your own
 

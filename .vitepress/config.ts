@@ -107,16 +107,15 @@ export default defineConfig({
           link: '/docs/integrations/',
           items: [
             { text: 'Discourse', link: '/docs/integrations/discourse' },
-            { text: 'Auth0', link: '/docs/integrations/auth0' }
-          ]
-        },
-        {
-          text: 'OIDC provider',
-          link: '/docs/oidc-provider/',
-          items: [
-            { text: 'API reference', link: '/docs/oidc-provider/api-reference' },
-            { text: 'Deployment guide', link: '/docs/oidc-provider/deployment-guide' },
-            { text: 'Client setup', link: '/docs/oidc-provider/client-setup' }
+            {
+              text: 'OIDC provider',
+              link: '/docs/oidc-provider/',
+              items: [
+                { text: 'API reference', link: '/docs/oidc-provider/api-reference' },
+                { text: 'Deployment guide', link: '/docs/oidc-provider/deployment-guide' },
+                { text: 'Client setup', link: '/docs/oidc-provider/client-setup' }
+              ]
+            }
           ]
         },
         {

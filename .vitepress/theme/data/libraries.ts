@@ -80,11 +80,6 @@ export const INTEGRATIONS: Integration[] = [
     link: '/docs/oidc-provider/'
   },
   {
-    name: 'Auth0',
-    what: 'Wire the OIDC provider into Auth0 as a custom social connection.',
-    link: '/docs/integrations/auth0'
-  },
-  {
     name: 'Discourse',
     what: 'A plugin that adds wallet sign-in to a forum, with ENS names and avatars resolved server-side.',
     link: '/docs/integrations/discourse'
