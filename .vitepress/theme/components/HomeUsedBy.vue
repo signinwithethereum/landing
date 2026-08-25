@@ -18,8 +18,7 @@ const INTEGRATORS = [
   {
     name: 'Ambire',
     href: 'https://www.ambire.com/',
-    mark: '/stories/ambire.svg',
-    markClass: 'integrator-mark-image--ambire'
+    mark: '/integrators/ambire.svg'
   },
   {
     name: 'EVM.NOW',
@@ -29,8 +28,7 @@ const INTEGRATORS = [
   {
     name: 'Privy',
     href: 'https://www.privy.io/',
-    mark: '/integrators/privy.svg',
-    markClass: 'integrator-mark-image--native'
+    mark: '/integrators/privy.svg'
   }
 ]
 </script>
@@ -63,7 +61,7 @@ const INTEGRATORS = [
           >
             <span class="integrator-mark" aria-hidden="true">
               <img
-                :class="['integrator-mark-image', integrator.markClass]"
+                class="integrator-mark-image"
                 :src="integrator.mark"
                 alt=""
                 width="32"
@@ -202,34 +200,20 @@ const INTEGRATORS = [
 }
 
 .integrator-mark {
-  position: relative;
-  display: block;
+  display: flex;
   width: 26px;
-  height: 26px;
+  height: 18px;
   flex: 0 0 26px;
-  overflow: hidden;
+  align-items: center;
+  justify-content: center;
 }
 
 .integrator-mark-image {
-  position: absolute;
-  inset: 0;
   display: block;
-  width: 26px;
-  height: 26px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   filter: grayscale(1) brightness(0) invert(1);
-  opacity: 1;
-}
-
-.integrator-mark-image--ambire {
-  inset-inline-end: auto;
-  width: auto;
-  max-width: none;
-}
-
-.integrator-mark-image--native {
-  filter: none;
-  opacity: 1;
 }
 
 .integrator-name {
@@ -264,19 +248,9 @@ const INTEGRATORS = [
   }
 
   .integrator-mark {
-    width: 22px;
-    height: 22px;
-    flex-basis: 22px;
-  }
-
-  .integrator-mark-image {
-    width: 22px;
-    height: 22px;
-  }
-
-  .integrator-mark-image--ambire {
-    width: auto;
-    max-width: none;
+    width: 24px;
+    height: 16px;
+    flex-basis: 24px;
   }
 
   .integrator-name {
