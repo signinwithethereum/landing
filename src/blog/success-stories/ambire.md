@@ -8,7 +8,7 @@ date: 2026-08-20
 
 Signing in once proves your control of an account. Signing the same login request every time should be abstracted.
 
-By co-authoring ERC-8019 and implementing it inside Ambire Wallet, Ambire has given users a way to authorize repeated Sign-In with Ethereum requests automatically.
+By co-authoring ERC-8019 and implementing it inside Ambire Wallet, Ambire has given users a way to authorize repeated Sign in with Ethereum requests automatically.
 
 When the account, domain, URI, network, and requested resources remain within the approved policy, a later login can be signed automatically.
 
@@ -16,7 +16,7 @@ The result is a low-friction returning-user experience.
 
 ## **Logging in again**
 
-[Sign-In with Ethereum](https://eips.ethereum.org/EIPS/eip-4361), standardized as ERC-4361, allows an application to authenticate an Ethereum account through a signed message. The message identifies the account, requesting domain, URI, chain ID, nonce, and issuance time. The application verifies the signature and creates a session without receiving a password or private key.
+[Sign in with Ethereum](https://eips.ethereum.org/EIPS/eip-4361), standardized as ERC-4361, allows an application to authenticate an Ethereum account through a signed message. The message identifies the account, requesting domain, URI, chain ID, nonce, and issuance time. The application verifies the signature and creates a session without receiving a password or private key.
 
 Each new authentication request should contain a fresh nonce and timestamp. The cryptographic message changes, but the user may still be making the same decision: use the same account to enter the same application for the same purpose. The same trust model is in place.
 
@@ -52,7 +52,7 @@ Auto-login applies only to valid ERC-4361 messages that match an active policy. 
 
 Domain binding provides an important phishing control. Ambire compares the domain inside the SIWE message with the website that sent the request. A mismatch blocks auto-login and displays a deceptive-request warning. Independent wallet-security evaluator [Coinspect verified Ambire’s SIWE domain-mismatch protection](https://www.coinspect.com/wallets/reports/ambire-browser/).
 
-The policy covers authentication signatures. Transactions, token approvals, typed-data signatures, and arbitrary messages continue through their usual approval flows. A SIWE signature remains off-chain, costs no gas, and moves no funds.
+The policy covers authentication signatures. Transactions, token approvals, typed-data signatures, and arbitrary messages continue through their usual approval flows. A SIWE signature remains offchain, costs no gas, and moves no funds.
 
 Ambire currently limits automatic signing to supported account configurations. Safe accounts and accounts requiring an external signer, such as a hardware wallet, return to manual signing. The ERC describes how future session-key and ERC-6492 support could extend coverage safely.
 

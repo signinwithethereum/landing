@@ -1,7 +1,7 @@
 ---
 title: "Polymarket - The worlds largest prediction market"
 description: More than 30 million users. Over $27 billion traded globally. One SIWE signature to login.
-date: 2026-08-26
+date: 2026-08-27
 ---
 
 # Polymarket success story (placeholder)
@@ -10,7 +10,7 @@ date: 2026-08-26
 
 More than 30 million users. Over $27 billion traded globally. One SIWE signature to login.
 
-By offering Sign-In with Ethereum alongside Google and email, Polymarket gives wallet users a direct way to access their accounts without creating another password.
+By offering Sign in with Ethereum alongside Google and email, Polymarket gives wallet users a direct way to access their accounts without creating another password.
 
 The wallet becomes more than a way to deposit funds. It becomes the identity anchoring an entire trading account.
 
@@ -24,7 +24,7 @@ Authentication is closely connected to the product. A Polymarket account is not 
 
 Polymarket offers three ways into that system: Google, email, or your Ethereum wallet.
 
-The first signature uses [Sign-In with Ethereum](https://eips.ethereum.org/EIPS/eip-4361).
+The first signature uses [Sign in with Ethereum](https://eips.ethereum.org/EIPS/eip-4361).
 
 Polymarket’s SIWE message identifies `polymarket.com` as the requesting domain and includes the user’s address, the Polygon chain ID, a unique nonce, an issuance time, and an expiration time, 15 minutes.
 
@@ -50,7 +50,7 @@ The trading signature asks whether that account has authorized access to Polymar
 
 The same separation continues inside Polymarket’s [order-book authentication](https://docs.polymarket.com/getting-started/api). An EIP-712 `ClobAuth` signature establishes control of the signer and creates trading credentials. Those credentials authenticate private requests, while orders carry their own EIP-712 signatures defining what the user has approved.
 
-Orders are matched off-chain for speed. When orders match, the trade settles on Polygon, where the exchange contract verifies the signatures and transfers the corresponding funds and outcome tokens. ([Polymarket order lifecycle](https://docs.polymarket.com/concepts/order-lifecycle))
+Orders are matched offchain for speed. When orders match, the trade settles on Polygon, where the exchange contract verifies the signatures and transfers the corresponding funds and outcome tokens. ([Polymarket order lifecycle](https://docs.polymarket.com/concepts/order-lifecycle))
 
 SIWE authenticates the session. Trading credentials authenticate private requests. Order signatures authorize trades. Smart contracts enforce the settlement.
 

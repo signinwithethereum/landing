@@ -18,7 +18,7 @@ start a session.
 
 That is the whole idea. There is no identity provider, no client secret to
 register, no password to store, and nothing to broadcast, because the signature is
-off-chain and costs no gas.
+offchain and costs no gas.
 
 ::: tip Start here
 If you want working code in front of you, go to the

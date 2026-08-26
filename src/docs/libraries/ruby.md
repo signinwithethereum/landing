@@ -319,12 +319,12 @@ message.verify!(signature: sig, domain: "example.com", nonce: message.nonce)
 With an RPC configured:
 
 - EOA recovery is attempted first; the RPC is never touched when it succeeds.
-- If recovery fails, the universal off-chain validator bytecode is executed via a single `eth_call` (no `to` address), covering both undeployed and already-deployed wallets.
+- If recovery fails, the universal offchain validator bytecode is executed via a single `eth_call` (no `to` address), covering both undeployed and already-deployed wallets.
 
 The RPC provider's chain ID must match the message's `chain_id`, otherwise `:invalid_signature_chain_id` is raised; this binding is enforced, never skipped.
 
 ::: info
-This is verification only. EIP-6492 allows a verifier to optionally submit the factory transaction after a successful check to finalize on-chain deployment ("side-effectful" verification). This library does not do that; if you need the wallet actually deployed, submit the factory call yourself.
+This is verification only. EIP-6492 allows a verifier to optionally submit the factory transaction after a successful check to finalize onchain deployment ("side-effectful" verification). This library does not do that; if you need the wallet actually deployed, submit the factory call yourself.
 :::
 
 ### Per-call configuration

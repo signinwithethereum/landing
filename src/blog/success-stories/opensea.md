@@ -1,13 +1,13 @@
 ---
 title: "OpenSea: the wallet is the account"
-description: "Before Sign-In with Ethereum had a standard, OpenSea was already built around its central idea: prove control of a wallet and use it as your account."
+description: "Before Sign in with Ethereum had a standard, OpenSea was already built around its central idea: prove control of a wallet and use it as your account."
 date: 2026-08-25
 ---
 
 
 # **OpenSea: The wallet is the account**
 
-Before Sign-In with Ethereum had a standard, OpenSea was already built around its central idea: prove control of a wallet and use it as your account.
+Before Sign in with Ethereum had a standard, OpenSea was already built around its central idea: prove control of a wallet and use it as your account.
 
 The wallet held the assets, authorized transactions, and anchored the user’s public identity.
 
@@ -81,7 +81,7 @@ OpenSea’s model reflects those boundaries. The initial signature establishes i
 
 OpenSea represents the environment in which wallet authentication is easiest to understand.
 
-The user’s assets are already associated with an on-chain address. The wallet already controls whether those assets can move. Using the same wallet to authenticate the account creates a direct connection between identity and authority.
+The user’s assets are already associated with an onchain address. The wallet already controls whether those assets can move. Using the same wallet to authenticate the account creates a direct connection between identity and authority.
 
 At OpenSea’s scale, that pattern reached a broad consumer audience. The platform showed that a cryptographic account could support profiles, sessions, preferences, and marketplace activity without beginning with a conventional password.
 

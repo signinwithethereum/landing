@@ -192,8 +192,8 @@ Verification order:
 1. Binding checks (`Scheme`, `Domain`, `Nonce`, `URI`, `ChainID`, `RequestID`)
 2. Time checks (`ExpirationTime`, `NotBefore`)
 3. **EOA**: `ecrecover` via go-ethereum's `crypto.SigToPub`
-4. **EIP-6492**: if the signature carries the magic suffix and a `ContractVerifier` is supplied, the universal off-chain validator bytecode is executed via `eth_call`
-5. **EIP-1271**: otherwise fall back to on-chain `isValidSignature` via the supplied `ContractVerifier`
+4. **EIP-6492**: if the signature carries the magic suffix and a `ContractVerifier` is supplied, the universal offchain validator bytecode is executed via `eth_call`
+5. **EIP-1271**: otherwise fall back to onchain `isValidSignature` via the supplied `ContractVerifier`
 
 ### `VerifyParams`
 
@@ -328,7 +328,7 @@ res, err := m.VerifyWith(ctx, signature, siwe.VerifyParams{
 With a verifier configured:
 
 - EOA recovery is attempted first.
-- If the signature carries the [EIP-6492](https://eips.ethereum.org/EIPS/eip-6492) magic suffix, the universal off-chain validator bytecode is executed via `eth_call` (no `to` address); this covers both counterfactual (undeployed) wallets and already-deployed wallets.
+- If the signature carries the [EIP-6492](https://eips.ethereum.org/EIPS/eip-6492) magic suffix, the universal offchain validator bytecode is executed via `eth_call` (no `to` address); this covers both counterfactual (undeployed) wallets and already-deployed wallets.
 - Otherwise the verifier falls back to [EIP-1271](https://eips.ethereum.org/EIPS/eip-1271) `isValidSignature(bytes32,bytes)` against the deployed contract.
 
 The RPC provider's chain ID must match the message's `ChainID`, otherwise `ErrInvalidSignatureChain` is returned.
@@ -363,7 +363,7 @@ type ContractSignatureVerifier interface {
 ```
 
 ::: info
-This is verification only. EIP-6492 allows a verifier to optionally submit the factory transaction after a successful check to finalize on-chain deployment ("side-effectful" verification). This library does not do that; if you need the wallet actually deployed, submit the factory call yourself.
+This is verification only. EIP-6492 allows a verifier to optionally submit the factory transaction after a successful check to finalize onchain deployment ("side-effectful" verification). This library does not do that; if you need the wallet actually deployed, submit the factory call yourself.
 :::
 
 ## Backend Integration

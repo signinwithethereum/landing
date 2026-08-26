@@ -8,7 +8,7 @@ date: 2026-08-21
 
 More than 30 million monthly active users. One open standard for wallet authentication.
 
-By integrating Sign-In with Ethereum, MetaMask has given applications a consistent way to offer passwordless login across web3.
+By integrating Sign in with Ethereum, MetaMask has given applications a consistent way to offer passwordless login across web3.
 
 Standardized messages, clearer consent, and domain-mismatch warnings transformed wallet login from a custom crypto interaction into a recognizable authentication experience.
 
@@ -16,21 +16,21 @@ Standardized messages, clearer consent, and domain-mismatch warnings transformed
 
 For most of the internet, signing in means creating a password or delegating identity to a centralized provider such as Google, Apple, or Facebook. Both approaches place an intermediary between the user and the service they want to access. The provider controls the identifier, manages the account, and ultimately determines whether the user can continue using it.
 
-Ethereum introduced another possibility. The same cryptographic keys used to control an Ethereum account can also prove that a user owns that account. Instead of submitting a password, the user signs a message with their wallet. The application verifies the signature and creates a session, all without an on-chain transaction or gas fee.
+Ethereum introduced another possibility. The same cryptographic keys used to control an Ethereum account can also prove that a user owns that account. Instead of submitting a password, the user signs a message with their wallet. The application verifies the signature and creates a session, all without an onchain transaction or gas fee.
 
-Wallet authentication was possible long before Sign-In with Ethereum, but it was not standardized. Applications created their own messages, verification methods, and login flows. One application might ask a user to “sign to continue,” while another might present a long block of technical text. A legitimate authentication request could look almost identical to an unrelated signature prompt.
+Wallet authentication was possible long before Sign in with Ethereum, but it was not standardized. Applications created their own messages, verification methods, and login flows. One application might ask a user to “sign to continue,” while another might present a long block of technical text. A legitimate authentication request could look almost identical to an unrelated signature prompt.
 
 This inconsistency created friction for users and unnecessary work for developers. Users had to determine what they were signing and why. Developers had to design their own message formats, nonce systems, expiration rules, and session logic. Every new implementation introduced another opportunity for confusing language, incompatible behavior, or an overlooked security control.
 
 ## **A wallet login language**
 
-[Sign-In with Ethereum](https://eips.ethereum.org/EIPS/eip-4361), standardized as ERC-4361, gave the ecosystem a common authentication format.
+[Sign in with Ethereum](https://eips.ethereum.org/EIPS/eip-4361), standardized as ERC-4361, gave the ecosystem a common authentication format.
 
 A SIWE message identifies the domain requesting authentication, the Ethereum address being used, the URI associated with the request, the relevant chain ID, and a unique nonce. It can also contain an issuance time, expiration time, request identifier, statement of purpose, and a list of resources the user is authorizing the application to access.
 
 This structure gives applications a consistent method for requesting authentication and gives wallets a machine-readable way to understand what the user is being asked to do. Once the user signs the message, the application verifies the signature and confirms that the request is valid before establishing a session.
 
-No password needs to be created or stored. No private key leaves the wallet. No transaction is submitted to a blockchain. The user simply proves control of an Ethereum account through a standardized, off-chain signature.
+No password needs to be created or stored. No private key leaves the wallet. No transaction is submitted to a blockchain. The user simply proves control of an Ethereum account through a standardized, offchain signature.
 
 The standard created the foundation, but the experience still depended on wallets implementing it well. For SIWE to become useful at scale, major wallets needed to recognize the format, communicate its purpose clearly, and protect users from deceptive requests.
 

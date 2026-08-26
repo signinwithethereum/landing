@@ -8,7 +8,7 @@ date: 2026-08-25
 
 160 million accounts. More than $15 billion processed each month. One supported flow for bringing an existing Ethereum wallet into an application.
 
-By integrating Sign-In with Ethereum into a broader authentication platform, Privy lets developers offer passwordless wallet login alongside email, social accounts, SMS, and passkeys.
+By integrating Sign in with Ethereum into a broader authentication platform, Privy lets developers offer passwordless wallet login alongside email, social accounts, SMS, and passkeys.
 
 The result is more than a successful implementation at one application. Privy has made SIWE available as reusable infrastructure that thousands of product teams can configure, customize, and bring to their own users.
 

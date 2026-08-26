@@ -1,6 +1,6 @@
 ---
 title: "OpenRouter brings SIWE mainstream"
-description: By adding Sign-In with Ethereum alongside Google and GitHub, OpenRouter has made passwordless, cryptographically verified login available to a community of more than 10 million developers and companies.
+description: By adding Sign in with Ethereum alongside Google and GitHub, OpenRouter has made passwordless, cryptographically verified login available to a community of more than 10 million developers and companies.
 date: 2026-08-28
 ---
 
@@ -8,7 +8,7 @@ date: 2026-08-28
 
 OpenRouter has given users a new way to login. Their Ethereum wallet.
 
-By adding Sign-In with Ethereum alongside Google and GitHub, OpenRouter has made passwordless, cryptographically verified login available to a community of more than 10 million developers and companies.
+By adding Sign in with Ethereum alongside Google and GitHub, OpenRouter has made passwordless, cryptographically verified login available to a community of more than 10 million developers and companies.
 
 The integration demonstrates the power of SIWE beyond crypto, bringing low-friction, wallet-based authentication to mainstream software at massive scale.
 
@@ -22,7 +22,7 @@ The company has grown rapidly. OpenRouter now processes more than 10 trillion to
 
 Choice is central to the product. It shapes how developers select models, how applications route requests, and how teams manage their AI infrastructure.
 
-Google and GitHub provide familiar ways for developers to create an account and sign in. By adding Sign-In with Ethereum alongside them, OpenRouter introduced another option for users who already have an Ethereum wallet and prefer to authenticate through an account they control.
+Google and GitHub provide familiar ways for developers to create an account and sign in. By adding Sign in with Ethereum alongside them, OpenRouter introduced another option for users who already have an Ethereum wallet and prefer to authenticate through an account they control.
 
 The wallet is not treated as a payment method or a crypto-specific add-on. It becomes a first-class login credential.
 
@@ -32,11 +32,11 @@ Traditional authentication usually depends on something a user knows (a password
 
 A password asks the user to create and remember a shared secret. The service must then store enough information to verify that password in the future. Social login removes the need for another password, but it delegates authentication to a centralized identity provider.
 
-Sign-In with Ethereum offers a different model.
+Sign in with Ethereum offers a different model.
 
 The user proves control of an Ethereum account by signing a standardized message with their wallet. OpenRouter can verify the signature and establish a session without receiving the user’s private key or asking them to create a password.
 
-The process is cryptographic, but it does not involve an on-chain transaction. No funds move, no smart contract is called, and no gas fee is required. The wallet signs the message locally and returns a signature that the service can easily verify.
+The process is cryptographic, but it does not involve an onchain transaction. No funds move, no smart contract is called, and no gas fee is required. The wallet signs the message locally and returns a signature that the service can easily verify.
 
 ## **Taking Ethereum beyond**
 

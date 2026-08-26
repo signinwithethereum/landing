@@ -131,9 +131,9 @@ let public_key: Vec<u8> = message.verify_eip191(&signature).unwrap();
 
 Full verification: time constraints, field binding checks, and signature authentication. Verification order follows EIP-6492:
 
-1. **EIP-6492**: if the signature has the magic suffix, verify via the universal off-chain validator
+1. **EIP-6492**: if the signature has the magic suffix, verify via the universal offchain validator
 2. **EOA**: try standard `ecrecover` for 65-byte signatures
-3. **EIP-1271**: fall back to on-chain `isValidSignature` if EOA verification fails (requires `alloy` feature)
+3. **EIP-1271**: fall back to onchain `isValidSignature` if EOA verification fails (requires `alloy` feature)
 
 ```rust
 use hex::FromHex;
@@ -423,7 +423,7 @@ See the full [CHANGELOG](https://github.com/signinwithethereum/siwe-rs/blob/main
 cargo test
 ```
 
-To run tests that require on-chain verification (EIP-1271 / EIP-6492), enable the `alloy` feature and provide an Ethereum mainnet RPC URL:
+To run tests that require onchain verification (EIP-1271 / EIP-6492), enable the `alloy` feature and provide an Ethereum mainnet RPC URL:
 
 ```bash
 ETH_RPC_URL="https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY" cargo test --features alloy

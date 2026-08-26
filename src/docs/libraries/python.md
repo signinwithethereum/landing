@@ -170,8 +170,8 @@ Verification order:
 1. Field-binding checks (scheme, domain, nonce, uri, chain_id, request_id)
 2. Time checks (`expiration_time`, `not_before`)
 3. **EOA**: `ecrecover` via `eth-account`
-4. **EIP-6492**: if the signature has the magic suffix and a `provider` is supplied, verify via the universal off-chain validator
-5. **EIP-1271**: otherwise, fall back to on-chain `isValidSignature` if a `provider` is supplied
+4. **EIP-6492**: if the signature has the magic suffix and a `provider` is supplied, verify via the universal offchain validator
+5. **EIP-1271**: otherwise, fall back to onchain `isValidSignature` if a `provider` is supplied
 
 ### `generate_nonce() -> str`
 
@@ -217,7 +217,7 @@ Message construction errors raise `pydantic.ValidationError` (field validation) 
 
 ## Smart Contract Wallets (EIP-1271 / EIP-6492)
 
-Pass a `web3` provider to `verify()` to enable on-chain signature validation for smart contract wallets. The authentication arguments (`strict`, `domain`, `nonce`, `uri`, `chain_id`) still apply; the provider only changes how the signature itself is verified:
+Pass a `web3` provider to `verify()` to enable onchain signature validation for smart contract wallets. The authentication arguments (`strict`, `domain`, `nonce`, `uri`, `chain_id`) still apply; the provider only changes how the signature itself is verified:
 
 ```python
 from siwe import SiweMessage
@@ -239,13 +239,13 @@ message.verify(
 
 With a provider configured, the library will:
 
-- detect [EIP-6492](https://eips.ethereum.org/EIPS/eip-6492) signatures by their magic suffix and validate them via the universal off-chain validator bytecode (no deployment required)
+- detect [EIP-6492](https://eips.ethereum.org/EIPS/eip-6492) signatures by their magic suffix and validate them via the universal offchain validator bytecode (no deployment required)
 - fall back to [EIP-1271](https://eips.ethereum.org/EIPS/eip-1271) `isValidSignature` for deployed contract wallets (Safe, Argent, etc.)
 
 The provider's chain ID must match the message's `chain_id`, otherwise `ChainIdMismatch` is raised.
 
 ::: info
-This is verification only. EIP-6492 allows a verifier to optionally submit the factory transaction after a successful check to finalize on-chain deployment ("side-effectful" verification). This library does not do that; if you need the wallet actually deployed, submit the factory call yourself.
+This is verification only. EIP-6492 allows a verifier to optionally submit the factory transaction after a successful check to finalize onchain deployment ("side-effectful" verification). This library does not do that; if you need the wallet actually deployed, submit the factory call yourself.
 :::
 
 ## Backend Integration
@@ -456,7 +456,7 @@ Notable keys under `SIWE_DJANGO`:
 | `RATE_LIMITS`        | `{}`    | Per-view rate limits, e.g. `{"verify": "5/m"}`.                           |
 | `AUDIT_ENABLED`      | `True`  | Persist sign-in events to the `SiweAuthEvent` model.                      |
 | `NONCE_STORE`        | `siwe_django.nonce_store.DjangoOrmNonceStore` | Dotted import path for the nonce-store class. Switch to `siwe_django.nonce_store.RedisNonceStore` with the `[redis]` extra. |
-| `TOKEN_GATES`        | -       | Sync Django groups from on-chain holdings (ERC-721 / ERC-20 / EFP / ENS). |
+| `TOKEN_GATES`        | -       | Sync Django groups from onchain holdings (ERC-721 / ERC-20 / EFP / ENS). |
 
 See the [project README](https://github.com/signinwithethereum/siwe-django) for the full configuration reference, DRF integration details, and frontend wiring examples.
 
