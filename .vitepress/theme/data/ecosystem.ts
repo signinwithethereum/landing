@@ -514,5 +514,12 @@ export const ECOSYSTEM: Entry[] = [
     type: 'app',
     story: '/blog/success-stories/evm-now',
     note: 'A paid feature with no account to create — entitlement is read from the chain.'
+  },
+  {
+    name: 'OpenRouter',
+    link: 'https://openrouter.ai',
+    type: 'app',
+    story: '/blog/success-stories/openrouter',
+    note: "Lists Sign in with Ethereum beside Google and GitHub: wallet login at the scale of a mainstream API gateway."
   }
 ]

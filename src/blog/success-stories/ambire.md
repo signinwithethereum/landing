@@ -1,146 +1,70 @@
 ---
-title: Ambire turns a signature request into a sign-in screen
-description: Most wallets show you a message and let you read it. Ambire recognises an ERC-4361 sign-in, lays it out in plain labels, warns when the site asking is not the site named, and stops asking you to re-sign every day.
-date: 2026-08-17
+title: Ambire’s Genius SIWE UX
+description: When the account, domain, URI, network, and requested resources remain within the approved policy, a later login can be signed automatically.
+date: 2026-08-26
 ---
 
-# Ambire turns a signature request into a sign-in screen
+# **Ambire’s Genius SIWE UX**
 
-The security of signing in with Ethereum does not live only on the server. Half of
-it is whether the person holding the key can tell what they are agreeing to, and
-that half belongs to the wallet. ERC-4361 says so in capitals: wallet implementers
-**MUST** display the domain, address, statement and resources, and **MUST** prevent
-phishing by verifying the origin of the request against the `scheme` and `domain`
-fields.
+Signing in once proves your control of an account. Signing the same login request every time should be abstracted.
 
-[Ambire](https://www.ambire.com/) — a self-custodial extension and mobile wallet —
-treats that as a product surface rather than a compliance note, and the whole thing
-is open source under GPL-3.0 if you want to check.
+By co-authoring ERC-8019 and implementing it inside Ambire Wallet, Ambire has given users a way to authorize repeated Sign-In with Ethereum requests automatically.
 
-## What you see instead of a message
+When the account, domain, URI, network, and requested resources remain within the approved policy, a later login can be signed automatically.
 
-The screen is titled **Sign-in request**. Not "Sign message". Not "Signature
-request". It names the app asking and states the intent — *wants to prove you own
-this account* — where an unstructured message gets the vaguer *is requesting your
-signature*.
+The result is a low-friction returning-user experience.
 
-Underneath, the parsed message as a table of plain labels: the site, the account,
-the network as a name rather than a chain number, the nonce, when it was issued.
-Empty fields are left out instead of shown blank. The buttons are **Reject** and
-**Sign in**.
+## **Logging in again**
 
-No hex. No JSON. No scrolling through a wall of text to find the one line that
-tells you which site you are about to be logged into.
+[Sign-In with Ethereum](https://eips.ethereum.org/EIPS/eip-4361), standardized as ERC-4361, allows an application to authenticate an Ethereum account through a signed message. The message identifies the account, requesting domain, URI, chain ID, nonce, and issuance time. The application verifies the signature and creates a session without receiving a password or private key.
 
-Walletbeat, which reviews wallets independently, captured the dialog in July 2026
-and summarises it as *"Ambire formats SIWE requests for easy readability"*, marking
-ERC-4361 as supported. Their
-[screenshot](https://beta.walletbeat.eth.limo/references/wallets/ambire/screenshots/2026-07-24-ambire-erc4361-siwe.png)
-is the quickest way to see what this looks like in practice.
+Each new authentication request should contain a fresh nonce and timestamp. The cryptographic message changes, but the user may still be making the same decision: use the same account to enter the same application for the same purpose. The same trust model is in place.
 
-None of it is possible without the standard. A wallet can only lay out fields it
-can find, and it can only find them because ERC-4361 fixes what they are called and
-what order they come in. Structure at the protocol layer is what buys clarity at
-the interface.
+Repeated prompts interrupt that flow. They can also make signing feel routine, encouraging users to approve requests without examining them carefully.
 
-## It tells you when the site asking is not the site named
+The wallet is well positioned to reduce this repetition. It can see both the origin of the request and the complete SIWE message, allowing it to compare a new request with permission the user granted earlier.
 
-This is the part that protects people rather than merely informing them.
+## **A wallet answer**
 
-The message names a site. The request comes from a site. When those disagree,
-something is wrong — most likely that a page you are on has handed your wallet a
-message written for somewhere else, hoping your signature can be used to log in
-there as you. You cannot see that by reading a signature request. The wallet can.
+Ambire co-founder and CEO Ivo Georgiev and Fileverse co-founder Vijay Krishnavanshi authored [ERC-8019, Minimal Wallet-Managed Auto-Login for SIWE](https://eips.ethereum.org/EIPS/eip-8019).
 
-Ambire shows a red alert when they disagree:
+The proposal defines a local wallet policy for automatically signing matching ERC-4361 messages. Policy creation happens inside the wallet with user approval. Each policy records an exact domain, an approved URI prefix, allowed chain IDs, allowed resources, and an expiration time.
 
-> **Deceptive app request** — The app you're attempting to sign in to does not
-> match the domain in the message. This may be a phishing attempt.
+When an application later requests authentication, the wallet evaluates the new message against those fields. A complete match allows automatic signing. An expired or out-of-scope request returns to the normal confirmation flow.
 
-And when the message names an account that is not the one being asked to sign, the
-request is refused outright rather than flagged. Warn where the person might have a
-reason; refuse where they cannot.
+The wallet produces a fresh signature for every request. The application still validates the message, checks the nonce and time limits, verifies the signature, and decides whether to establish a session.
 
-There is a subtlety here that is worth knowing even if you never use Ambire. The
-comparison has to be against the full host, port included — not the registrable
-domain. If a wallet compares only the registrable domain, then a message for
-`app.example.com` passes when the asking site is `evil.example.com`, because both
-reduce to `example.com`. On any platform that hands out subdomains, that is a
-complete bypass. Ambire compares the whole authority.
+ERC-8019 builds directly on ERC-4361.
 
-## It stops asking you to sign in every day
+## **How Ambire implements it**
 
-The most common complaint about signing in with Ethereum is not security, it is
-repetition: the same message, for the same site, over and over.
+Ambire recognizes valid SIWE messages and displays a purpose-built dedicated sign-in screen. Users can inspect the message, URL, domain, account, network, nonce, issuance time, and requested resources. The screen also includes the auto-login control and duration selector. These options are visible in Ambire’s [released wallet interface](https://github.com/AmbireTech/extension/blob/a60172f78649198089e2c99669fe387b7598db39/src/common/modules/sign-message/components/Contents/signInWithEthereum.tsx).
 
-Ambire's answer is a checkbox on the sign-in screen — *Auto-login on this network
-for the next* — with a duration you pick, up to thirty days. Sign in once, and
-subsequent identical sign-ins to that site happen without a prompt. Disconnecting
-the app revokes it.
+After the first approved signature, Ambire stores the policy locally for that account and application. Its [auto-login controller](https://github.com/AmbireTech/ambire-common/blob/c5b1b83abf6d9d5e29b7c2d35b9a579dc7477799/src/controllers/autoLogin/autoLogin.ts) parses later requests, checks every policy field, and signs automatically when the rules succeed.
 
-Two things make this safe rather than convenient-but-alarming:
+Ambire also implements the optional `wallet_getCurrentAutoLoginPolicy` method defined by ERC-8019. An application can use it to determine whether an active policy exists for the selected account, origin, and network. With an active policy, the application can initiate authentication without waiting for the user to press a login button.
 
-**The policy belongs to you, not to the app.** An app cannot request to be
-auto-approved. The wallet and the person using it create the rule, which means the
-worst an app can do is ask normally.
+This creates an experience similar to staying signed in while preserving fresh cryptographic authentication under the hood.
 
-**It only offers the option when the request is clean.** If the domain does not
-match, or the message has expired, the toggle is not there. You cannot accidentally
-grant standing permission to the thing the warning was about.
+## **Security boundaries**
 
-This is a formalised idea rather than a bespoke feature:
-[ERC-8019](https://eips.ethereum.org/EIPS/eip-8019) specifies it, and Ambire's
-co-founder and CEO, Ivo Georgiev, is one of its authors. Its motivation is exactly
-the complaint above — *"Users repeatedly sign identical Sign in with Ethereum
-(SIWE) messages for trusted apps."*
+Auto-login applies only to valid ERC-4361 messages that match an active policy. A change to the account, domain, approved URI prefix, network, resources, or expiration causes Ambire to return to manual confirmation.
 
-## A brand-new smart account can sign in
+Domain binding provides an important phishing control. Ambire compares the domain inside the SIWE message with the website that sent the request. A mismatch blocks auto-login and displays a deceptive-request warning. Independent wallet-security evaluator [Coinspect verified Ambire’s SIWE domain-mismatch protection](https://www.coinspect.com/wallets/reports/ambire-browser/).
 
-Modern smart-account wallets give you an address before anything is deployed on
-chain. Signing in is not a transaction, so there is no reason a person with a
-brand-new account should not be able to log in — but the obvious way of checking a
-contract account's signature involves calling the contract, and there is no
-contract there yet.
+The policy covers authentication signatures. Transactions, token approvals, typed-data signatures, and arbitrary messages continue through their usual approval flows. A SIWE signature remains off-chain, costs no gas, and moves no funds.
 
-[ERC-6492](https://eips.ethereum.org/EIPS/eip-6492) closes that, and it is Final.
-Ivo Georgiev co-authored it with Agustin Aguilar of Sequence; its motivation notes
-that dapps expect signatures "not only for interactions, but also just for logging
-in". Ambire both produces and verifies these signatures, and publishes its
-verifier as a standalone, audited library.
+Ambire currently limits automatic signing to supported account configurations. Safe accounts and accounts requiring an external signer, such as a hardware wallet, return to manual signing. The ERC describes how future session-key and ERC-6492 support could extend coverage safely.
 
-The user-visible consequence: a wallet you set up a minute ago works on sites that
-verify properly, with no funding step and no first transaction.
+## **From product problem to open standard**
 
-## The problem that is not the wallet's to fix
+ERC-8019 grew from a real application need. In the [public proposal discussion](https://ethereum-magicians.org/t/erc-8019-minimal-wallet-managed-auto-login-for-siwe/25348), Georgiev explains that Fileverse sometimes needs a separate SIWE message without needing another user decision for every request. Repeated wallet popups are especially disruptive inside collaborative documents and other productivity tools.
 
-Ambire keeps a list of well-known apps that reject smart-account signatures, and
-tells you before you waste your time:
+The authors turned that problem into a general standard that other wallets and applications can adopt. Shared rules can give users consistent expectations across products and give developers a common interface for returning authentication.
 
-> This app has been flagged to not support Smart Account signatures.
+ERC-8019 is currently in Review, and Ambire’s implementation provides a working environment for testing and improving it. Ambire reported that its extension grew from 4,000 installs in October 2025 to [more than 20,000 users by August 2026](https://blog.ambire.com/journal-vol-9-fam-is-growing/). That figure covers the wallet as a whole and gives the proposal a meaningful production setting.
 
-That list exists because a lot of sites still verify signatures in a way that only
-works for a plain key. It is the clearest possible argument for checking your own
-verification path: a wallet can render a beautiful sign-in screen and a person can
-read it carefully, and it still fails if your server cannot accept the signature
-they produced. [Smart accounts](/docs/smart-accounts) is the page for that.
+SIWE gave Ethereum accounts a standard way to prove control. ERC-8019 adds a standard way for wallets to remember the limits of an earlier approval.
 
-Worth being fair about scope, too: Walletbeat's overall transaction-legibility
-rating for Ambire is *partial*, flagging other things it would like to see. Passing
-on ERC-4361 is not passing on everything.
+The first signature establishes permission. Later matching requests stay out of the user’s way.
 
-## What to take from it
-
-**If you build wallets:** a parsed sign-in is a better product than a rendered
-string. It lets you say "Sign-in request" instead of "Sign message", name the site,
-show the account, and refuse when the origin disagrees with the message. That last
-one is the specification's **MUST**, and it is the only one your user cannot do for
-themselves.
-
-**If you verify signatures:** the wallets are holding up their end. Make sure a
-smart account can get through your verification, and compare the full host rather
-than the registrable domain — the two ERCs above exist so that both are possible.
-
----
-
-*Written from public sources: the AmbireTech repositories, the ERC texts, Ambire's
-release notes, and Walletbeat. We have not spoken to Ambire.*

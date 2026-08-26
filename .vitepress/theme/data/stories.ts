@@ -40,5 +40,13 @@ export const STORIES: Story[] = [
     link: '/blog/success-stories/ambire',
     claim: 'A sign-in screen, not a blob',
     body: 'The wallet recognises a sign-in and lays it out in plain labels, warns you when the site asking is not the site named, and stops asking you to re-sign the same message every day.'
+  },
+  {
+    org: 'OpenRouter',
+    logo: '/stories/openrouter.svg',
+    url: 'https://openrouter.ai',
+    link: '/blog/success-stories/openrouter',
+    claim: 'Another way in',
+    body: 'OpenRouter lists Sign in with Ethereum beside Google and GitHub, giving more than ten million developers a passwordless login whose proof is a signature, not a password. Wallet-based authentication at the scale of mainstream software.'
   }
 ]
