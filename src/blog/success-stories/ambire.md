@@ -1,7 +1,7 @@
 ---
 title: Ambire’s genius SIWE UX
 description: When the account, domain, URI, network, and requested resources remain within the approved policy, a later login can be signed automatically.
-date: 2026-08-26
+date: 2026-08-20
 ---
 
 # **Ambire’s genius SIWE UX**

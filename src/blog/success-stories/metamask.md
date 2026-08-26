@@ -1,7 +1,7 @@
 ---
 title: "How MetaMask helped make SIWE a Web3 standard"
 description: "More than 30 million monthly active users. One open standard for wallet authentication"
-date: 2026-08-26
+date: 2026-08-21
 ---
 
 # **How MetaMask helped make SIWE a Web3 standard**

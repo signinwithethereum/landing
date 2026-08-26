@@ -1,7 +1,7 @@
 ---
 title: "OpenRouter brings SIWE mainstream"
 description: By adding Sign-In with Ethereum alongside Google and GitHub, OpenRouter has made passwordless, cryptographically verified login available to a community of more than 10 million developers and companies.
-date: 2026-08-26
+date: 2026-08-28
 ---
 
 # **OpenRouter brings SIWE mainstream**

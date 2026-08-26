@@ -1,7 +1,7 @@
 ---
 title: "OpenSea: the wallet is the account"
 description: "Before Sign-In with Ethereum had a standard, OpenSea was already built around its central idea: prove control of a wallet and use it as your account."
-date: 2026-08-26
+date: 2026-08-25
 ---
 
 

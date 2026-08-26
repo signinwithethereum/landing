@@ -194,7 +194,9 @@ export const ECOSYSTEM: Entry[] = [
   {
     name: 'Privy',
     link: 'https://www.privy.io/',
-    type: 'tool'
+    type: 'tool',
+    story: '/blog/success-stories/privy',
+    note: 'SIWE inside the infrastructure that brings an existing wallet into any application.'
   },
   {
     name: 'WalletConnect',

@@ -72,5 +72,13 @@ export const STORIES: Story[] = [
     link: '/blog/success-stories/opensea',
     claim: 'The wallet is the account',
     body: 'OpenSea built on the idea before the standard existed: prove control of a wallet and use it as your account across the marketplace and its APIs.'
+  },
+  {
+    org: 'Privy',
+    logo: '/stories/privy.svg',
+    url: 'https://www.privy.io/',
+    link: '/blog/success-stories/privy',
+    claim: 'SIWE inside infrastructure',
+    body: 'One supported flow brings an existing Ethereum wallet into any application, at a scale of 160 million accounts and $15 billion processed each month.'
   }
 ]
