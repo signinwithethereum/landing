@@ -1,6 +1,6 @@
 ---
 title: Security Considerations
-description: The verification parameters that make SIWE safe — domain, nonce, time, chain id — and the mistakes that quietly undermine them.
+description: The verification parameters that make SIWE safe, including domain, nonce, time, and chain id, and the mistakes that quietly undermine them.
 ---
 
 # Security Considerations
@@ -27,8 +27,8 @@ const { data } = await siweMessage.verify({
 
 **Common mistakes**:
 
-- **Trusting the client-supplied domain** — if you read the domain from the message itself and don't compare it against an expected value, an attacker can substitute any domain. Always pass your known domain to `verify()`.
-- **Using the `Host` header without a fallback** — behind reverse proxies, `request.url` may not reflect the public domain. Set an explicit environment variable:
+- **Trusting the client-supplied domain**: if you read the domain from the message itself and don't compare it against an expected value, an attacker can substitute any domain. Always pass your known domain to `verify()`.
+- **Using the `Host` header without a fallback**: behind reverse proxies, `request.url` may not reflect the public domain. Set an explicit environment variable:
 
 ```typescript
 domain: process.env.NEXT_PUBLIC_DOMAIN ?? new URL(request.url).host,
@@ -41,11 +41,11 @@ domain: process.env.NEXT_PUBLIC_DOMAIN ?? new URL(request.url).host,
 The server generates a nonce, stores it in the session, and requires the signed message to include the same nonce. After verification, the nonce is invalidated:
 
 ```typescript
-// Generate — store in session
+// Generate and store in session
 session.nonce = generateNonce()
 await session.save()
 
-// Verify — nonce is checked, then cleared
+// Verify: nonce is checked, then cleared
 const { data } = await siweMessage.verify({
   signature,
   domain: process.env.NEXT_PUBLIC_DOMAIN ?? new URL(request.url).host,
@@ -57,10 +57,10 @@ await session.save()
 
 **Common mistakes**:
 
-- **Reusable nonces** — if you don't clear the nonce after verification, the same signed message can be submitted again.
-- **Client-generated nonces** — nonces must come from the server. A client-generated nonce provides no replay protection because an attacker can reuse the signed message with the same nonce.
-- **No expiration** — nonces stored without a TTL can accumulate indefinitely. Clean up unused nonces after a few minutes.
-- **Weak entropy** — use `generateNonce()` from the SIWE library, which produces 96 bits of cryptographically secure randomness.
+- **Reusable nonces**: if you don't clear the nonce after verification, the same signed message can be submitted again.
+- **Client-generated nonces**: nonces must come from the server. A client-generated nonce provides no replay protection because an attacker can reuse the signed message with the same nonce.
+- **No expiration**: nonces stored without a TTL can accumulate indefinitely. Clean up unused nonces after a few minutes.
+- **Weak entropy**: use `generateNonce()` from the SIWE library, which produces 96 bits of cryptographically secure randomness.
 
 ### Time Fields
 
@@ -89,7 +89,7 @@ await siweMessage.verify({
 
 - Set `expirationTime` to 5–15 minutes from `issuedAt`.
 - Use `issuedAt` to detect abnormally old messages even when `expirationTime` is set.
-- Account for clock skew between client and server — a few seconds of tolerance is reasonable.
+- Account for clock skew between client and server; a few seconds of tolerance is reasonable.
 - Use `notBefore` only when you need delayed validity (e.g., scheduled authentication).
 
 ### Chain ID
@@ -135,13 +135,13 @@ app.get('/api/message', async (req, res) => {
 })
 ```
 
-An alternative is letting the client construct the message but having the server assert all parameters during verification. The [Quickstart](/docs/quickstart/) uses this approach — the frontend builds the message, and the backend verifies domain and nonce. Both approaches are valid as long as the server verifies the parameters it cares about.
+An alternative is letting the client construct the message but having the server assert all parameters during verification. The [Quickstart](/docs/quickstart/) uses this approach: the frontend builds the message, and the backend verifies domain and nonce. Both approaches are valid as long as the server verifies the parameters it cares about.
 
 ## Signature Verification
 
 ### EOA vs. Smart Contract Wallets
 
-For regular EOA wallets, signature verification is purely cryptographic — no network call needed. For smart contract wallets (multisigs, account abstraction), the library calls `isValidSignature` ([EIP-1271](https://eips.ethereum.org/EIPS/eip-1271)) onchain, which requires an RPC connection:
+For regular EOA wallets, signature verification is purely cryptographic, so no network call is needed. For smart contract wallets (multisigs, account abstraction), the library calls `isValidSignature` ([EIP-1271](https://eips.ethereum.org/EIPS/eip-1271)) onchain, which requires an RPC connection:
 
 ```typescript
 import { configure, createConfig } from '@signinwithethereum/siwe'
@@ -175,11 +175,11 @@ Signature verification proves identity at a point in time. After that, session s
 
 **Recommendations**:
 
-- **Encrypt sessions** — use a library like [iron-session](https://github.com/vvo/iron-session) that encrypts cookie values. Without encryption, a user can forge their session cookie and impersonate any address.
-- **Use `httpOnly` and `secure` cookie flags** — prevents JavaScript access and ensures cookies are only sent over HTTPS.
-- **Set `sameSite`** — use `lax` or `strict` to prevent CSRF attacks.
-- **Use a strong session secret** — at least 32 characters, loaded from environment variables, never hardcoded.
-- **Implement session expiration** — sessions should not last indefinitely.
+- **Encrypt sessions**: use a library like [iron-session](https://github.com/vvo/iron-session) that encrypts cookie values. Without encryption, a user can forge their session cookie and impersonate any address.
+- **Use `httpOnly` and `secure` cookie flags**: prevents JavaScript access and ensures cookies are only sent over HTTPS.
+- **Set `sameSite`**: use `lax` or `strict` to prevent CSRF attacks.
+- **Use a strong session secret**: at least 32 characters, loaded from environment variables, never hardcoded.
+- **Implement session expiration**: sessions should not last indefinitely.
 
 ```typescript
 export const sessionOptions: SessionOptions = {
@@ -197,9 +197,9 @@ export const sessionOptions: SessionOptions = {
 
 Authentication endpoints are abuse targets. Rate-limit both nonce generation and verification endpoints to prevent:
 
-- **Nonce exhaustion** — flooding `/api/nonce` to fill up server-side nonce storage.
-- **Brute-force attempts** — repeatedly submitting signatures against the verification endpoint.
-- **Resource consumption** — EIP-1271 verification makes onchain RPC calls, which are more expensive than pure cryptographic checks.
+- **Nonce exhaustion**: flooding `/api/nonce` to fill up server-side nonce storage.
+- **Brute-force attempts**: repeatedly submitting signatures against the verification endpoint.
+- **Resource consumption**: EIP-1271 verification makes onchain RPC calls, which are more expensive than pure cryptographic checks.
 
 ## HTTPS
 
@@ -226,7 +226,7 @@ Before deploying to production:
 
 - [ ] `domain` passed to `verify()` is a known value, not read from the message
 - [ ] Nonces are generated server-side with `generateNonce()`
-- [ ] Nonces are single-use — cleared after successful verification
+- [ ] Nonces are single-use, cleared after successful verification
 - [ ] Unused nonces expire after a few minutes
 - [ ] `expirationTime` is set on messages (5–15 minutes)
 - [ ] Session cookies use `httpOnly`, `secure`, and `sameSite` flags

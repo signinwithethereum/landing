@@ -5,7 +5,7 @@ description: 'Clone the SIWE quickstart repo and run a working Next.js sign-in l
 
 # Quickstart
 
-Clone the [siwe-quickstart](https://github.com/signinwithethereum/siwe-quickstart) repo and run it locally to see Sign in with Ethereum in action — wallet connection, message signing, server-side verification, and session management in a single Next.js app.
+Clone the [siwe-quickstart](https://github.com/signinwithethereum/siwe-quickstart) repo and run it locally to see Sign in with Ethereum in action: wallet connection, message signing, server-side verification, and session management in a single Next.js app.
 
 ## Get Started
 
@@ -39,12 +39,12 @@ The app follows a standard SIWE authentication flow:
 3. Frontend constructs a [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) message and asks the wallet to sign it
 4. Frontend sends the message + signature to the server
 5. Server **verifies** the signature, checks the nonce, and creates an encrypted session
-6. User is authenticated — their Ethereum address is the identity
+6. User is authenticated, their Ethereum address is the identity
 
 The next two pages walk through how this is implemented:
 
-- **[Frontend](/docs/quickstart/frontend)** — wagmi setup, the authentication context, and the sign-in flow
-- **[Backend](/docs/quickstart/backend)** — API routes for nonce, verification, sessions, and how `verify()` works under the hood
+- **[Frontend](/docs/quickstart/frontend)**: wagmi setup, the authentication context, and the sign-in flow
+- **[Backend](/docs/quickstart/backend)**: API routes for nonce, verification, sessions, and how `verify()` works under the hood
 
 ## Stack
 

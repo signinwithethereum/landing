@@ -11,7 +11,7 @@ The Go implementation of Sign in with Ethereum can be found here:
 
 ## Getting Started
 
-The `siwe-go` package is a pure-Go port of the canonical TypeScript library. It provides full [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) support with EIP-191 signature verification, and — with a go-ethereum–compatible RPC client — EIP-1271 and EIP-6492 smart contract wallet signatures.
+The `siwe-go` package is a pure-Go port of the canonical TypeScript library. It provides full [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) support with EIP-191 signature verification, and, with a go-ethereum–compatible RPC client, EIP-1271 and EIP-6492 smart contract wallet signatures.
 
 All official SIWE libraries share the same [test vectors](https://github.com/signinwithethereum/test-vectors), ensuring byte-for-byte parity across languages.
 
@@ -31,7 +31,7 @@ import "github.com/signinwithethereum/siwe-go"
 
 The library depends on:
 
-- [`github.com/ethereum/go-ethereum`](https://pkg.go.dev/github.com/ethereum/go-ethereum) — EIP-191 signing/recovery, EIP-55 address helpers, and the `EthCaller` interface satisfied by `*ethclient.Client`
+- [`github.com/ethereum/go-ethereum`](https://pkg.go.dev/github.com/ethereum/go-ethereum): EIP-191 signing/recovery, EIP-55 address helpers, and the `EthCaller` interface satisfied by `*ethclient.Client`
 
 ## API Reference
 
@@ -56,10 +56,10 @@ Represents a parsed or constructed [EIP-4361](https://eips.ethereum.org/EIPS/eip
 | `NotBefore`       | `*string`        | No       | When the message becomes valid (ISO 8601)                                            |
 | `RequestID`       | `*string`        | No       | System-specific identifier                                                           |
 | `Resources`       | `[]string`       | No       | List of RFC 3986 URI references                                                      |
-| `Warnings`        | `[]string`       | —        | Non-fatal validation warnings (e.g. unchecksummed address) surfaced during parsing   |
+| `Warnings`        | `[]string`       | -        | Non-fatal validation warnings (e.g. unchecksummed address) surfaced during parsing   |
 
 ::: info
-Field names use `PascalCase` (Go convention). Pointer fields (`*string`) distinguish "absent" (`nil`) from "empty value present". `Resources` uses a nil vs non-nil slice distinction — use `SetResources` and `ClearResources` to control whether the section is rendered.
+Field names use `PascalCase` (Go convention). Pointer fields (`*string`) distinguish "absent" (`nil`) from "empty value present". `Resources` uses a nil vs non-nil slice distinction; use `SetResources` and `ClearResources` to control whether the section is rendered.
 :::
 
 #### `ParseMessage(s string) (*Message, error)` {#parsemessage}
@@ -82,7 +82,7 @@ Issued At: 2024-01-01T00:00:00Z`
 
 m, err := siwe.ParseMessage(eip4361)
 if err != nil {
-    // structured *siwe.Error — see Error Handling below
+    // structured *siwe.Error, see Error Handling below
 }
 ```
 
@@ -92,16 +92,16 @@ The parser validates:
 - Alphanumeric nonce (minimum 8 characters)
 - ISO 8601 timestamps via the EIP-4361 `issued-at` grammar rule
 - RFC 3986 URIs for `URI` and each entry of `Resources`
-- Statement characters per the [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) ABNF — RFC 3986 reserved + unreserved characters plus space (no newlines, control chars, `` ` ``, `<>`, `{}`, `|`, `%`, `"`, `\`, `^`)
-- Canonical chain ID (no leading zeros — `01` is rejected)
-- Canonical serialization — the parsed message must round-trip byte-for-byte, so only one on-wire form per message is accepted
+- Statement characters per the [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) ABNF: RFC 3986 reserved + unreserved characters plus space (no newlines, control chars, `` ` ``, `<>`, `{}`, `|`, `%`, `"`, `\`, `^`)
+- Canonical chain ID (no leading zeros, `01` is rejected)
+- Canonical serialization: the parsed message must round-trip byte-for-byte, so only one on-wire form per message is accepted
 - Optional `scheme://` prefix per EIP-4361
 
 When the parsed address is not EIP-55 checksummed, `AddressRaw` preserves the original hex so that serializing the message back via `String()` is byte-identical to the signed input.
 
 #### `NewMessage(domain, address, uri, nonce, options)` {#newmessage}
 
-Construct a message programmatically. Optional fields are passed via an options map with the same keys as the TypeScript / Python APIs — `scheme`, `statement`, `chainId`, `issuedAt`, `expirationTime`, `notBefore`, `requestId`, `resources`:
+Construct a message programmatically. Optional fields are passed via an options map with the same keys as the TypeScript / Python APIs: `scheme`, `statement`, `chainId`, `issuedAt`, `expirationTime`, `notBefore`, `requestId`, `resources`:
 
 ```go
 import (
@@ -182,7 +182,7 @@ res, err := m.VerifyWith(ctx, signature, siwe.VerifyParams{
 if err != nil {
     var e *siwe.Error
     if errors.As(err, &e) {
-        // e.Type — DomainMismatch, NonceMismatch, InvalidSignature, ...
+        // e.Type: DomainMismatch, NonceMismatch, InvalidSignature, ...
     }
 }
 ```
@@ -191,9 +191,9 @@ Verification order:
 
 1. Binding checks (`Scheme`, `Domain`, `Nonce`, `URI`, `ChainID`, `RequestID`)
 2. Time checks (`ExpirationTime`, `NotBefore`)
-3. **EOA** — `ecrecover` via go-ethereum's `crypto.SigToPub`
-4. **EIP-6492** — if the signature carries the magic suffix and a `ContractVerifier` is supplied, the universal off-chain validator bytecode is executed via `eth_call`
-5. **EIP-1271** — otherwise fall back to on-chain `isValidSignature` via the supplied `ContractVerifier`
+3. **EOA**: `ecrecover` via go-ethereum's `crypto.SigToPub`
+4. **EIP-6492**: if the signature carries the magic suffix and a `ContractVerifier` is supplied, the universal off-chain validator bytecode is executed via `eth_call`
+5. **EIP-1271**: otherwise fall back to on-chain `isValidSignature` via the supplied `ContractVerifier`
 
 ### `VerifyParams`
 
@@ -201,11 +201,11 @@ Binding checks performed during `VerifyWith`. `Domain`, `Nonce`, `URI`, and `Cha
 
 | Field       | Type        | Description                                                                   |
 | ----------- | ----------- | ----------------------------------------------------------------------------- |
-| `Domain`    | `*string`   | Expected domain — **required** (raises `ErrMissingDomain` if nil)             |
-| `Nonce`     | `*string`   | Expected nonce — **required** (raises `ErrMissingNonce` if nil)               |
-| `URI`       | `*string`   | Expected URI — **required** (raises `ErrMissingURI` if nil)                   |
-| `ChainID`   | `*int`      | Expected chain ID — **required** (raises `ErrMissingChainID` if nil)          |
-| `Scheme`    | `*string`   | Expected scheme — raises `ErrSchemeMismatch` if different                     |
+| `Domain`    | `*string`   | Expected domain; **required** (raises `ErrMissingDomain` if nil)             |
+| `Nonce`     | `*string`   | Expected nonce; **required** (raises `ErrMissingNonce` if nil)               |
+| `URI`       | `*string`   | Expected URI; **required** (raises `ErrMissingURI` if nil)                   |
+| `ChainID`   | `*int`      | Expected chain ID; **required** (raises `ErrMissingChainID` if nil)          |
+| `Scheme`    | `*string`   | Expected scheme; raises `ErrSchemeMismatch` if different                     |
 | `RequestID` | `*string`   | Expected request ID                                                           |
 | `Time`      | `*time.Time`| Time to check `ExpirationTime` / `NotBefore` against (defaults to now, UTC)   |
 
@@ -328,7 +328,7 @@ res, err := m.VerifyWith(ctx, signature, siwe.VerifyParams{
 With a verifier configured:
 
 - EOA recovery is attempted first.
-- If the signature carries the [EIP-6492](https://eips.ethereum.org/EIPS/eip-6492) magic suffix, the universal off-chain validator bytecode is executed via `eth_call` (no `to` address) — this covers both counterfactual (undeployed) wallets and already-deployed wallets.
+- If the signature carries the [EIP-6492](https://eips.ethereum.org/EIPS/eip-6492) magic suffix, the universal off-chain validator bytecode is executed via `eth_call` (no `to` address); this covers both counterfactual (undeployed) wallets and already-deployed wallets.
 - Otherwise the verifier falls back to [EIP-1271](https://eips.ethereum.org/EIPS/eip-1271) `isValidSignature(bytes32,bytes)` against the deployed contract.
 
 The RPC provider's chain ID must match the message's `ChainID`, otherwise `ErrInvalidSignatureChain` is returned.
@@ -363,7 +363,7 @@ type ContractSignatureVerifier interface {
 ```
 
 ::: info
-This is verification only. EIP-6492 allows a verifier to optionally submit the factory transaction after a successful check to finalize on-chain deployment ("side-effectful" verification). This library does not do that — if you need the wallet actually deployed, submit the factory call yourself.
+This is verification only. EIP-6492 allows a verifier to optionally submit the factory transaction after a successful check to finalize on-chain deployment ("side-effectful" verification). This library does not do that; if you need the wallet actually deployed, submit the factory call yourself.
 :::
 
 ## Backend Integration

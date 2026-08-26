@@ -1,6 +1,6 @@
 ---
 title: Smart accounts
-description: How to verify SIWE signatures from contract accounts — EIP-1271, ERC-6492 for accounts that are not deployed yet, and EIP-7702 delegated EOAs.
+description: How to verify SIWE signatures from contract accounts: EIP-1271, ERC-6492 for accounts that are not deployed yet, and EIP-7702 delegated EOAs.
 ---
 
 # Smart accounts
@@ -12,7 +12,7 @@ network call is involved.
 
 A contract account has no private key. There is no signer to recover, so
 `ecrecover` over its signature returns either nothing usable or an address that
-has no relationship to the account — and verification fails with an invalid
+has no relationship to the account, and verification fails with an invalid
 signature error even though the signature is perfectly valid. Whether a
 signature is acceptable is a question only the account itself can answer, and
 asking it means making a call.
@@ -46,7 +46,7 @@ function isValidSignature(bytes32 _hash, bytes memory _signature)
 
 The verifier hashes the SIWE message per EIP-191, calls `isValidSignature` on
 the account with that hash and the signature bytes, and treats the signature as
-valid if the return value is the magic value `0x1626ba7e` — which is
+valid if the return value is the magic value `0x1626ba7e`, which is
 `bytes4(keccak256("isValidSignature(bytes32,bytes)"))`. Anything else, including
 a revert, means no.
 
@@ -64,8 +64,8 @@ your library actually does rather than assuming.
 ## ERC-6492: accounts that do not exist yet
 
 Modern smart-account wallets give a user an address before anything is deployed.
-The address is deterministic — a function of the factory and the deployment
-arguments — and deployment is deferred until the account first needs to send a
+The address is deterministic, a function of the factory and the deployment
+arguments, and deployment is deferred until the account first needs to send a
 transaction. Signing in is not a transaction, so a person can perfectly
 reasonably sign in from an account that has no code at all.
 
@@ -89,7 +89,7 @@ why some libraries use it as their only contract path.
 ::: info
 ERC-6492 permits a verifier to submit the factory transaction for real after a
 successful check, to finalize deployment. None of the official SIWE libraries do
-that — verification is read-only. If you need the account actually deployed,
+that. Verification is read-only. If you need the account actually deployed,
 make the factory call yourself.
 :::
 
@@ -109,7 +109,7 @@ configure(await createConfig(process.env.ETH_RPC_URL!))
 
 `createConfig(rpcUrl)` is the shortcut: give it an RPC URL and it builds the
 adapter for whichever library it finds. Use the explicit constructors when you
-already have a client and want the SIWE library to share it — connection
+already have a client and want the SIWE library to share it; connection
 pooling, custom transports, a mocked client in tests:
 
 ```typescript
@@ -125,18 +125,18 @@ or v6 at runtime. Both support EIP-1271 and ERC-6492; the viem path needs viem
 v2 or newer.
 
 Without any config, contract-account verification fails with
-`SiweErrorType.MISSING_CONFIG` — EOA sign-ins keep working, which is exactly why
+`SiweErrorType.MISSING_CONFIG`; EOA sign-ins keep working, which is exactly why
 this gets missed until a Safe user shows up.
 
 Useful exports:
 
-- `isEIP6492Signature(signature)` — whether a signature carries the wrapper.
-- `EIP6492_MAGIC_SUFFIX` — the 32-byte suffix itself.
-- `EIP1271_MAGICVALUE` — `'0x1626ba7e'`.
-- `SiweErrorType.INVALID_SIGNATURE_CHAIN_ID` — the provider's chain does not match the message's `Chain ID`.
+- `isEIP6492Signature(signature)`: whether a signature carries the wrapper.
+- `EIP6492_MAGIC_SUFFIX`: the 32-byte suffix itself.
+- `EIP1271_MAGICVALUE`: `'0x1626ba7e'`.
+- `SiweErrorType.INVALID_SIGNATURE_CHAIN_ID`: the provider's chain does not match the message's `Chain ID`.
 
-For a backend that is not RPC-shaped at all — a Safe API, a cache, a signing
-service — implement `checkContractWalletSignature` on your own `SiweConfig`:
+For a backend that is not RPC-shaped at all, a Safe API, a cache, a signing
+service, implement `checkContractWalletSignature` on your own `SiweConfig`:
 
 ```typescript
 import { configure } from '@signinwithethereum/siwe'
@@ -253,7 +253,7 @@ type ContractSignatureVerifier interface {
 A `nil` `ContractVerifier` disables the fallback entirely. `IsEIP6492Signature`
 reports the wrapper, and a mismatched provider chain returns
 `ErrInvalidSignatureChain`. Note that only genuine EVM reverts (JSON-RPC error
-code `3`) are read as "signature not valid" — transport failures surface as
+code `3`) are read as "signature not valid"; transport failures surface as
 errors rather than as rejections, so a flaky RPC will not quietly log people
 out.
 
@@ -274,7 +274,7 @@ deploy-and-call against the ERC-6492 universal validator, which covers deployed
 EIP-1271 wallets and counterfactual ones alike.
 
 Per-call configuration goes through `Siwe::Config.new(rpc_url:)`, or
-`Siwe::Config.new(rpc:)` with a pre-built client — anything responding to
+`Siwe::Config.new(rpc:)` with a pre-built client, anything responding to
 `eth_call(to:, data:, block:)` and `chain_id` will do, so a cached client or a
 test double drops straight in. `Siwe.eip6492_signature?(hex)` reports the
 wrapper. Failures are `:invalid_signature_chain_id` for a chain mismatch and
@@ -284,7 +284,7 @@ wrapper. Failures are `:invalid_signature_chain_id` for a chain mismatch and
 
 [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) lets an EOA point at a
 contract's code while keeping its own address and its own key. The account is
-not migrated and not replaced — the address stays an EOA address, the private
+not migrated and not replaced: the address stays an EOA address, the private
 key still exists, and `personal_sign` still produces a normal 65-byte signature
 that `ecrecover` resolves.
 
@@ -294,8 +294,8 @@ it, offline, exactly as before.
 Two things are worth knowing:
 
 - **Do not test for "contract account" by checking whether the address has
-  code.** A delegated EOA has code — a 23-byte delegation indicator pointing at
-  its delegate — and would fail that test while still verifying by recovery.
+  code.** A delegated EOA has code (a 23-byte delegation indicator pointing at
+  its delegate) and would fail that test while still verifying by recovery.
   Attempting recovery and falling back only when it fails gets this right without
   ever asking the question.
 - **The wallet may still choose the contract path.** If the delegate implements
@@ -311,4 +311,4 @@ Two things are worth knowing:
 - [ ] You have signed in once with a deployed contract account, such as a Safe
 - [ ] You have signed in once with a wallet that has not been deployed yet
 - [ ] RPC failures are handled as failures, not as rejected sign-ins
-- [ ] Rate limits account for the contract path costing a network round trip — see [Security considerations](/docs/security-considerations)
+- [ ] Rate limits account for the contract path costing a network round trip; see [Security considerations](/docs/security-considerations)

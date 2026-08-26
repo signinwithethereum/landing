@@ -17,8 +17,8 @@ paste into a test.
 ## Notes
 
 The nonce button uses `crypto.getRandomValues`, which is the right source. In
-production the nonce must come from **your server** and be accepted exactly once
-— a nonce the client picked is not a nonce, it is a decoration.
+production the nonce must come from **your server** and be accepted exactly once;
+a nonce the client picked is not a nonce, it is a decoration.
 
 `Version` is always `1`, so it is not editable. Leaving `Expiration Time` empty
 is legal and usually a mistake; ten minutes is a reasonable default, because this

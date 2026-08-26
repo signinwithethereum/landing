@@ -9,7 +9,7 @@ draft: true
 
 [networked.art](https://networked.art) is a marketplace where artists deploy
 their own contracts and run their own auctions on Ethereum mainnet. It reads those
-contracts directly, which is what makes it useful — and also what gives it an
+contracts directly, which is what makes it useful and also what gives it an
 identity problem that a conventional site never has.
 
 ## You have a history before you have an account
@@ -36,7 +36,7 @@ someone to connect them by hand.
 
 ## What signing in actually looks like
 
-The sign-in page offers three ways in — an emailed code, a wallet, or X — and
+The sign-in page offers three ways in, an emailed code, a wallet, or X, and
 treats them as equals rather than burying the wallet option behind a "connect"
 step. Choosing the wallet route takes you to a page whose heading is
 **Sign in with Ethereum** and whose subtitle explains the two steps in plain
@@ -60,7 +60,7 @@ explanation and a "Try again", not a stack trace and not a dead end.
 ## The message says what you are agreeing to
 
 Signing in, linking a second wallet, and claiming an invite are three different
-things, and networked.art puts a different sentence in each message — so the
+things, and networked.art puts a different sentence in each message, so the
 statement your wallet shows you is about the thing you are actually doing rather
 than a generic "please sign to continue".
 
@@ -79,7 +79,7 @@ networked.art asks a question the picker cannot: do you have a wallet, or do you
 need one?
 
 Choosing "Create new Ethereum account" makes one in the browser, with the copy
-saying plainly what that means — your keys stay on this device, no extension
+saying plainly what that means: your keys stay on this device, no extension
 required. Email comes afterwards and is optional, framed as a way to reach you
 rather than as the account itself.
 
@@ -102,7 +102,7 @@ have asked for all three and then held its own copy of them.
 
 If your product reads onchain data, you already have users you have never met,
 and they already have something worth keeping. ERC-4361 is the only sign-in that
-can prove a person and one of those histories are the same party — not because it
+can prove a person and one of those histories are the same party, not because it
 is clever, but because it is the only one whose evidence is about an address
 rather than about an account somebody else issued.
 

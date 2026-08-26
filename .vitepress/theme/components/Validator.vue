@@ -127,7 +127,7 @@ function clear() {
       </div>
       <label class="val-strict">
         <input v-model="strict" type="checkbox" />
-        <span>Strict &mdash; include security and best-practice checks</span>
+        <span>Strict: include security and best-practice checks</span>
       </label>
     </div>
 

@@ -10,7 +10,7 @@ one per language, all checked against the same corpus of
 [test vectors](https://github.com/signinwithethereum/test-vectors).
 
 ::: tip Already using viem?
-[viem](https://viem.sh/) ships SIWE functions of its own — `createSiweMessage`,
+[viem](https://viem.sh/) ships SIWE functions of its own: `createSiweMessage`,
 `generateSiweNonce`, `parseSiweMessage`, `validateSiweMessage` and the
 `verifySiweMessage` action. If viem is already in your project, that is the
 shortest path and one fewer dependency. Note that its `verifyMessage` **utility**
@@ -95,7 +95,7 @@ All libraries implement:
 - RFC 3986 (URI Specification)
 - RFC 3339 (Timestamp Format)
 
-All libraries generate identical EIP-4361 compliant messages — signatures created
+All libraries generate identical EIP-4361 compliant messages; signatures created
 in one language can be verified in any other. That is not an aspiration: it is what
 the shared [test vectors](https://github.com/signinwithethereum/test-vectors)
 check, and every library runs against them. If you are writing a sixth

@@ -31,7 +31,7 @@ export const STORIES: Story[] = [
     url: 'https://evm.now',
     link: '/blog/success-stories/evm-now',
     claim: 'Nothing to sign up for',
-    body: 'A contract explorer with a paid feature and no accounts. No email, no password, nothing to reset and nothing to breach — you sign once, and what you are entitled to is read from the chain.'
+    body: 'A contract explorer with a paid feature and no accounts. No email, no password, nothing to reset and nothing to breach; you sign once, and what you are entitled to is read from the chain.'
   },
   {
     org: 'Ambire',
@@ -48,5 +48,29 @@ export const STORIES: Story[] = [
     link: '/blog/success-stories/openrouter',
     claim: 'Another way in',
     body: 'OpenRouter lists Sign in with Ethereum beside Google and GitHub, giving more than ten million developers a passwordless login whose proof is a signature, not a password. Wallet-based authentication at the scale of mainstream software.'
+  },
+  {
+    org: 'MetaMask',
+    logo: '/stories/metamask.svg',
+    url: 'https://metamask.io/',
+    link: '/blog/success-stories/metamask',
+    claim: 'A sign-in, not a signature',
+    body: 'Native ERC-4361 support turns a raw message into a purpose-built sign-in screen, and domain binding makes a phishing mismatch visible before the user signs.'
+  },
+  {
+    org: 'Polymarket',
+    logo: '/stories/polymarket.svg',
+    url: 'https://polymarket.com/',
+    link: '/blog/success-stories/polymarket',
+    claim: 'One signature to log in',
+    body: 'The wallet is more than a way to deposit funds. One SIWE signature anchors a trading account used by more than thirty million people.'
+  },
+  {
+    org: 'OpenSea',
+    logo: '/stories/opensea.svg',
+    url: 'https://opensea.io/',
+    link: '/blog/success-stories/opensea',
+    claim: 'The wallet is the account',
+    body: 'OpenSea built on the idea before the standard existed: prove control of a wallet and use it as your account across the marketplace and its APIs.'
   }
 ]

@@ -84,7 +84,7 @@ const check = computed(() => {
     return { tone: 'is-bad', text: `${q.errorCount} error${q.errorCount === 1 ? '' : 's'}` }
   }
   if (!q.isComplete) {
-    return { tone: 'is-warn', text: 'Incomplete — a required field is still empty' }
+    return { tone: 'is-warn', text: 'Incomplete: a required field is still empty' }
   }
   if (q.warningCount) {
     return {

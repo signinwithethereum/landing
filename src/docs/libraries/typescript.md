@@ -33,7 +33,7 @@ npm install ethers@5
 ```
 
 ::: tip
-On the frontend, if you only create messages (no verification), you don't need viem or ethers — just `@signinwithethereum/siwe`.
+On the frontend, if you only create messages (no verification), you don't need viem or ethers, just `@signinwithethereum/siwe`.
 :::
 
 ### Configuration
@@ -210,10 +210,10 @@ interface VerifyParams {
  /** Wallet signature (required) */
  signature: string
 
- /** Expected domain — required for origin binding */
+ /** Expected domain, required for origin binding */
  domain: string
 
- /** Expected nonce — required for replay resistance */
+ /** Expected nonce, required for replay resistance */
  nonce: string
 
  /** Expected URI scheme */
@@ -544,7 +544,7 @@ app.post('/api/verify', async (req, res) => {
   }
   nonces.delete(siweMessage.nonce)
 
-  // Verify signature — throws SiweError on failure
+  // Verify signature, throws SiweError on failure
   const result = await siweMessage.verify({
    signature,
    domain: req.hostname,
@@ -779,7 +779,7 @@ Update all imports:
 When constructing a `SiweMessage` from an object, `nonce` and `issuedAt` are now required fields (they are no longer auto-generated):
 
 ```typescript
-// Old — nonce and issuedAt auto-generated
+// Old: nonce and issuedAt auto-generated
 const message = new SiweMessage({
  domain: 'example.com',
  address: '0x...',
@@ -788,7 +788,7 @@ const message = new SiweMessage({
  chainId: 1,
 })
 
-// New — must provide nonce and issuedAt
+// New: must provide nonce and issuedAt
 const message = new SiweMessage({
  domain: 'example.com',
  address: '0x...',
@@ -805,10 +805,10 @@ const message = new SiweMessage({
 The `verify()` method now requires `domain` and `nonce` parameters for security (origin binding and replay resistance):
 
 ```typescript
-// Old — domain and nonce optional
+// Old: domain and nonce optional
 const result = await message.verify({ signature })
 
-// New — domain and nonce required
+// New: domain and nonce required
 const result = await message.verify({
  signature,
  domain: 'example.com',
@@ -821,7 +821,7 @@ const result = await message.verify({
 Previously, `verify()` returned `{ success: false, error }` on failure. In v4, it **throws a `SiweError`** by default:
 
 ```typescript
-// Old — check success boolean
+// Old: check success boolean
 const result = await message.verify({ signature })
 if (result.success) {
  console.log(result.data)
@@ -829,7 +829,7 @@ if (result.success) {
  console.error(result.error)
 }
 
-// New — use try/catch (default behavior)
+// New: use try/catch (default behavior)
 try {
  const result = await message.verify({
   signature,
@@ -842,7 +842,7 @@ try {
  console.error(error.type)
 }
 
-// New — or suppress exceptions for legacy behavior
+// New: or suppress exceptions for legacy behavior
 const result = await message.verify(
  { signature, domain: 'example.com', nonce: storedNonce },
  { suppressExceptions: true },
@@ -857,12 +857,12 @@ if (!result.success) {
 The library no longer depends on ethers.js. You must configure a verification backend:
 
 ```typescript
-// Old — ethers auto-detected, provider passed to verify
+// Old: ethers auto-detected, provider passed to verify
 import { ethers } from 'ethers'
 const provider = new ethers.providers.JsonRpcProvider('https://...')
 const result = await message.verify({ signature, provider })
 
-// New — configure once at startup
+// New: configure once at startup
 import { configure, createConfig } from '@signinwithethereum/siwe'
 
 configure(await createConfig('https://eth.llamarpc.com'))

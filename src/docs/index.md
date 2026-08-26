@@ -1,6 +1,6 @@
 ---
 title: Introduction
-description: Sign in with Ethereum is ERC-4361 — a plain-text message a user signs with a key they already hold, and which your server verifies. Start here.
+description: Sign in with Ethereum is ERC-4361, a plain-text message a user signs with a key they already hold, and which your server verifies. Start here.
 ---
 
 # Sign in with Ethereum
@@ -17,14 +17,14 @@ you have proof that whoever is asking holds the key to that address, and you can
 start a session.
 
 That is the whole idea. There is no identity provider, no client secret to
-register, no password to store, and nothing to broadcast — the signature is
+register, no password to store, and nothing to broadcast, because the signature is
 off-chain and costs no gas.
 
 ::: tip Start here
 If you want working code in front of you, go to the
 [quickstart](/docs/quickstart/). If you want to understand the message first,
 read [the message](/docs/message). If you are about to ship, read
-[security considerations](/docs/security-considerations) — it is short and it is
+[security considerations](/docs/security-considerations); it is short and it is
 the page that matters most.
 :::
 
@@ -33,7 +33,7 @@ the page that matters most.
 | | |
 | --- | --- |
 | [The message](/docs/message) | Every field, what it is for, and the blank-line rules implementations get wrong. |
-| [Quickstart](/docs/quickstart/) | A running Next.js app — [frontend](/docs/quickstart/frontend) and [backend](/docs/quickstart/backend). |
+| [Quickstart](/docs/quickstart/) | A running Next.js app, [frontend](/docs/quickstart/frontend) and [backend](/docs/quickstart/backend). |
 | [Security considerations](/docs/security-considerations) | What the server must control, and the mistakes that undermine it. |
 | [Smart accounts](/docs/smart-accounts) | Verifying signatures from contract accounts, including ones not deployed yet. |
 | [Sessions](/docs/sessions) | What happens after verification succeeds. A signature is not a session. |
@@ -58,7 +58,7 @@ is yours. See [sessions](/docs/sessions).
 
 It does not recover keys. Losing the key means losing the account, in the way that
 a forgotten password does not. The specification says so in its Key Management
-notes, and points at contract accounts as the mitigation — which is real, but it
+notes, and points at contract accounts as the mitigation. That is real, but it
 is the wallet's job and not the standard's.
 
 And it does not hide who you are. A reused address is a persistent public

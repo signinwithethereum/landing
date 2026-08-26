@@ -66,7 +66,7 @@ The domain is what the wallet displays and what your server compares against
 its own hostname. Pass your known value into verification; never read the
 domain out of the message and compare it against itself.
 
-Include the port when there is one — `localhost:3000` is a valid authority and a
+Include the port when there is one, `localhost:3000` is a valid authority and a
 different domain from `localhost`. The optional `scheme://` prefix binds the
 origin's scheme as well, and if you emit it you have to expect it at
 verification time too.
@@ -85,7 +85,7 @@ the message.
 :::
 
 Verification recovers a signer from the signature and compares it to this line.
-For a contract account there is nothing to recover — see
+For a contract account there is nothing to recover, see
 [Smart accounts](/docs/smart-accounts).
 
 ### Statement
@@ -108,7 +108,7 @@ a matching domain on the wrong origin still fails.
 ### Chain ID
 
 The EIP-155 chain id the session is bound to, and the network on which contract
-accounts have to be resolved. Decimal digits, canonically formatted — `01` is
+accounts have to be resolved. Decimal digits, canonically formatted, `01` is
 not `1`.
 
 Pin the values you accept rather than trusting whatever arrives. Accepting any
@@ -117,7 +117,7 @@ support.
 
 ### Nonce
 
-At least 8 alphanumeric characters — `[A-Za-z0-9]`, so no hyphens, no
+At least 8 alphanumeric characters: `[A-Za-z0-9]`, so no hyphens, no
 underscores, no base64 padding. Every official library ships a
 cryptographically secure generator that produces 17 characters; use it.
 
@@ -133,7 +133,7 @@ See [Sessions](/docs/sessions) for where to store one and how long to keep it.
 
 ### Timestamps
 
-`Issued At`, `Expiration Time` and `Not Before` are RFC 3339 datetimes — the
+`Issued At`, `Expiration Time` and `Not Before` are RFC 3339 datetimes, the
 profile of ISO 8601 that `new Date().toISOString()` produces:
 
 ```typescript
@@ -167,7 +167,7 @@ Resources:
 ```
 
 Each entry has to be a valid RFC 3986 URI. The list is informational as far as
-ERC-4361 is concerned — it does not grant anything by itself.
+ERC-4361 is concerned, it does not grant anything by itself.
 [ERC-5573](https://eips.ethereum.org/EIPS/eip-5573) builds object capabilities
 on top of this field; if you are reaching for `Resources` to express permissions
 rather than to show someone a list, read that first.
@@ -276,7 +276,7 @@ The statement can disappear. Its surrounding empty lines cannot.
 There is no trailing newline. The message ends with the last character of the
 last field.
 
-::: info Proposed update — work in progress
+::: info Proposed update: work in progress
 The [draft erratum](https://github.com/signinwithethereum/ERCs/pull/1) explores
 a no-statement form with one empty line between the address and `URI:`. It is
 not final and does not change the rule above today.
@@ -291,7 +291,7 @@ library, or paste the finished string into the [validator](/tools/validator).
 
 ## Check your work
 
-- [Message validator](/tools/validator) — paste a message and get back format, compliance and security problems.
-- [Message builder](/tools/builder) — assemble one field at a time and watch the wire format change.
-- [Security considerations](/docs/security-considerations) — what the server has to assert at verification time.
-- [ERC-4361](https://eips.ethereum.org/EIPS/eip-4361) — the standard itself.
+- [Message validator](/tools/validator): paste a message and get back format, compliance and security problems.
+- [Message builder](/tools/builder): assemble one field at a time and watch the wire format change.
+- [Security considerations](/docs/security-considerations): what the server has to assert at verification time.
+- [ERC-4361](https://eips.ethereum.org/EIPS/eip-4361): the standard itself.
