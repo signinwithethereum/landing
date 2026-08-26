@@ -29,6 +29,11 @@ const INTEGRATORS = [
     name: 'Privy',
     href: 'https://www.privy.io/',
     mark: '/integrators/privy.svg'
+  },
+  {
+    name: 'Polymarket',
+    href: 'https://polymarket.com/',
+    mark: '/integrators/polymarket.png'
   }
 ]
 </script>
