@@ -2,6 +2,7 @@
 title: evm.now has nothing for you to sign up for
 description: A contract explorer with a paid feature and no accounts. You sign once with the wallet you already have, and what you are entitled to is read from the chain rather than from a subscriptions table.
 date: 2026-08-17
+draft: true
 ---
 
 # evm.now has nothing for you to sign up for

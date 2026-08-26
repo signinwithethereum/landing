@@ -1,10 +1,10 @@
 ---
-title: Ambire’s Genius SIWE UX
+title: Ambire’s genius SIWE UX
 description: When the account, domain, URI, network, and requested resources remain within the approved policy, a later login can be signed automatically.
 date: 2026-08-26
 ---
 
-# **Ambire’s Genius SIWE UX**
+# **Ambire’s genius SIWE UX**
 
 Signing in once proves your control of an account. Signing the same login request every time should be abstracted.
 

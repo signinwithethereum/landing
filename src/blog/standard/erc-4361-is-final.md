@@ -2,6 +2,7 @@
 title: ERC-4361 is Final
 description: Sign in with Ethereum reached Final status on 5 August 2025, four years after it was drafted. Here is what that changes, what it does not, and where the remaining ambiguities are being tracked.
 date: 2026-08-05
+draft: true
 ---
 
 # ERC-4361 is Final

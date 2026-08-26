@@ -1,10 +1,10 @@
 ---
-title: "How MetaMask Helped Make Wallet Authentication a Web3 Standard"
+title: "How MetaMask helped make SIWE a Web3 standard"
 description: "More than 30 million monthly active users. One open standard for wallet authentication"
 date: 2026-08-26
 ---
 
-# **How MetaMask Helped Make Wallet Authentication a Web3 Standard**
+# **How MetaMask helped make SIWE a Web3 standard**
 
 More than 30 million monthly active users. One open standard for wallet authentication.
 

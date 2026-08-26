@@ -2,6 +2,7 @@
 title: networked.art gives collectors one account instead of two
 description: On a marketplace that reads mainnet, your wallet already has a history before you ever sign up. A signature is what turns that into your account rather than a stranger's.
 date: 2026-08-17
+draft: true
 ---
 
 # networked.art gives collectors one account instead of two
