@@ -111,10 +111,12 @@ pnpm kamal:deploy
 pnpm kamal:logs
 ```
 
-`config/deploy.yml` claims the single hostname in `APP_HOST`. The current
-pre-release deployment uses `next.siwe.xyz`; a future production cutover can
-change that value without changing the image or service name. The nginx image
-already contains the legacy documentation redirects for that cutover.
+`config/deploy.yml` claims `APP_HOST` — `siwe.xyz` — plus three retired names
+the same container answers on only to redirect them: `www.siwe.xyz`,
+`next.siwe.xyz` (the pre-release hostname for this rewrite) and `docs.siwe.xyz`
+(the Docusaurus site this replaces). `docs.siwe.xyz` forwards the path
+unchanged to `siwe.xyz`, where the path rules in `nginx.conf` move the old
+documentation URLs under `/docs/`; the mapping therefore lives in one place.
 
 Do not commit `.env.production`. The repository this replaces committed its deploy
 host and registry username.

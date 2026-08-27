@@ -9,7 +9,13 @@ servers:
 proxy:
   ssl: true
   hosts:
+    # APP_HOST is the canonical name the site is built for. The rest are
+    # retired hostnames this service also answers on, only so that nginx can
+    # redirect them — see the server blocks at the bottom of nginx.conf.
     - <%= ENV["APP_HOST"] %>
+    - www.siwe.xyz
+    - docs.siwe.xyz
+    - next.siwe.xyz
   app_port: 80
   healthcheck:
     path: /
