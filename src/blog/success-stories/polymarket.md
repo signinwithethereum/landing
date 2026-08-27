@@ -6,7 +6,7 @@ date: 2026-08-27
 
 # Polymarket success story (placeholder)
 
-# **Polymarket - The worlds largest prediction market**
+# Polymarket - The worlds largest prediction market
 
 More than 30 million users. Over $27 billion traded globally. One SIWE signature to login.
 
@@ -14,7 +14,7 @@ By offering Sign in with Ethereum alongside Google and email, Polymarket gives w
 
 The wallet becomes more than a way to deposit funds. It becomes the identity anchoring an entire trading account.
 
-## **Authentication**
+## Authentication
 
 Polymarket is a prediction market where people trade on the outcomes of politics, sports, economics, technology, culture, and other real-world events.
 
@@ -34,7 +34,7 @@ No Polymarket password needs to be created or stored. The private key never leav
 
 The user proves one thing, ownership of the account.
 
-## **One signature**
+## One signature
 
 A login signature should not be confused with a financial authorization.
 
@@ -54,7 +54,7 @@ Orders are matched offchain for speed. When orders match, the trade settles on P
 
 SIWE authenticates the session. Trading credentials authenticate private requests. Order signatures authorize trades. Smart contracts enforce the settlement.
 
-## **Scale**
+## Scale
 
 Polymarket reports more than 30 million global users and over $27 billion traded.
 
@@ -67,4 +67,3 @@ Wallet authentication is available inside a global consumer platform handling mi
 Polymarket has also received significant institutional backing. In October 2025, Intercontinental Exchange, the parent company of the New York Stock Exchange, [agreed to invest up to $2 billion](https://ir.theice.com/press/news-details/2025/ICE-Announces-Strategic-Investment-in-Polymarket/default.aspx) at an approximately $8 billion pre-investment valuation.
 
 An open Ethereum authentication standard now sits at the entrance to a product backed by one of the world’s largest exchange operators.
-

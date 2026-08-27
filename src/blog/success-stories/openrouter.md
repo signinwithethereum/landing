@@ -4,7 +4,7 @@ description: By adding Sign in with Ethereum alongside Google and GitHub, OpenRo
 date: 2026-08-28
 ---
 
-# **OpenRouter brings SIWE mainstream**
+# OpenRouter brings SIWE mainstream
 
 OpenRouter has given users a new way to login. Their Ethereum wallet.
 
@@ -14,7 +14,7 @@ The integration demonstrates the power of SIWE beyond crypto, bringing low-frict
 
 *In August 2026, Stripe agreed to acquire OpenRouter. The companies did not disclose the price, but Reuters reported that the transaction was worth slightly more than $8 billion.*
 
-## **Authentication**
+## Authentication
 
 The platform gives developers one intexrface through which they can discover, compare, and use models from a wide range of providers. Instead of tying an application to one model company, developers can choose based on price, speed, performance, and availability.
 
@@ -26,7 +26,7 @@ Google and GitHub provide familiar ways for developers to create an account and 
 
 The wallet is not treated as a payment method or a crypto-specific add-on. It becomes a first-class login credential.
 
-## **Prove account ownership**
+## Prove account ownership
 
 Traditional authentication usually depends on something a user knows (a password) or an identity managed by another company.
 
@@ -38,7 +38,7 @@ The user proves control of an Ethereum account by signing a standardized message
 
 The process is cryptographic, but it does not involve an onchain transaction. No funds move, no smart contract is called, and no gas fee is required. The wallet signs the message locally and returns a signature that the service can easily verify.
 
-## **Taking Ethereum beyond**
+## Taking Ethereum beyond
 
 The most important part of OpenRouter’s integration is where it happened.
 
@@ -48,13 +48,13 @@ Placing your Ethereum wallet at the entrance to that experience moves the meanin
 
 Brantly Millegan describes OpenRouter as the [largest non-crypto application to adopt SIWE](https://x.com/BrantlyMillegan/status/2090896473881731355).
 
-## **A pioneering founder**
+## A pioneering founder
 
 OpenRouter co-founder and CEO Alex Atallah previously co-founded OpenSea (the worlds largest NFT marketplace) and served as its chief technology officer. OpenSea helped normalize the wallet as the primary way users accessed an application, established an identity, and interacted with digital assets.
 
 OpenRouter applies wallet-based identity in a different environment. The user is not connecting to trade an NFT or interact with crypto products.
 
-## **Scale**
+## Scale
 
 OpenRouter’s community includes more than 10 million developers and companies. 
 
@@ -62,7 +62,7 @@ A major AI platform has made wallet authentication an option at its front door. 
 
 This visibility is impactful. Open standards become familiar when people see them working in credible products. They become trusted when the experience is reliable, understandable, and easy to understand.
 
-## **The takeaway**
+## The takeaway
 
 You don't need to be a crypto company to put a wallet on your login page. You don't need to remove Google or GitHub to do it, you don't even need to know a blockchain exists.
 

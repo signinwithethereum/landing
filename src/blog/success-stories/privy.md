@@ -4,7 +4,7 @@ description: "160 million accounts. More than $15 billion processed each month. 
 date: 2026-08-25
 ---
 
-# **Privy: SIWE inside infrastructure**
+# Privy: SIWE inside infrastructure
 
 160 million accounts. More than $15 billion processed each month. One supported flow for bringing an existing Ethereum wallet into an application.
 
@@ -14,7 +14,7 @@ The result is more than a successful implementation at one application. Privy ha
 
 *Privy’s [current product page](https://www.privy.io/user-wallets) reports more than 160 million accounts, over $15 billion processed monthly, signature times under 20 milliseconds, and 99.99 percent historical uptime. These are platform-wide figures, not SIWE-specific usage numbers.*
 
-## **Authentication infrastructure**
+## Authentication infrastructure
 
 Most SIWE success stories begin with an application deciding to add wallet login. The application generates a message, asks the user to sign it, verifies the signature, and creates a session.
 
@@ -30,7 +30,7 @@ This flexibility matters because products rarely serve only one kind of user. Cr
 
 Privy allows both experiences to exist inside the same product.
 
-## **Sign in with an existing wallet**
+## Sign in with an existing wallet
 
 Privy’s [external wallet authentication flow](https://docs.privy.io/authentication/user-authentication/login-methods/wallet) follows a clear sequence.
 
@@ -46,7 +46,7 @@ The user is proving one fact: they control the Ethereum account named in the mes
 
 Privy packages that process into supported authentication methods and SDK functions. Developers still control how wallet login appears inside their product, but they do not need to invent the underlying message generation, verification, user creation, and session flow from scratch.
 
-## **Direct and delegated identity**
+## Direct and delegated identity
 
 Privy distinguishes between direct and delegated authentication methods.
 
@@ -62,7 +62,7 @@ That makes SIWE a first-class credential without forcing the entire application 
 
 For a user who already has an Ethereum wallet, authentication can remain direct and passwordless. For someone encountering crypto rails for the first time, the application can offer a familiar entrance and introduce wallet functionality later.
 
-## **From authentication to wallet control**
+## From authentication to wallet control
 
 Privy also provides embedded wallets, but these should not be confused with SIWE.
 
@@ -76,7 +76,7 @@ Authentication therefore becomes part of the wallet’s security boundary. A val
 
 This is where Privy’s broader contribution becomes clear. It connects the moment a user proves who they are with the infrastructure through which that user can control a wallet, sign messages, and interact with digital assets.
 
-## **Scale and Stripe**
+## Scale and Stripe
 
 Privy’s reach gives that infrastructure a significant multiplier effect.
 
@@ -92,7 +92,7 @@ Privy’s story is therefore not simply that a large platform adopted SIWE. It i
 
 Every developer that enables the method can bring wallet-based identity into another product, market, and user experience.
 
-## **The takeaway**
+## The takeaway
 
 You do not need to force every user through a crypto-native onboarding flow to support wallet identity.
 

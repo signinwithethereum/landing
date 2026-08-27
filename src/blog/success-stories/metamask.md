@@ -4,7 +4,7 @@ description: "More than 30 million monthly active users. One open standard for w
 date: 2026-08-21
 ---
 
-# **How MetaMask helped make SIWE a Web3 standard**
+# How MetaMask helped make SIWE a Web3 standard
 
 More than 30 million monthly active users. One open standard for wallet authentication.
 
@@ -12,7 +12,7 @@ By integrating Sign in with Ethereum, MetaMask has given applications a consiste
 
 Standardized messages, clearer consent, and domain-mismatch warnings transformed wallet login from a custom crypto interaction into a recognizable authentication experience.
 
-## **Real authentication**
+## Real authentication
 
 For most of the internet, signing in means creating a password or delegating identity to a centralized provider such as Google, Apple, or Facebook. Both approaches place an intermediary between the user and the service they want to access. The provider controls the identifier, manages the account, and ultimately determines whether the user can continue using it.
 
@@ -22,7 +22,7 @@ Wallet authentication was possible long before Sign in with Ethereum, but it was
 
 This inconsistency created friction for users and unnecessary work for developers. Users had to determine what they were signing and why. Developers had to design their own message formats, nonce systems, expiration rules, and session logic. Every new implementation introduced another opportunity for confusing language, incompatible behavior, or an overlooked security control.
 
-## **A wallet login language**
+## A wallet login language
 
 [Sign in with Ethereum](https://eips.ethereum.org/EIPS/eip-4361), standardized as ERC-4361, gave the ecosystem a common authentication format.
 
@@ -36,7 +36,7 @@ The standard created the foundation, but the experience still depended on wallet
 
 That is where MetaMask played a pioneering role.
 
-## **A sign-in experience**
+## A sign-in experience
 
 In 2023, MetaMask introduced native support for ERC-4361.
 
@@ -50,7 +50,7 @@ MetaMask’s implementation makes the purpose of the request visible while conti
 
 The identity remains under the user’s control. The application does not receive a password. A centralized identity provider does not sit between the user and the service. The wallet becomes the interface through which the user reviews and approves access.
 
-## **Phishing protection**
+## Phishing protection
 
 MetaMask’s contribution went beyond improving the wording and presentation of the request. Its SIWE implementation also introduced domain binding as a wallet-level security measure.
 
@@ -64,7 +64,7 @@ Placing this protection inside the wallet is significant. A wallet knows both th
 
 MetaMask’s [developer documentation](https://docs.metamask.io/metamask-connect/evm/guides/sign-data/siwe/) continues to treat SIWE and domain binding as first-class parts of the wallet authentication experience.
 
-## **Giving developers what they need**
+## Giving developers what they need
 
 Native wallet support also improved the developer experience.
 
@@ -76,7 +76,7 @@ This creates a valuable compounding effect. Each application that adopts the sta
 
 The result is not simply another integration option. It is shared infrastructure for authentication across an open ecosystem.
 
-## **Why MetaMask’s matters**
+## Why MetaMask’s matters
 
 MetaMask reported [more than 30 million monthly active users in early 2024](https://consensys.io/blog/metamask-reveals-55-surge-in-users-introduces-default-security-alerts-to). That figure does not represent the number of people who have used SIWE, but it illustrates the potential reach of native support inside one of web3’s largest wallets.
 

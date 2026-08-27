@@ -5,7 +5,7 @@ date: 2026-08-25
 ---
 
 
-# **OpenSea: The wallet is the account**
+# OpenSea: The wallet is the account
 
 Before Sign in with Ethereum had a standard, OpenSea was already built around its central idea: prove control of a wallet and use it as your account.
 
@@ -13,7 +13,7 @@ The wallet held the assets, authorized transactions, and anchored the user’s p
 
 OpenSea’s current authentication system formalizes that model through SIWE, using signed messages, single-use nonces, sessions, and scoped tokens to connect wallet identity with web services.
 
-## **The wallet came first**
+## The wallet came first
 
 OpenSea launched in 2017 with an account model that differed from conventional online marketplaces.
 
@@ -25,7 +25,7 @@ As OpenSea grew, a broad consumer audience became familiar with this model. Conn
 
 OpenSea did not invent wallet authentication, and its original login flow predated ERC-4361. What it demonstrated was that a wallet could function as more than a place to store tokens. It could also function as an account.
 
-## **Connection is not authentication**
+## Connection is not authentication
 
 Connecting a wallet allows an application to see an address and request actions from it. That does not necessarily prove that the person presenting the address controls its private key.
 
@@ -39,7 +39,7 @@ A SIWE message identifies the requesting domain, wallet address, URI, chain ID, 
 
 The user signs the message locally. The service verifies the signature and message contents before establishing a session. No blockchain transaction is submitted, no gas is required, and the private key remains inside the wallet.
 
-## **How OpenSea uses SIWE**
+## How OpenSea uses SIWE
 
 OpenSea’s [authentication documentation](https://docs.opensea.io/reference/auth) clearly separates application access from proof of wallet ownership.
 
@@ -53,7 +53,7 @@ An API key identifies the application and manages access limits. A wallet signat
 
 This separation becomes important beyond the browser. Command-line tools, server-side services, and software agents may need to act on behalf of a wallet without exposing its private key in every request. SIWE establishes identity once, while shorter-lived tokens handle subsequent access.
 
-## **The account is more than an address**
+## The account is more than an address
 
 OpenSea now supports multiple ways to enter the product. Users can [sign in with email or use an existing wallet](https://support.opensea.io/en/articles/8866951-how-do-i-log-in-to-opensea-with-a-web3-wallet), and multiple wallets can be linked to one profile.
 
@@ -67,7 +67,7 @@ OpenSea also remains a centralized service in important respects. It operates th
 
 What changes is the root proof of wallet ownership. That proof comes from a signature created by the wallet, rather than a password stored by the platform.
 
-## **Clear boundaries**
+## Clear boundaries
 
 Wallet authentication removes password-specific risks, but it does not remove the need for careful security design.
 
@@ -77,7 +77,7 @@ A complete SIWE implementation therefore depends on more than signature verifica
 
 OpenSea’s model reflects those boundaries. The initial signature establishes identity. Short-lived credentials handle continuing access. Scopes limit what those credentials can do.
 
-## **Why OpenSea matters**
+## Why OpenSea matters
 
 OpenSea represents the environment in which wallet authentication is easiest to understand.
 
