@@ -103,8 +103,10 @@ function onError() {
 }
 
 .collab-row .collab-them {
+  width: 28px;
   height: 28px;
-  max-width: 3.5rem;
+  object-fit: contain;
+  object-position: center;
 }
 
 .collab-row .collab-plus {
