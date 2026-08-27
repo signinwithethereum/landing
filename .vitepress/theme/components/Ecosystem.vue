@@ -6,14 +6,12 @@
  * which meant you had to recognise a logo to read the page. */
 
 import { computed, ref } from 'vue'
-import { data as posts } from '../data/posts.data'
 import { ECOSYSTEM, TYPES, type EcosystemType, type Entry } from '../data/ecosystem'
+import { PUBLISHED_STORIES } from '../data/stories'
 
 const query = ref('')
 const type = ref<EcosystemType | 'all' | 'stories'>('all')
-const publishedStories = new Set(
-  posts.filter((post) => post.category === 'success-stories').map((post) => post.url)
-)
+const publishedStories = new Set(PUBLISHED_STORIES.map((story) => story.link))
 
 function hasPublishedStory(entry: Entry) {
   return !!entry.story && publishedStories.has(entry.story)

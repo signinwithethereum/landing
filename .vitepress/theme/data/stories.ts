@@ -1,3 +1,5 @@
+import { data as posts } from './posts.data'
+
 /* Featured case studies.
  *
  * Each one exists because signing in with Ethereum did something for the people
@@ -82,3 +84,12 @@ export const STORIES: Story[] = [
     body: 'One supported flow brings an existing Ethereum wallet into any application, at a scale of 160 million accounts and $15 billion processed each month.'
   }
 ]
+
+/* `posts` excludes drafts and is ordered newest first. Keep the homepage and
+ * ecosystem page aligned with the public Success stories index. */
+export const PUBLISHED_STORIES = posts.flatMap((post) => {
+  if (post.category !== 'success-stories') return []
+
+  const story = STORIES.find((candidate) => candidate.link === post.url)
+  return story ? [story] : []
+})

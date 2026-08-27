@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { LIBRARIES } from '../data/libraries'
-import { STORIES } from '../data/stories'
+import { PUBLISHED_STORIES } from '../data/stories'
 import CopyLine from './CopyLine.vue'
 
 const selectedIndex = ref(0)
 const selected = computed(() => LIBRARIES[selectedIndex.value])
+const latestStories = PUBLISHED_STORIES.slice(0, 3)
 </script>
 
 <template>
@@ -45,11 +46,11 @@ const selected = computed(() => LIBRARIES[selectedIndex.value])
       <div class="production">
         <header>
           <h2>Used in production</h2>
-          <a href="/ecosystem">Explore the ecosystem &rarr;</a>
+          <a href="/blog/success-stories">See all success stories &rarr;</a>
         </header>
 
         <ul>
-          <li v-for="story in STORIES" :key="story.org">
+          <li v-for="story in latestStories" :key="story.org">
             <a :href="story.link">
               <strong>{{ story.org }}</strong>
               <span>{{ story.claim }}</span>
