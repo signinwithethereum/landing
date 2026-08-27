@@ -25,6 +25,7 @@ builder:
   arch: amd64
   args:
     APP_HOST: <%= ENV["APP_HOST"] %>
+    SIWE_API_URL: https://<%= ENV.fetch("API_HOST", "api.siwe.xyz") %>
 
 ssh:
   user: root

@@ -14,6 +14,8 @@ import HomeUsedBy from './components/HomeUsedBy.vue'
 import WalletComparison from './components/WalletComparison.vue'
 import HomeWhy from './components/HomeWhy.vue'
 import HomeLibraries from './components/HomeLibraries.vue'
+import HomeIntegrate from './components/HomeIntegrate.vue'
+import HomeNewsletter from './components/HomeNewsletter.vue'
 
 import Ecosystem from './components/Ecosystem.vue'
 import Validator from './components/Validator.vue'
@@ -21,6 +23,7 @@ import Builder from './components/Builder.vue'
 import BlogIndex from './components/BlogIndex.vue'
 import BrandKit from './components/BrandKit.vue'
 import BlankLines from './components/BlankLines.vue'
+import ContactForm from './components/ContactForm.vue'
 
 export default {
   extends: DefaultTheme,
@@ -35,6 +38,8 @@ export default {
     app.component('WalletComparison', WalletComparison)
     app.component('HomeWhy', HomeWhy)
     app.component('HomeLibraries', HomeLibraries)
+    app.component('HomeIntegrate', HomeIntegrate)
+    app.component('HomeNewsletter', HomeNewsletter)
 
     /* Pages */
     app.component('Ecosystem', Ecosystem)
@@ -43,5 +48,6 @@ export default {
     app.component('BlogIndex', BlogIndex)
     app.component('BrandKit', BrandKit)
     app.component('BlankLines', BlankLines)
+    app.component('ContactForm', ContactForm)
   }
 } satisfies Theme
