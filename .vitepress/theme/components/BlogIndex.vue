@@ -51,16 +51,22 @@ const shown = computed(() =>
   border-bottom: 1px solid var(--rule);
 }
 
+/* VitePress adds space between adjacent prose list items. These rows need to
+ * meet so their left rules form an unbroken guide. */
+.bl-list li + li {
+  margin-top: 0;
+}
+
 .bl-list a {
   display: block;
   padding: var(--s5) 0 var(--s5) var(--s4);
-  border-left: 2px solid transparent;
+  border-left: 2px solid var(--rule);
   color: inherit;
   text-decoration: none;
   transition: border-color 0.15s var(--ease);
 }
 
-.bl-list a:hover {
+.bl-list a:is(:hover, :focus-visible) {
   border-left-color: var(--accent);
 }
 

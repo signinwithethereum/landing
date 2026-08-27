@@ -219,6 +219,13 @@ body:has(.home-page) .VPNavBar .container {
   letter-spacing: -0.016em;
 }
 
+/* Headings pasted out of a word processor arrive as `# **Title**`. The nested
+ * <strong> would drop the weight back to 600 — headings stay Inter 900. */
+.vp-doc :is(h1, h2, h3) :is(strong, b) {
+  font-weight: inherit;
+  font-family: inherit;
+}
+
 .vp-doc h4 {
   font-family: var(--font-mono);
   font-size: 0.875rem;
