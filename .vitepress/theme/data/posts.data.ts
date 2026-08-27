@@ -7,6 +7,8 @@ export interface Post {
   /** Directory under blog/, or undefined for a post sitting at the top level. */
   category?: string
   author?: string
+  /** Optional partner mark for success stories. */
+  logo?: string
   date: { iso: string; time: number; label: string }
 }
 
@@ -24,6 +26,7 @@ export default createContentLoader<Post[]>('blog/**/*.md', {
         description: frontmatter.description ?? '',
         category: categoryFromUrl(url),
         author: frontmatter.author,
+        logo: typeof frontmatter.logo === 'string' ? frontmatter.logo : undefined,
         date: formatDate(frontmatter.date)
       }))
       .sort((a, b) => b.date.time - a.date.time)
