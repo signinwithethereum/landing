@@ -35,8 +35,8 @@ const { isDark } = useData();
       <figure :class="['hero-art', { 'hero-art--dark': isDark }]">
         <img
           src="/hero/siwe-illustration.webp"
-          width="1024"
-          height="1024"
+          width="1254"
+          height="1254"
           alt="A person at a computer beneath a globe-wide digital network."
           fetchpriority="high"
           decoding="async"
