@@ -50,7 +50,9 @@ export const ECOSYSTEM: Entry[] = [
   {
     name: 'MetaMask',
     link: 'https://metamask.io/',
-    type: 'wallet'
+    type: 'wallet',
+    story: '/blog/success-stories/metamask',
+    note: 'Native ERC-4361 support with a purpose-built sign-in screen and domain-mismatch warnings.'
   },
   {
     name: 'Ambire',
@@ -192,7 +194,9 @@ export const ECOSYSTEM: Entry[] = [
   {
     name: 'Privy',
     link: 'https://www.privy.io/',
-    type: 'tool'
+    type: 'tool',
+    story: '/blog/success-stories/privy',
+    note: 'SIWE inside the infrastructure that brings an existing wallet into any application.'
   },
   {
     name: 'WalletConnect',
@@ -288,12 +292,15 @@ export const ECOSYSTEM: Entry[] = [
     name: 'Polymarket',
     link: 'https://polymarket.com/',
     type: 'app',
-    unverified: true
+    story: '/blog/success-stories/polymarket',
+    note: 'One SIWE signature anchors the account behind a market with more than thirty million users.'
   },
   {
     name: 'OpenSea',
     link: 'https://opensea.io/',
-    type: 'app'
+    type: 'app',
+    story: '/blog/success-stories/opensea',
+    note: 'Prove control of a wallet and use it as your account, across the marketplace and its APIs.'
   },
   {
     name: 'Superfluid',
@@ -513,6 +520,13 @@ export const ECOSYSTEM: Entry[] = [
     link: 'https://evm.now',
     type: 'app',
     story: '/blog/success-stories/evm-now',
-    note: 'A paid feature with no account to create — entitlement is read from the chain.'
+    note: 'A paid feature with no account to create; entitlement is read from the chain.'
+  },
+  {
+    name: 'OpenRouter',
+    link: 'https://openrouter.ai',
+    type: 'app',
+    story: '/blog/success-stories/openrouter',
+    note: "Lists Sign in with Ethereum beside Google and GitHub: wallet login at the scale of a mainstream API gateway."
   }
 ]

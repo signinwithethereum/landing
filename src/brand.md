@@ -1,12 +1,12 @@
 ---
 title: Brand
-description: The Sign in with Ethereum wordmark and icon — the files, the palette, the states they run, and the rules for using them.
+description: The Sign in with Ethereum wordmark and icon, the files, the palette, the states they run, and the rules for using them.
 outline: [2, 2]
 ---
 
 # Brand
 
-The mark is a grid. A 29 × 9 field with ink on rows 0, 2, 4, 6 and 8 — the odd
+The mark is a grid. A 29 × 9 field with ink on rows 0, 2, 4, 6 and 8; the odd
 rows are gaps, and that is what makes it read as a scan rather than as
 lettering. 75 ink cells. Everything else on this site is derived from that one
 decision: the cell is the unit, and section dividers are two hairlines a cell
@@ -20,11 +20,11 @@ apart because that is an ink row and its gap, at page scale.
 | --- | --- |
 | [`wordmark.svg`](/brand/wordmark.svg) | The mark. 29 × 9, 75 ink cells. |
 | [`wordmark-field.svg`](/brand/wordmark-field.svg) | The mark inset two cells in a 33 × 13 field of lines. 231 cells, 75 of them ink. |
-| [`icon.svg`](/brand/icon.svg) | The icon. 7 × 9 — the wordmark's first glyph. |
+| [`icon.svg`](/brand/icon.svg) | The icon. 7 × 9, the wordmark's first glyph. |
 | [`icon-e.svg`](/brand/icon-e.svg) | The icon read as Ξ. |
 | [`icon-diamond.svg`](/brand/icon-diamond.svg) | The icon read as a diamond. |
 
-Every file is geometry, not paths — plain `<rect>` elements on integer
+Every file is geometry, not paths: plain `<rect>` elements on integer
 coordinates. Scale them freely; they will never blur and they will never need a
 raster fallback. Set `shape-rendering="crispEdges"` if you are drawing them at a
 size where a cell lands on a half pixel.
@@ -53,15 +53,15 @@ should not be given one.
 
 Inter at 900 for headings, Geist Sans for prose, Geist Mono for labels, values,
 code and anything a machine wrote. The headings are the one loud voice on the
-page — the weight does the work, so they do not also need to be large. Geist
+page: the weight does the work, so they do not also need to be large. Geist
 Mono is drawn on a grid with flat terminals, which is the same construction as
-the mark — that is why it is here rather than a monospace chosen for looking
+the mark, which is why it is here rather than a monospace chosen for looking
 technical. All three faces are variable and self-hosted; none is required to use
 the mark.
 
 ## Motion
 
-The mark has thirteen states and the icon has seven more. They are geometry — a
+The mark has thirteen states and the icon has seven more. They are geometry: a
 state describes only its difference from the resting mark, so it composes and
 never desynchronises. Two rules:
 

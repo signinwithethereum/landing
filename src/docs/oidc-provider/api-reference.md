@@ -93,11 +93,11 @@ Alternatively, pre-register clients via the `NUXT_OIDC_DEFAULT_CLIENTS` environm
 
 The provider uses a web-based interaction flow for SIWE authentication:
 
-1. **Authorization request** — client redirects user to `/auth` with standard OIDC parameters
-2. **Interaction page** — provider creates an interaction session and renders a wallet-connect UI
-3. **SIWE signing** — the user connects their wallet and signs a SIWE message. The interaction UID is hex-encoded and used as the SIWE nonce (to stay EIP-4361 compliant with the alphanumeric requirement)
-4. **Signature verification** — provider verifies the SIWE signature using `@signinwithethereum/siwe` v4, supporting EOA, EIP-1271, and EIP-6492 signatures
-5. **Token issuance** — on success, the provider creates an account ID (`eip155:{chainId}:{address}`), resolves ENS data, and redirects back to the client with an authorization code
+1. **Authorization request**: client redirects user to `/auth` with standard OIDC parameters
+2. **Interaction page**: provider creates an interaction session and renders a wallet-connect UI
+3. **SIWE signing**: the user connects their wallet and signs a SIWE message. The interaction UID is hex-encoded and used as the SIWE nonce (to stay EIP-4361 compliant with the alphanumeric requirement)
+4. **Signature verification**: provider verifies the SIWE signature using `@signinwithethereum/siwe` v4, supporting EOA, EIP-1271, and EIP-6492 signatures
+5. **Token issuance**: on success, the provider creates an account ID (`eip155:{chainId}:{address}`), resolves ENS data, and redirects back to the client with an authorization code
 
 ## Supported OIDC Features
 

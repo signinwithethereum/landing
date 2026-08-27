@@ -31,7 +31,7 @@ const wordmark = ref<(typeof WORDMARK_STATES)[number]['id']>('powerOn')
 const icon = ref<(typeof ICON_STATES)[number]['id']>('morph')
 
 const SWATCHES = [
-  { name: 'Accent', hex: '#1c9ba0', note: 'And #00eaf2 inverted. One hue in two weights — the darker one carries light surfaces, the exact accent carries black ones.' },
+  { name: 'Accent', hex: '#1c9ba0', note: 'And #00eaf2 inverted. One hue in two weights: the darker one carries light surfaces, the exact accent carries black ones.' },
   { name: 'Ink on canvas', hex: '#000000', note: 'And #ffffff inverted. The mark is ink; there is no grey ink.' },
   { name: 'Field', hex: '#cdcdd3', note: 'And #3a3a3a inverted. The grid behind the mark, never a text colour.' },
   { name: 'Accent on screen', hex: '#00eaf2', note: 'The panel weight. Screen panels are black in both themes, so the accent inside them never changes.' }
@@ -68,7 +68,7 @@ const SWATCHES = [
         One glyph on the same five lines, seven cells wide, and it has three
         readings: the wordmark's S, Ξ, and a diamond. Each reading is exactly one
         segment per line, which is what makes the travel between them legible
-        rather than a cut. The icon runs ink only — no accent, because at seven
+        rather than a cut. The icon runs ink only, no accent, because at seven
         pixels wide only geometry and level survive.
       </p>
       <div class="bk-icons">
@@ -80,15 +80,15 @@ const SWATCHES = [
         <div class="bk-readings">
           <figure>
             <div class="screen"><div class="bk-stage-in"><Mark canvas="icon" :background="false" /></div></div>
-            <figcaption>S &mdash; 21 cells</figcaption>
+            <figcaption>S, 21 cells</figcaption>
           </figure>
           <figure>
             <div class="screen"><div class="bk-stage-in"><Mark canvas="iconE" :background="false" /></div></div>
-            <figcaption>Ξ &mdash; 22 cells</figcaption>
+            <figcaption>Ξ, 22 cells</figcaption>
           </figure>
           <figure>
             <div class="screen"><div class="bk-stage-in"><Mark canvas="iconDiamond" :background="false" /></div></div>
-            <figcaption>Diamond &mdash; 18 cells</figcaption>
+            <figcaption>Diamond, 18 cells</figcaption>
           </figure>
         </div>
       </div>

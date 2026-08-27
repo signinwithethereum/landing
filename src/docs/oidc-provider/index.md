@@ -7,7 +7,7 @@ description: An OpenID Connect identity provider that authenticates users with t
 
 An OpenID Connect identity provider that authenticates users with their Ethereum wallets via [Sign in with Ethereum](https://eips.ethereum.org/EIPS/eip-4361) (EIP-4361).
 
-Any application that supports OIDC can use this provider to let users log in with their Ethereum address — no passwords, no email, no custodial accounts.
+Any application that supports OIDC can use this provider to let users log in with their Ethereum address, with no passwords, no email, and no custodial accounts.
 
 - [signinwithethereum/oidc-provider on GitHub](https://github.com/signinwithethereum/oidc-provider)
 
@@ -24,11 +24,11 @@ Any application that supports OIDC can use this provider to let users log in wit
 
 1. Your app starts a standard OIDC authorization code flow (with PKCE)
 2. The provider presents a wallet-connect login page
-3. The user signs a [SIWE message](https://eips.ethereum.org/EIPS/eip-4361) — this replaces both password entry and consent
+3. The user signs a [SIWE message](https://eips.ethereum.org/EIPS/eip-4361); this replaces both password entry and consent
 4. The provider verifies the signature and issues OIDC tokens
 5. Your app receives an ID token with the user's Ethereum identity
 
-The user's SIWE signature **is** their consent — no additional consent screen needed.
+The user's SIWE signature **is** their consent; no additional consent screen is needed.
 
 ## Features
 
@@ -45,12 +45,12 @@ The user's SIWE signature **is** their consent — no additional consent screen 
 
 ## Tech Stack
 
-- [oidc-provider](https://github.com/panva/node-oidc-provider) v9 — certified OIDC implementation
-- [@signinwithethereum/siwe](https://github.com/signinwithethereum/siwe) v4 — Sign in with Ethereum
-- [viem](https://viem.sh) — Ethereum client
-- [Nuxt 4](https://nuxt.com) — full-stack framework (Node.js 22+)
-- [ioredis](https://github.com/redis/ioredis) — Redis client
-- [jose](https://github.com/panva/jose) — JWT/JWK operations
+- [oidc-provider](https://github.com/panva/node-oidc-provider) v9: certified OIDC implementation
+- [@signinwithethereum/siwe](https://github.com/signinwithethereum/siwe) v4: Sign in with Ethereum
+- [viem](https://viem.sh): Ethereum client
+- [Nuxt 4](https://nuxt.com): full-stack framework (Node.js 22+)
+- [ioredis](https://github.com/redis/ioredis): Redis client
+- [jose](https://github.com/panva/jose): JWT/JWK operations
 
 ## Quick Start
 
@@ -66,6 +66,6 @@ The provider starts at `http://localhost:3000`. Visit `http://localhost:3000/.we
 
 ## Next Steps
 
-- [API Reference](/docs/oidc-provider/api-reference) — endpoints, scopes, claims, and token TTLs
-- [Deployment Guide](/docs/oidc-provider/deployment-guide) — Docker Compose, environment variables, production checklist
-- [Client Setup](/docs/oidc-provider/client-setup) — reference client implementation and building your own
+- [API Reference](/docs/oidc-provider/api-reference): endpoints, scopes, claims, and token TTLs
+- [Deployment Guide](/docs/oidc-provider/deployment-guide): Docker Compose, environment variables, production checklist
+- [Client Setup](/docs/oidc-provider/client-setup): reference client implementation and building your own

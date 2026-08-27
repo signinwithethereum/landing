@@ -11,7 +11,7 @@ The Python implementation of Sign in with Ethereum can be found here:
 
 ## Getting Started
 
-The `signinwithethereum` package provides full [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) support with EIP-191 signature verification, and — with a configured Web3 provider — EIP-1271 and EIP-6492 smart contract wallet signatures.
+The `signinwithethereum` package provides full [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) support with EIP-191 signature verification, and, with a configured Web3 provider, EIP-1271 and EIP-6492 smart contract wallet signatures.
 
 ### Installation
 
@@ -37,10 +37,10 @@ Requires Python 3.10+.
 
 The library depends on:
 
-- [`web3`](https://pypi.org/project/web3/) — Ethereum RPC and contract calls (used for EIP-1271 / EIP-6492)
-- [`eth-account`](https://pypi.org/project/eth-account/) — EIP-191 signing and recovery
-- [`pydantic`](https://pypi.org/project/pydantic/) — message validation
-- [`abnf`](https://pypi.org/project/abnf/) — EIP-4361 grammar parsing
+- [`web3`](https://pypi.org/project/web3/): Ethereum RPC and contract calls (used for EIP-1271 / EIP-6492)
+- [`eth-account`](https://pypi.org/project/eth-account/): EIP-191 signing and recovery
+- [`pydantic`](https://pypi.org/project/pydantic/): message validation
+- [`abnf`](https://pypi.org/project/abnf/): EIP-4361 grammar parsing
 
 ## API Reference
 
@@ -65,7 +65,7 @@ A `pydantic.BaseModel` representing an [EIP-4361](https://eips.ethereum.org/EIPS
 | `not_before`      | `Optional[ISO8601Datetime]` | No | When the message becomes valid                                                   |
 | `request_id`      | `Optional[str]`   | No       | System-specific identifier                                                           |
 | `resources`       | `Optional[List[str]]` | No   | List of RFC 3986 URI references                                                      |
-| `warnings`        | `List[str]`       | —        | Non-fatal validation warnings (e.g. unchecksummed address). Excluded from serialization. |
+| `warnings`        | `List[str]`       | -        | Non-fatal validation warnings (e.g. unchecksummed address). Excluded from serialization. |
 
 ::: info
 Field names use `snake_case` (Python convention), not the `camelCase` used in the EIP-4361 text format. Parsing and serialization handle the conversion automatically.
@@ -155,12 +155,12 @@ except VerificationError as err:
 | Parameter    | Type                     | Description                                                                                  |
 | ------------ | ------------------------ | -------------------------------------------------------------------------------------------- |
 | `signature`  | `Optional[str]`          | 0x-prefixed EIP-191 signature to verify against the message                                  |
-| `scheme`     | `Optional[str]`          | Expected scheme — raises `SchemeMismatch` if different                                       |
-| `domain`     | `Optional[str]`          | Expected domain — raises `DomainMismatch` if different                                       |
-| `nonce`      | `Optional[str]`          | Expected nonce — raises `NonceMismatch` if different                                         |
-| `uri`        | `Optional[str]`          | Expected URI — raises `UriMismatch` if different                                             |
-| `chain_id`   | `Optional[int]`          | Expected chain ID — raises `ChainIdMismatch` if different                                    |
-| `request_id` | `Optional[str]`          | Expected request ID — raises `RequestIdMismatch` if different                                |
+| `scheme`     | `Optional[str]`          | Expected scheme; raises `SchemeMismatch` if different                                       |
+| `domain`     | `Optional[str]`          | Expected domain; raises `DomainMismatch` if different                                       |
+| `nonce`      | `Optional[str]`          | Expected nonce; raises `NonceMismatch` if different                                         |
+| `uri`        | `Optional[str]`          | Expected URI; raises `UriMismatch` if different                                             |
+| `chain_id`   | `Optional[int]`          | Expected chain ID; raises `ChainIdMismatch` if different                                    |
+| `request_id` | `Optional[str]`          | Expected request ID; raises `RequestIdMismatch` if different                                |
 | `timestamp`  | `Optional[datetime]`     | Time to check `expiration_time` / `not_before` against (defaults to now, UTC)                |
 | `provider`   | `Optional[HTTPProvider]` | Web3 provider for EIP-1271 / EIP-6492 contract wallet verification                           |
 | `strict`     | `bool`                   | When `True`, `domain`, `uri`, `chain_id`, and `nonce` are required                           |
@@ -169,9 +169,9 @@ Verification order:
 
 1. Field-binding checks (scheme, domain, nonce, uri, chain_id, request_id)
 2. Time checks (`expiration_time`, `not_before`)
-3. **EOA** — `ecrecover` via `eth-account`
-4. **EIP-6492** — if the signature has the magic suffix and a `provider` is supplied, verify via the universal off-chain validator
-5. **EIP-1271** — otherwise, fall back to on-chain `isValidSignature` if a `provider` is supplied
+3. **EOA**: `ecrecover` via `eth-account`
+4. **EIP-6492**: if the signature has the magic suffix and a `provider` is supplied, verify via the universal offchain validator
+5. **EIP-1271**: otherwise, fall back to onchain `isValidSignature` if a `provider` is supplied
 
 ### `generate_nonce() -> str`
 
@@ -217,7 +217,7 @@ Message construction errors raise `pydantic.ValidationError` (field validation) 
 
 ## Smart Contract Wallets (EIP-1271 / EIP-6492)
 
-Pass a `web3` provider to `verify()` to enable on-chain signature validation for smart contract wallets. The authentication arguments (`strict`, `domain`, `nonce`, `uri`, `chain_id`) still apply — the provider only changes how the signature itself is verified:
+Pass a `web3` provider to `verify()` to enable onchain signature validation for smart contract wallets. The authentication arguments (`strict`, `domain`, `nonce`, `uri`, `chain_id`) still apply; the provider only changes how the signature itself is verified:
 
 ```python
 from siwe import SiweMessage
@@ -239,13 +239,13 @@ message.verify(
 
 With a provider configured, the library will:
 
-- detect [EIP-6492](https://eips.ethereum.org/EIPS/eip-6492) signatures by their magic suffix and validate them via the universal off-chain validator bytecode (no deployment required)
+- detect [EIP-6492](https://eips.ethereum.org/EIPS/eip-6492) signatures by their magic suffix and validate them via the universal offchain validator bytecode (no deployment required)
 - fall back to [EIP-1271](https://eips.ethereum.org/EIPS/eip-1271) `isValidSignature` for deployed contract wallets (Safe, Argent, etc.)
 
 The provider's chain ID must match the message's `chain_id`, otherwise `ChainIdMismatch` is raised.
 
 ::: info
-This is verification only. EIP-6492 allows a verifier to optionally submit the factory transaction after a successful check to finalize on-chain deployment ("side-effectful" verification). This library does not do that — if you need the wallet actually deployed, submit the factory call yourself.
+This is verification only. EIP-6492 allows a verifier to optionally submit the factory transaction after a successful check to finalize onchain deployment ("side-effectful" verification). This library does not do that; if you need the wallet actually deployed, submit the factory call yourself.
 :::
 
 ## Backend Integration
@@ -347,7 +347,7 @@ def verify():
 
 ### Django (`siwe-django`) {#django}
 
-`siwe-django` is a reusable Django app built on `signinwithethereum`. It exposes nonce / verify / session endpoints, plugs into `django.contrib.auth` via a `SiweBackend`, and adds models for linking wallets to existing users — with an optional Django REST Framework variant.
+`siwe-django` is a reusable Django app built on `signinwithethereum`. It exposes nonce / verify / session endpoints, plugs into `django.contrib.auth` via a `SiweBackend`, and adds models for linking wallets to existing users, with an optional Django REST Framework variant.
 
 - [signinwithethereum/siwe-django on GitHub](https://github.com/signinwithethereum/siwe-django)
 
@@ -359,10 +359,10 @@ pip install siwe-django
 
 Optional extras:
 
-- `siwe-django[drf]` — Django REST Framework views and serializers
-- `siwe-django[drf,openapi]` — auto-generated OpenAPI schemas for the DRF views
-- `siwe-django[redis]` — Redis-backed nonce store
-- `siwe-django[cli]` — interactive setup wizard
+- `siwe-django[drf]`: Django REST Framework views and serializers
+- `siwe-django[drf,openapi]`: auto-generated OpenAPI schemas for the DRF views
+- `siwe-django[redis]`: Redis-backed nonce store
+- `siwe-django[cli]`: interactive setup wizard
 
 #### Setup
 
@@ -440,7 +440,7 @@ urlpatterns += [
 
 #### User model
 
-By default, `siwe-django` links wallets to your existing `AUTH_USER_MODEL` through the `SiweWallet` model — the verify endpoint finds or creates a Django user and attaches the verified wallet.
+By default, `siwe-django` links wallets to your existing `AUTH_USER_MODEL` through the `SiweWallet` model; the verify endpoint finds or creates a Django user and attaches the verified wallet.
 
 For wallet-native projects, set `AUTH_USER_MODEL = "siwe_django.EthereumUser"` **before your first migration** to use the bundled user model that keys identity by Ethereum address.
 
@@ -456,7 +456,7 @@ Notable keys under `SIWE_DJANGO`:
 | `RATE_LIMITS`        | `{}`    | Per-view rate limits, e.g. `{"verify": "5/m"}`.                           |
 | `AUDIT_ENABLED`      | `True`  | Persist sign-in events to the `SiweAuthEvent` model.                      |
 | `NONCE_STORE`        | `siwe_django.nonce_store.DjangoOrmNonceStore` | Dotted import path for the nonce-store class. Switch to `siwe_django.nonce_store.RedisNonceStore` with the `[redis]` extra. |
-| `TOKEN_GATES`        | —       | Sync Django groups from on-chain holdings (ERC-721 / ERC-20 / EFP / ENS). |
+| `TOKEN_GATES`        | -       | Sync Django groups from onchain holdings (ERC-721 / ERC-20 / EFP / ENS). |
 
 See the [project README](https://github.com/signinwithethereum/siwe-django) for the full configuration reference, DRF integration details, and frontend wiring examples.
 
@@ -464,7 +464,7 @@ See the [project README](https://github.com/signinwithethereum/siwe-django) for 
 
 ### Strict Mode
 
-`strict=True` requires `domain`, `uri`, `chain_id`, and `nonce` to be provided as verification parameters, for full contextual binding. The `nonce` must be a single-use value your server issued for this session — invalidate it on success so it cannot be replayed.
+`strict=True` requires `domain`, `uri`, `chain_id`, and `nonce` to be provided as verification parameters, for full contextual binding. The `nonce` must be a single-use value your server issued for this session; invalidate it on success so it cannot be replayed.
 
 ```python
 message.verify(
@@ -496,7 +496,7 @@ Naive `datetime` values are assumed to be UTC.
 
 ### Working with `ISO8601Datetime`
 
-`issued_at`, `expiration_time`, and `not_before` are `ISO8601Datetime` instances — a `str` subclass with an attached datetime. Build one from a `datetime`:
+`issued_at`, `expiration_time`, and `not_before` are `ISO8601Datetime` instances, a `str` subclass with an attached datetime. Build one from a `datetime`:
 
 ```python
 from datetime import datetime, timezone

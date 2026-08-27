@@ -2,11 +2,12 @@
 title: evm.now has nothing for you to sign up for
 description: A contract explorer with a paid feature and no accounts. You sign once with the wallet you already have, and what you are entitled to is read from the chain rather than from a subscriptions table.
 date: 2026-08-17
+draft: true
 ---
 
 # evm.now has nothing for you to sign up for
 
-[evm.now](https://evm.now) is a contract explorer — read, interact with, and
+[evm.now](https://evm.now) is a contract explorer: read, interact with, and
 understand any verified smart contract. Explorers are read-only by nature, which
 makes it a strange place to find a sign-in at all. So the interesting question is
 not how it does ERC-4361 but why it needs authentication, and the answer is a
@@ -28,7 +29,7 @@ Which means two questions have to be answered, and they are not the same questio
 The specification puts "authorization to server resources" explicitly out of
 scope, and this is what respecting that looks like. The signature is asked one
 question and answers it. Entitlement is a separate matter, decided somewhere else
-entirely — in this case by a contract.
+entirely, in this case by a contract.
 
 ## What that removes from your day
 
@@ -47,13 +48,13 @@ a supporter is onchain, so it is not evm.now's private opinion about you.
 ## Sign-in appears when it is relevant, and not before
 
 Nothing prompts you on page load. You can browse, read verified source, and poke
-at contracts without ever being asked who you are — which is right, because for
+at contracts without ever being asked who you are, which is right, because for
 almost everything the explorer does the answer does not matter.
 
 The prompt arrives at the moment you ask for the thing that needs it. Press the
 explain button on a contract that is not featured and you get one of three honest
-outcomes: a note that you need to connect a wallet, a sign-in dialog, or — if you
-have just generated one — a message telling you when you can generate the next.
+outcomes: a note that you need to connect a wallet, a sign-in dialog, or, if you
+have just generated one, a message telling you when you can generate the next.
 
 The dialog is titled **Sign in with Ethereum** and says what signing is *for*:
 verifying your supporter status. It has one button. Pressing it shows which wallet
@@ -75,9 +76,9 @@ invisible when it works and alarming when it does not.
 Worth noting because it is a small craft decision most integrations get wrong.
 There are two pieces of copy in play, and they say different things:
 
-- The message your **wallet** renders says what the signature *is* — a sign-in to
+- The message your **wallet** renders says what the signature *is*: a sign-in to
   evm.now.
-- The dialog in the **app** says what it is *for* — verifying your supporter
+- The dialog in the **app** says what it is *for*: verifying your supporter
   status.
 
 Neither is redundant. The wallet's job is to tell you what you are cryptographically
@@ -87,7 +88,7 @@ sentence loses whichever half you dropped.
 ## Limits attach to the person, not to a token
 
 Because the wallet is the identity, usage limits attach to it directly. Generating
-a new explanation has a cooldown, and the message says so in plain terms — how long
+a new explanation has a cooldown, and the message says so in plain terms: how long
 it is, and when you can try again.
 
 There is no API key to issue, store, rotate or leak in order to make that work.
@@ -98,8 +99,8 @@ which is a stronger claim than a bearer token in a browser and less to look afte
 
 If your product has a feature that costs money per use, you have an authorization
 problem that no login solves. Answer "who" with ERC-4361: it is cheap, standard,
-and stores nothing. Then answer "are they entitled" somewhere else — a contract, a
-licence server, a subscriptions table — and keep the two apart.
+and stores nothing. Then answer "are they entitled" somewhere else, like a contract, a
+licence server, or a subscriptions table, and keep the two apart.
 
 The tempting shortcut is to stuff entitlements into the message's `Resources`
 field. That is what [ERC-5573](https://eips.ethereum.org/EIPS/eip-5573) is for, it
@@ -107,7 +108,7 @@ has been a draft for five years, and a separate check you control works today an
 is easier to reason about.
 
 And put the sign-in where the need is. Asking on page load, before the visitor
-knows what your product does, converts worse and is harder to justify — because at
+knows what your product does, converts worse and is harder to justify, because at
 that moment you genuinely do not need to know who they are.
 
 ---

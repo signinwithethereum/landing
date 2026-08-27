@@ -10,7 +10,7 @@ import path from 'node:path'
 import { createContentLoader, type SiteConfig } from 'vitepress'
 
 const HOST = 'https://siwe.xyz'
-const TITLE = 'Sign-In with Ethereum'
+const TITLE = 'Sign in with Ethereum'
 const DESCRIPTION =
   'Case studies, changes to the standard, and notes from the libraries behind ERC-4361.'
 

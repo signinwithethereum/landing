@@ -14,7 +14,7 @@ export default defineConfig({
   cleanUrls: true,
   lang: 'en-US',
   title: 'Sign in with Ethereum',
-  titleTemplate: ':title — SIWE',
+  titleTemplate: ':title · SIWE',
   description: DESCRIPTION,
   appearance: 'dark',
 

@@ -131,9 +131,9 @@ let public_key: Vec<u8> = message.verify_eip191(&signature).unwrap();
 
 Full verification: time constraints, field binding checks, and signature authentication. Verification order follows EIP-6492:
 
-1. **EIP-6492** — if the signature has the magic suffix, verify via the universal off-chain validator
-2. **EOA** — try standard `ecrecover` for 65-byte signatures
-3. **EIP-1271** — fall back to on-chain `isValidSignature` if EOA verification fails (requires `alloy` feature)
+1. **EIP-6492**: if the signature has the magic suffix, verify via the universal offchain validator
+2. **EOA**: try standard `ecrecover` for 65-byte signatures
+3. **EIP-1271**: fall back to onchain `isValidSignature` if EOA verification fails (requires `alloy` feature)
 
 ```rust
 use hex::FromHex;
@@ -190,7 +190,7 @@ Returns the Keccak-256 hash of the EIP-191 signing input.
 
 ### `VerificationOpts` Struct
 
-Configuration for `Message::verify()`. All fields are optional — only set the fields you want to validate against.
+Configuration for `Message::verify()`. All fields are optional; only set the fields you want to validate against.
 
 | Field | Type | Description |
 | --- | --- | --- |
@@ -265,8 +265,8 @@ Errors raised during signature verification:
 
 With the `alloy` feature enabled, `verify()` supports signatures from:
 
-- **EIP-1271** — deployed contract wallets (e.g. Safe, Argent)
-- **EIP-6492** — counterfactual (not yet deployed) contract wallets
+- **EIP-1271**: deployed contract wallets (e.g. Safe, Argent)
+- **EIP-6492**: counterfactual (not yet deployed) contract wallets
 
 Provide an `rpc_url` in the verification options:
 
@@ -411,11 +411,11 @@ See the full [CHANGELOG](https://github.com/signinwithethereum/siwe-rs/blob/main
 
 ### v0.7.0 Highlights
 
-- **`alloy` replaces `ethers`** — The deprecated ethers dependency has been replaced with [alloy](https://github.com/alloy-rs/alloy) v1. Pass an RPC URL string instead of a provider.
-- **EIP-6492 support** — Verify signatures from counterfactual (undeployed) smart contract wallets.
-- **Scheme parsing** — Messages with optional `scheme://` prefixes are now parsed correctly.
-- **Stricter validation** — Nonces must be alphanumeric, statements must be printable ASCII.
-- **Fixed temporal boundaries** — `valid_at()` now uses `[not_before, expiration_time)`.
+- **`alloy` replaces `ethers`**: the deprecated ethers dependency has been replaced with [alloy](https://github.com/alloy-rs/alloy) v1. Pass an RPC URL string instead of a provider.
+- **EIP-6492 support**: verify signatures from counterfactual (undeployed) smart contract wallets.
+- **Scheme parsing**: messages with optional `scheme://` prefixes are now parsed correctly.
+- **Stricter validation**: nonces must be alphanumeric, statements must be printable ASCII.
+- **Fixed temporal boundaries**: `valid_at()` now uses `[not_before, expiration_time)`.
 
 ## Testing
 
@@ -423,7 +423,7 @@ See the full [CHANGELOG](https://github.com/signinwithethereum/siwe-rs/blob/main
 cargo test
 ```
 
-To run tests that require on-chain verification (EIP-1271 / EIP-6492), enable the `alloy` feature and provide an Ethereum mainnet RPC URL:
+To run tests that require onchain verification (EIP-1271 / EIP-6492), enable the `alloy` feature and provide an Ethereum mainnet RPC URL:
 
 ```bash
 ETH_RPC_URL="https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY" cargo test --features alloy

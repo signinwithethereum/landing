@@ -1,6 +1,6 @@
 ---
 title: Integrations
-description: Ready-made ways to add SIWE to an existing platform — Discourse, Django, or any OpenID Connect client — without writing verification code.
+description: Ready-made ways to add SIWE to an existing platform, like Discourse, Django, or any OpenID Connect client, without writing verification code.
 ---
 
 # Integrations
@@ -15,7 +15,7 @@ that already exist.
 | [OIDC provider](/docs/oidc-provider/) | A service you host | Put SIWE behind a standard OpenID Connect endpoint, and any OIDC client can use it. |
 
 The OIDC provider is the general answer. If your platform can talk to an OpenID
-Connect identity provider — and most enterprise software can — it can accept SIWE
+Connect identity provider (and most enterprise software can), it can accept SIWE
 without ever learning what an Ethereum address is.
 
 ## Building your own
@@ -28,7 +28,7 @@ message, ask the wallet to sign it, post the message and signature back.
 
 **On the server.** Issue and remember the nonce. On verification, recover the
 signer and check the message against *your own* domain, *your own* nonce and the
-clock — never against values taken from the message that just arrived. Then start
+clock, never against values taken from the message that just arrived. Then start
 a session and forget the nonce.
 
 The [quickstart](/docs/quickstart/) is that, written out, with both halves.
@@ -39,4 +39,4 @@ direction of what goes wrong.
 
 Built something for a platform not listed? Open a pull request on
 [the site](https://github.com/signinwithethereum/landing-next), or add yourself to
-the [ecosystem](/ecosystem) — one entry in one file.
+the [ecosystem](/ecosystem), one entry in one file.

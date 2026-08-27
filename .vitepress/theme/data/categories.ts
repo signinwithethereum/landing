@@ -16,7 +16,7 @@ export const CATEGORIES: Category[] = [
     slug: 'success-stories',
     label: 'Success stories',
     blurb:
-      'What teams actually built on ERC-4361, written up in enough detail to be useful — including the parts they got wrong first.'
+      'What teams actually built on ERC-4361, written up in enough detail to be useful, including the parts they got wrong first.'
   },
   {
     slug: 'standard',

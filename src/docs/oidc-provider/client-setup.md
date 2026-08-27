@@ -34,11 +34,11 @@ The client runs at `http://localhost:3001`.
 | `NUXT_OIDC_CLIENT_NAME` | Display name shown on the provider's login page | `Example OIDC Client` |
 | `NUXT_OIDC_CLIENT_URI` | Client homepage URL | `http://localhost:3001` |
 | `NUXT_OIDC_LOGO_URI` | Client logo URL | `http://localhost:3001/client-logo.png` |
-| `NUXT_OIDC_POLICY_URI` | Privacy policy URL | — |
-| `NUXT_OIDC_TOS_URI` | Terms of service URL | — |
-| `NUXT_OIDC_CONTACTS` | Admin contact emails (comma-separated) | — |
+| `NUXT_OIDC_POLICY_URI` | Privacy policy URL | - |
+| `NUXT_OIDC_TOS_URI` | Terms of service URL | - |
+| `NUXT_OIDC_CONTACTS` | Admin contact emails (comma-separated) | - |
 
-`NUXT_OIDC_CLIENT_ID` and `NUXT_OIDC_CLIENT_SECRET` are optional — the client registers itself automatically via the provider's `/reg` endpoint on first use.
+`NUXT_OIDC_CLIENT_ID` and `NUXT_OIDC_CLIENT_SECRET` are optional; the client registers itself automatically via the provider's `/reg` endpoint on first use.
 
 ## Auto-Registration
 
@@ -46,7 +46,7 @@ The reference client uses [dynamic client registration](https://openid.net/specs
 
 1. The client fetches the provider's discovery document from `{issuer}/.well-known/openid-configuration`
 2. It sends a registration request to the provider's `/reg` endpoint with `redirect_uris`, `client_name`, `logo_uri`, etc.
-3. The provider returns a `client_id` (no `client_secret` needed — the client is a public client)
+3. The provider returns a `client_id` (no `client_secret` needed, as the client is a public client)
 4. Subsequent requests reuse the registered `client_id`
 
 ## Auth Composable
@@ -84,7 +84,7 @@ const { user, login, logout, fetchUser } = useAuth()
 - **PKCE** (S256) for the authorization code exchange
 - **State parameter** for CSRF protection
 - **Encrypted sessions** via `NUXT_SESSION_SECRET`
-- **Public client** (`token_endpoint_auth_method: none`) — no client secret stored or transmitted
+- **Public client** (`token_endpoint_auth_method: none`): no client secret stored or transmitted
 
 ## Building Your Own Client
 

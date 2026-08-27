@@ -76,7 +76,7 @@ export interface Integration {
 export const INTEGRATIONS: Integration[] = [
   {
     name: 'OpenID Connect provider',
-    what: 'Put SIWE behind a standard OIDC endpoint and any OIDC client can use it — including ones that have never heard of Ethereum.',
+    what: 'Put SIWE behind a standard OIDC endpoint and any OIDC client can use it, including ones that have never heard of Ethereum.',
     link: '/docs/oidc-provider/'
   },
   {

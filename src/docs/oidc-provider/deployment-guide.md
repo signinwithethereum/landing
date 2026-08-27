@@ -73,8 +73,8 @@ docker compose up
 | `NUXT_OIDC_REQUIRE_SECRET` | Enforce `client_secret_basic` for the token endpoint | `false` |
 | `NUXT_OIDC_ETH_PROVIDER` | Ethereum RPC URL for ENS resolution. Can be a plain URL for mainnet or a JSON map of `chainId → URL` for multi-chain | public default |
 | `NUXT_OIDC_DEFAULT_CLIENTS` | Pre-configured clients as JSON (see below) | `{}` |
-| `NUXT_PUBLIC_EVM_WALLET_CONNECT_PROJECT_ID` | WalletConnect project ID for the login page | — |
-| `NUXT_PUBLIC_EVM_CHAINS_MAINNET_RPCS` | Ethereum mainnet RPC URLs | — |
+| `NUXT_PUBLIC_EVM_WALLET_CONNECT_PROJECT_ID` | WalletConnect project ID for the login page | - |
+| `NUXT_PUBLIC_EVM_CHAINS_MAINNET_RPCS` | Ethereum mainnet RPC URLs | - |
 
 ## Default Clients
 

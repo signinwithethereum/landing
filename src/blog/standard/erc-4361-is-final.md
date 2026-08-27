@@ -2,6 +2,7 @@
 title: ERC-4361 is Final
 description: Sign in with Ethereum reached Final status on 5 August 2025, four years after it was drafted. Here is what that changes, what it does not, and where the remaining ambiguities are being tracked.
 date: 2026-08-05
+draft: true
 ---
 
 # ERC-4361 is Final
@@ -15,7 +16,7 @@ settles: it settled. That was a year ago.
 ## What Final means
 
 An ERC in Final status is immutable except for errata. The wording of the message,
-the field names, the ordering, the ABNF grammar — none of it can change under you.
+the field names, the ordering, the ABNF grammar; none of it can change under you.
 An implementation you write against it today will still be correct.
 
 That is a stronger guarantee than most authentication choices come with, and it is
@@ -42,7 +43,7 @@ The first of those is the one people trip over. A SIWE signature authenticates a
 sign-in. It does not carry permissions, and building an authorization model on the
 `resources` field is not what that field is for. If you want capabilities in the
 message, that is [ERC-5573](https://eips.ethereum.org/EIPS/eip-5573), which is
-still Draft. If you want to gate a feature, do it in your own application —
+still Draft. If you want to gate a feature, do it in your own application;
 [evm.now](/blog/success-stories/evm-now) is a worked example of keeping the two
 apart.
 
@@ -55,7 +56,7 @@ had quietly diverged.
 
 There is an erratum in flight. The
 [erc-4361-erratum](https://github.com/signinwithethereum/erc-4361-erratum) repository
-documents the findings and the proposed changes — nineteen commits against v1,
+documents the findings and the proposed changes: nineteen commits against v1,
 including excluding a `userinfo@` component from `domain` and widening `statement`
 to printable ASCII.
 
@@ -67,8 +68,8 @@ Alongside it there is a corpus of
 [shared test vectors](https://github.com/signinwithethereum/test-vectors) covering
 parsing, verification and the grammar. All five official libraries run against it,
 which is what lets us say a message built by one parses in the others rather than
-hoping so. If you are writing a sixth implementation — in a language we do not
-cover, or inside a wallet — start there.
+hoping so. If you are writing a sixth implementation, in a language we do not
+cover, or inside a wallet, start there.
 
 The [validator](/tools/validator) on this site runs the same rules the vectors
 encode, plus the security checks that are best practice rather than specification.
@@ -81,14 +82,14 @@ type are Final too:
 | | |
 | --- | --- |
 | [ERC-191](https://eips.ethereum.org/EIPS/eip-191) | The signed-data format SIWE rides on. Final. |
-| [EIP-1271](https://eips.ethereum.org/EIPS/eip-1271) | `isValidSignature` — contract accounts can sign. Final. |
+| [EIP-1271](https://eips.ethereum.org/EIPS/eip-1271) | `isValidSignature`: contract accounts can sign. Final. |
 | [ERC-6492](https://eips.ethereum.org/EIPS/eip-6492) | Accounts that have not been deployed yet can sign. Final. |
 | [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) | EOAs can carry code, and keep signing as EOAs. Final, shipped in Pectra. |
 
 Between them: an EOA, a delegated EOA, a deployed smart account and a
 counterfactual smart account can all sign in, and one verification path can accept
 all four. [Smart accounts](/docs/smart-accounts) covers how, and which library
-call gets you there — the most common way to accidentally exclude every
+call gets you there; the most common way to accidentally exclude every
 smart-account user is to reach for an EOA-only verification helper without
 noticing that is what it is.
 

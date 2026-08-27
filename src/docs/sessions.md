@@ -16,8 +16,8 @@ the password, not the cookie.
 ::: warning
 Never accept a message and signature as a credential on subsequent requests.
 A client that re-sends the same pair on every call has handed you a bearer token
-with no expiry that you cannot revoke, and you have paid an `ecrecover` — or an
-RPC round trip — for each request. Verify once, then issue a session.
+with no expiry that you cannot revoke, and you have paid an `ecrecover` or an
+RPC round trip for each request. Verify once, then issue a session.
 :::
 
 ## Issuing a session
@@ -44,7 +44,7 @@ const { data } = await siweMessage.verify({
 
 session.address = data.address
 session.chainId = data.chainId
-session.nonce = undefined // single use — spend it
+session.nonce = undefined // single use, spend it
 await session.save()
 ```
 
@@ -55,14 +55,14 @@ someone's Ethereum address, the difference is a privacy question as well as a
 security one.
 :::
 
-**Opaque bearer tokens** are the right answer when there is no cookie jar — a
+**Opaque bearer tokens** are the right answer when there is no cookie jar, a
 mobile client, a CLI, a cross-origin API. Issue a random identifier, store the
 session server-side keyed by it, and let the client send it in an
 `Authorization` header. You get instant revocation because the state is yours.
 
 **JWTs** buy stateless verification across services and pay for it with
 revocation. A JWT is valid until it expires, whatever you decide in the
-meantime. If you want both, keep access tokens short — minutes — and pair them
+meantime. If you want both, keep access tokens short (minutes) and pair them
 with a refresh token you can revoke, or maintain a denylist of live token ids,
 which is server state again and most of the way back to option two.
 
@@ -75,7 +75,7 @@ It should not carry the message or the signature.
 These are two different clocks and conflating them is the most common design
 error in SIWE integrations.
 
-The message's `Expiration Time` bounds how long the *signature* is acceptable —
+The message's `Expiration Time` bounds how long the *signature* is acceptable,
 the window between the wallet signing and your server verifying. That is a
 network round trip and a person clicking a button. Ten minutes is generous;
 `verify()` will reject anything past it.
@@ -106,8 +106,8 @@ requests that make up a sign-in.
 
 Three requirements:
 
-1. **Server-issued.** Generate it with the library's `generateNonce()` — 96 bits
-   of `crypto.getRandomValues` — and never accept one the client supplied.
+1. **Server-issued.** Generate it with the library's `generateNonce()` (96 bits
+   of `crypto.getRandomValues`) and never accept one the client supplied.
 2. **Single use.** Delete it the moment verification succeeds. A nonce that
    survives verification is not a nonce.
 3. **Short-lived.** Give it a TTL of a few minutes so unspent nonces expire on
@@ -115,14 +115,14 @@ Three requirements:
 
 Where to put it:
 
-- **In the pending session** — the simplest option, and what the quickstart
+- **In the pending session**: the simplest option, and what the quickstart
   does. Write the nonce into the session cookie when it is issued, clear it on
   success. No shared storage, and the nonce is naturally scoped to one browser.
-- **In Redis, keyed by nonce, with a TTL** — the right shape when you have
+- **In Redis, keyed by nonce, with a TTL**: the right shape when you have
   several application servers or no session before sign-in. `SET nonce … EX 300
   NX`, then `DEL` on success; the `NX` makes the write itself the uniqueness
   check.
-- **In your database** — fine, but remember the cleanup job. A nonce table with
+- **In your database**: fine, but remember the cleanup job. A nonce table with
   no expiry becomes a very large table.
 
 Rate-limit the endpoint that issues nonces. Without a limit, anyone can fill
@@ -155,13 +155,13 @@ it while you are choosing, not afterwards.
 ## Re-authentication
 
 A session says who someone is. It does not say they are still at the keyboard.
-For operations where that matters — changing a payout address, deleting an
-account, signing off on something expensive — ask for a fresh signature.
+For operations where that matters, changing a payout address, deleting an
+account, signing off on something expensive, ask for a fresh signature.
 
 Run the same flow: new nonce, new message, verify, and check that the recovered
 address matches the session's. Put a `Request ID` or a purposeful statement in
 the message so the wallet prompt says what is being approved rather than "sign
-in" again. Record the time and treat the elevation as short-lived — minutes, not
+in" again. Record the time and treat the elevation as short-lived, minutes, not
 the rest of the session.
 
 This is a step up in privilege, not a new session. Do not reissue the session
@@ -171,7 +171,7 @@ cookie on the back of it.
 
 Wallets let people change the selected account at any time, and the page usually
 finds out from an event rather than a reload. Your session still holds the
-previous address, and that is correct — it reflects who signed in.
+previous address, and that is correct, it reflects who signed in.
 
 Decide what the switch means and be consistent about it:
 
@@ -199,11 +199,11 @@ will sign people out for no reason.
 
 A chain switch is a smaller version of the same question. If your app only
 operates on the chain the session was established for, either re-authenticate or
-tell the user to switch back — do not silently treat a mainnet sign-in as
+tell the user to switch back; do not silently treat a mainnet sign-in as
 authority on another network.
 
 ## Also read
 
-- [Security considerations](/docs/security-considerations) — the verification parameters, cookie flags, rate limits and the pre-deployment checklist.
-- [The message](/docs/message) — the nonce and timestamp rules the message itself has to satisfy.
-- [Backend](/docs/quickstart/backend) — a working nonce, verify and session implementation.
+- [Security considerations](/docs/security-considerations): the verification parameters, cookie flags, rate limits and the pre-deployment checklist.
+- [The message](/docs/message): the nonce and timestamp rules the message itself has to satisfy.
+- [Backend](/docs/quickstart/backend): a working nonce, verify and session implementation.

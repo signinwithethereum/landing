@@ -9,7 +9,7 @@ This page walks through the key frontend files in the [quickstart repo](https://
 
 ## Wagmi Configuration
 
-**`lib/wagmi.ts`** — configures wallet connectors and chain transports.
+**`lib/wagmi.ts`**: configures wallet connectors and chain transports.
 
 Two connectors are set up: `injected()` for browser wallets (MetaMask, etc.) and `walletConnect()` for mobile wallets via QR code. The app supports mainnet and Sepolia.
 
@@ -31,7 +31,7 @@ When the `NEXT_PUBLIC_*_RPC_URL` env vars are empty, `http()` falls back to each
 
 ## Authentication Context
 
-**`hooks/useSiweAuth.tsx`** — the core of the frontend. A React context that manages the full SIWE sign-in lifecycle.
+**`hooks/useSiweAuth.tsx`**: the core of the frontend. A React context that manages the full SIWE sign-in lifecycle.
 
 ### The sign-in flow
 
@@ -89,25 +89,25 @@ Signing out destroys the server session _and_ disconnects the wallet. A `signedO
 
 ## ENS Resolution
 
-**`hooks/useEnsIdentity.ts`** — resolves an address to its ENS name and avatar using wagmi's built-in hooks. Always queries mainnet regardless of the user's connected chain.
+**`hooks/useEnsIdentity.ts`**: resolves an address to its ENS name and avatar using wagmi's built-in hooks. Always queries mainnet regardless of the user's connected chain.
 
 ## Components
 
 The UI is split into small components in `components/`:
 
-- **`SiweAuth.tsx`** — shows the "Sign in with Ethereum" button when connected but not authenticated, or the `UserCard` when authenticated
-- **`UserCard.tsx`** — displays ENS name/avatar (or truncated address) and a sign-out button
-- **`Nav.tsx`** — navigation bar that shows a Dashboard link only when authenticated
+- **`SiweAuth.tsx`**: shows the "Sign in with Ethereum" button when connected but not authenticated, or the `UserCard` when authenticated
+- **`UserCard.tsx`**: displays ENS name/avatar (or truncated address) and a sign-out button
+- **`Nav.tsx`**: navigation bar that shows a Dashboard link only when authenticated
 
 ## Protected Dashboard
 
 The dashboard at `app/dashboard/` is protected by two layers:
 
-1. **Server-side** (`app/dashboard/layout.tsx`) — checks the session and redirects to `/` if unauthenticated
-2. **Client-side** (`app/dashboard/page.tsx`) — a `useEffect` fallback that redirects if the auth context has no user
+1. **Server-side** (`app/dashboard/layout.tsx`): checks the session and redirects to `/` if unauthenticated
+2. **Client-side** (`app/dashboard/page.tsx`): a `useEffect` fallback that redirects if the auth context has no user
 
 ## Next Steps
 
-- [Backend](/docs/quickstart/backend) — the API routes that handle nonce, verification, and sessions
-- [TypeScript Library Reference](/docs/libraries/typescript) — full API documentation
-- [Security Considerations](/docs/security-considerations) — production security best practices
+- [Backend](/docs/quickstart/backend): the API routes that handle nonce, verification, and sessions
+- [TypeScript Library Reference](/docs/libraries/typescript): full API documentation
+- [Security Considerations](/docs/security-considerations): production security best practices
