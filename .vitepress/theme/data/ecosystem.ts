@@ -2,11 +2,10 @@
  *
  * Wallets, apps and tools that sign people in with ERC-4361.
  *
- * There are deliberately no logos here. Third-party marks arrive in mixed
- * polarity — a third of them are white on transparent and disappear on a light
- * chip — and a wall of 90 logos is less useful than 90 legible names anyway.
- * The three entries with a written case study carry their own mark, because
- * those three we curate.
+ * The directory page shows a curated mark only where we have one that holds up
+ * at 28px (the five integrator files under public/integrators/). Everywhere
+ * else it uses a letter, because third-party SVGs arrive in mixed polarity and
+ * a wall of 90 unverified logos is less useful than 90 legible names.
  *
  * Entries with a `story` are linked from the landing page too, so a new case
  * study only has to be recorded once.
