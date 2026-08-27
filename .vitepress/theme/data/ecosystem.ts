@@ -2,10 +2,8 @@
  *
  * Wallets, apps and tools that sign people in with ERC-4361.
  *
- * The directory page shows a curated mark only where we have one that holds up
- * at 28px (the five integrator files under public/integrators/). Everywhere
- * else it uses a letter, because third-party SVGs arrive in mixed polarity and
- * a wall of 90 unverified logos is less useful than 90 legible names.
+ * Marks live in public/integrators/ and are wired through data/marks.ts.
+ * A handful of sites blocked a fetch; those rows still use a letter.
  *
  * Entries with a `story` are linked from the landing page too, so a new case
  * study only has to be recorded once.

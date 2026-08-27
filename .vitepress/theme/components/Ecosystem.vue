@@ -2,26 +2,18 @@
 /* Ecosystem directory.
  *
  * Layout follows the editorial mockup: a left-aligned hero (the right cell is
- * intentionally empty — no stats), text filters, a three-up featured strip,
- * and a two-column index. Logos are shown only where we have a curated mark;
- * every other row uses a letter so mixed-polarity third-party SVGs cannot
- * vanish on the canvas. */
+ * intentionally empty, no stats), text filters, a three-up featured strip,
+ * and a two-column index. Marks come from data/marks.ts; a letter is used
+ * when none is on disk. */
 
 import { computed, ref } from 'vue'
 import { ECOSYSTEM, TYPES, type EcosystemType, type Entry } from '../data/ecosystem'
+import { MARKS } from '../data/marks'
 
 const SUBMIT =
   'https://github.com/signinwithethereum/landing-next/edit/main/.vitepress/theme/data/ecosystem.ts'
 
 const FEATURED_NAMES = ['MetaMask', 'Privy', 'Polymarket'] as const
-
-const MARKS: Record<string, string> = {
-  MetaMask: '/integrators/metamask.svg',
-  Privy: '/integrators/privy.svg',
-  Polymarket: '/integrators/polymarket.png',
-  OpenSea: '/integrators/opensea.svg',
-  OpenRouter: '/integrators/openrouter.svg'
-}
 
 const query = ref('')
 const type = ref<EcosystemType | 'all'>('all')

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40">
+  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0_2534_41704)">
+      <path d="M40 0H0V40H40V0Z" fill="black"></path>
+      <path
+        d="M12.9958 30.3368H27.004V27.3877H21.8431V9.6637H18.776C18.658 12.1409 17.9503 12.7602 14.5588 12.7602H12.9958V15.5914H18.1567V27.3877H12.9958V30.3368Z"
+        fill="white"
+      ></path>
+      <path d="M28.4786 15.5919V9.66418H25.5295V15.5919H28.4786Z" fill="white"></path>
+      <path d="M33.6651 15.5919V9.66418H30.716V15.5919H33.6651Z" fill="white"></path>
+    </g>
+    <defs>
+      <clipPath id="SvgjsClipPath1013">
+        <rect width="40" height="40" fill="white"></rect>
+      </clipPath>
+    </defs>
+  </svg>
+  <style>
+    @media (prefers-color-scheme: light) {
+      :root {
+        filter: none;
+      }
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        filter: none;
+      }
+    }
+  </style>
+</svg>
