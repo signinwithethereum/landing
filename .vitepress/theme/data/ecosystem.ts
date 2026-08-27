@@ -337,8 +337,7 @@ export const ECOSYSTEM: Entry[] = [
   {
     name: 'Snapshot',
     link: 'https://snapshot.org/',
-    type: 'app',
-    unverified: true
+    type: 'app'
   },
   {
     name: 'Tally',
