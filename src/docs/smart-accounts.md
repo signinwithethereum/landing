@@ -1,6 +1,6 @@
 ---
 title: Smart accounts
-description: How to verify SIWE signatures from contract accounts: EIP-1271, ERC-6492 for accounts that are not deployed yet, and EIP-7702 delegated EOAs.
+description: "How to verify SIWE signatures from contract accounts: EIP-1271, ERC-6492 for accounts that are not deployed yet, and EIP-7702 delegated EOAs."
 ---
 
 # Smart accounts
