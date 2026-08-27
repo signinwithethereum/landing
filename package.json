@@ -10,7 +10,7 @@
     "build": "vitepress build",
     "preview": "vitepress preview --port 4321",
     "typecheck": "vue-tsc --noEmit",
-    "og": "chromium --headless --disable-gpu --hide-scrollbars --allow-file-access-from-files --window-size=1200,630 --screenshot=src/public/og.png scripts/og.html",
+    "og": "pnpm build",
     "kamal:setup": "set -a && . ./.env.production && set +a && kamal setup",
     "kamal:deploy": "set -a && . ./.env.production && set +a && kamal deploy",
     "kamal:logs": "set -a && . ./.env.production && set +a && kamal app logs -f"

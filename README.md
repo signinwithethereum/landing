@@ -25,6 +25,7 @@ nothing will warn you.
 .vitepress/
   config.ts              site config, nav, sidebar
   rss.ts                 feed.rss, generated in buildEnd
+  og.ts                  per-page Open Graph images, generated in buildEnd
   theme/
     index.ts             registers every global component
     Layout.vue           default theme + our slots
@@ -39,9 +40,12 @@ src/
   docs/                  the documentation
   blog/                  posts, one directory per category
   ecosystem/  tools/  brand.md
-  public/                fonts, og.png, favicon, the three case-study marks
-scripts/og.html          the source of og.png — `pnpm og` re-renders it
+  public/                fonts, favicon, the three case-study marks
 ```
+
+`pnpm build` generates a 1200 × 630 PNG for every Markdown page under the
+build output's `og/` directory and writes matching Open Graph and Twitter
+metadata into every rendered page. `pnpm og` is a convenient alias for that build.
 
 ## Two things that are copied on purpose
 

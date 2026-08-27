@@ -5,6 +5,9 @@ FROM node:24-slim AS build
 
 WORKDIR /app
 
+RUN apt-get update && apt-get install --yes --no-install-recommends librsvg2-bin \
+  && rm -rf /var/lib/apt/lists/*
+
 RUN corepack enable
 
 # Copy the manifests first so a dependency install is cached independently of

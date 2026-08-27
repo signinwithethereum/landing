@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 /* The extension is required: Vite 8's native config loader warns on
  * extensionless relative imports and will stop resolving them. */
 import { generateFeed } from './rss.ts'
+import { generateOgImages, ogImageForRoute, routeForPage } from './og.ts'
 
 const HOST = 'https://siwe.xyz'
 const DESCRIPTION =
@@ -29,7 +30,6 @@ export default defineConfig({
     ['meta', { name: 'theme-color', content: '#00eaf2' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'Sign in with Ethereum' }],
-    ['meta', { property: 'og:image', content: `${HOST}/og.png` }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:site', content: '@signinethereum' }],
     [
@@ -45,7 +45,30 @@ export default defineConfig({
 
   sitemap: { hostname: HOST },
 
-  buildEnd: generateFeed,
+  async buildEnd(config) {
+    await generateFeed(config)
+    await generateOgImages(config)
+  },
+
+  transformHead({ page, title, description }) {
+    const route = routeForPage(page)
+    const url = `${HOST}${route}`
+    const image = `${HOST}${ogImageForRoute(route)}`
+
+    return [
+      ['link', { rel: 'canonical', href: url }],
+      ['meta', { property: 'og:title', content: title }],
+      ['meta', { property: 'og:description', content: description }],
+      ['meta', { property: 'og:url', content: url }],
+      ['meta', { property: 'og:image', content: image }],
+      ['meta', { property: 'og:image:width', content: '1200' }],
+      ['meta', { property: 'og:image:height', content: '630' }],
+      ['meta', { property: 'og:image:type', content: 'image/png' }],
+      ['meta', { name: 'twitter:title', content: title }],
+      ['meta', { name: 'twitter:description', content: description }],
+      ['meta', { name: 'twitter:image', content: image }]
+    ]
+  },
 
   markdown: {
     theme: { light: 'github-light', dark: 'github-dark-default' },
