@@ -8,6 +8,8 @@
 import { computed } from 'vue'
 import { data as posts } from '../data/posts.data'
 import { categoryOf } from '../data/categories'
+import { logoForStory, orgForStory, storySlug } from '../data/collab'
+import CollabMark from './CollabMark.vue'
 
 const props = withDefaults(defineProps<{ category?: string }>(), { category: undefined })
 
@@ -24,12 +26,20 @@ const shown = computed(() =>
     <ul v-else class="bl-list">
       <li v-for="p in shown" :key="p.url">
         <a :href="p.url">
-          <p class="bl-meta">
-            <time :datetime="p.date.iso">{{ p.date.label }}</time>
-            <span v-if="!category && p.category">{{ categoryOf(p.category)?.label }}</span>
-          </p>
-          <h3 class="t-h3">{{ p.title }}</h3>
-          <p v-if="p.description" class="bl-desc">{{ p.description }}</p>
+          <CollabMark
+            v-if="p.category === 'success-stories'"
+            layout="row"
+            :src="logoForStory(storySlug(p.url), p.logo)"
+            :label="orgForStory(storySlug(p.url))"
+          />
+          <div class="bl-copy">
+            <p class="bl-meta">
+              <time :datetime="p.date.iso">{{ p.date.label }}</time>
+              <span v-if="!category && p.category">{{ categoryOf(p.category)?.label }}</span>
+            </p>
+            <h3 class="t-h3">{{ p.title }}</h3>
+            <p v-if="p.description" class="bl-desc">{{ p.description }}</p>
+          </div>
         </a>
       </li>
     </ul>
@@ -45,26 +55,30 @@ const shown = computed(() =>
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--rule);
 }
 
 .bl-list li {
   border-bottom: 1px solid var(--rule);
 }
 
-/* VitePress adds space between adjacent prose list items. These rows need to
- * meet so their left rules form an unbroken guide. */
+/* VitePress adds space between adjacent prose list items. */
 .bl-list li + li {
   margin-top: 0;
 }
 
 .bl-list a {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: var(--s5);
   padding: var(--s5) 0 var(--s5) var(--s4);
-  border-left: 2px solid var(--rule);
+  border-left: 2px solid transparent;
   color: inherit;
   text-decoration: none;
   transition: border-color 0.15s var(--ease);
+}
+
+.bl-copy {
+  min-width: 0;
 }
 
 .bl-list a:is(:hover, :focus-visible) {

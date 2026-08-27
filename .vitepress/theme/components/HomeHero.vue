@@ -35,8 +35,8 @@ const { isDark } = useData();
       <figure :class="['hero-art', { 'hero-art--dark': isDark }]">
         <img
           src="/hero/siwe-illustration.webp"
-          width="1024"
-          height="1024"
+          width="1254"
+          height="1254"
           alt="A person at a computer beneath a globe-wide digital network."
           fetchpriority="high"
           decoding="async"
@@ -154,7 +154,6 @@ const { isDark } = useData();
   height: 100%;
   object-fit: cover;
   filter: grayscale(1);
-  transform: scaleX(-1);
 }
 
 .hero-art::after {
@@ -205,10 +204,6 @@ const { isDark } = useData();
       rgba(0, 0, 0, 0.16) 24%,
       #000 66%
     );
-  }
-
-  .hero-art img {
-    transform: none;
   }
 }
 
