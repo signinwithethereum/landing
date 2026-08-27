@@ -4,8 +4,6 @@ description: More than 30 million users. Over $27 billion traded globally. One S
 date: 2026-08-27
 ---
 
-# Polymarket success story (placeholder)
-
 # Polymarket - The worlds largest prediction market
 
 More than 30 million users. Over $27 billion traded globally. One SIWE signature to login.
