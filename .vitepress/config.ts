@@ -5,7 +5,7 @@ import { defineConfig } from 'vitepress'
 import { generateFeed } from './rss.ts'
 import { generateOgImages, ogImageForRoute, routeForPage } from './og.ts'
 
-const HOST = 'https://siwe.xyz'
+const HOST = `https://${process.env.APP_HOST ?? 'siwe.xyz'}`
 const DESCRIPTION =
   'Sign in with Ethereum is an open authentication standard. A user signs a readable message with an Ethereum account and the server verifies it.'
 

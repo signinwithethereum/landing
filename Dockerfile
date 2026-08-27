@@ -5,6 +5,9 @@ FROM node:24-slim AS build
 
 WORKDIR /app
 
+ARG APP_HOST=siwe.xyz
+ENV APP_HOST=$APP_HOST
+
 RUN apt-get update && apt-get install --yes --no-install-recommends librsvg2-bin \
   && rm -rf /var/lib/apt/lists/*
 
