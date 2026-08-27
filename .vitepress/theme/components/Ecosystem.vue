@@ -6,14 +6,22 @@
  * which meant you had to recognise a logo to read the page. */
 
 import { computed, ref } from 'vue'
-import { ECOSYSTEM, TYPES, type EcosystemType } from '../data/ecosystem'
+import { data as posts } from '../data/posts.data'
+import { ECOSYSTEM, TYPES, type EcosystemType, type Entry } from '../data/ecosystem'
 
 const query = ref('')
 const type = ref<EcosystemType | 'all' | 'stories'>('all')
+const publishedStories = new Set(
+  posts.filter((post) => post.category === 'success-stories').map((post) => post.url)
+)
+
+function hasPublishedStory(entry: Entry) {
+  return !!entry.story && publishedStories.has(entry.story)
+}
 
 const counts = computed(() => ({
   all: ECOSYSTEM.length,
-  stories: ECOSYSTEM.filter((e) => e.story).length,
+  stories: ECOSYSTEM.filter(hasPublishedStory).length,
   wallet: ECOSYSTEM.filter((e) => e.type === 'wallet').length,
   app: ECOSYSTEM.filter((e) => e.type === 'app').length,
   tool: ECOSYSTEM.filter((e) => e.type === 'tool').length
@@ -22,7 +30,7 @@ const counts = computed(() => ({
 const shown = computed(() => {
   const q = query.value.trim().toLowerCase()
   return ECOSYSTEM.filter((e) => {
-    if (type.value === 'stories' && !e.story) return false
+    if (type.value === 'stories' && !hasPublishedStory(e)) return false
     if (type.value !== 'all' && type.value !== 'stories' && e.type !== type.value) return false
     if (!q) return true
     return e.name.toLowerCase().includes(q) || (e.note ?? '').toLowerCase().includes(q)
@@ -88,7 +96,7 @@ function reset() {
         <span class="eco-type">{{ label(e.type) }}</span>
         <span class="eco-note">
           <template v-if="e.note">{{ e.note }}</template>
-          <a v-if="e.story" :href="e.story">Case study &rarr;</a>
+          <a v-if="hasPublishedStory(e)" :href="e.story">Case study &rarr;</a>
         </span>
       </li>
     </ul>
