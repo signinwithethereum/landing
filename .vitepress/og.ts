@@ -99,15 +99,19 @@ function ogSvg(title: string, description: string) {
   const titleLines = wrap(title, 24, 3)
   const descriptionLines = wrap(description, 78, 3)
   const titleSize = titleLines.length > 2 ? 54 : 64
+  const titleLeading = titleLines.length > 2 ? 62 : 70
+  /* The title hangs from a fixed baseline under the rule and the description
+   * follows it, so the two read as one block however long the title runs. */
+  const descriptionTop = 200 + (titleLines.length - 1) * titleLeading + 82
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">
   <rect width="${WIDTH}" height="${HEIGHT}" fill="#050505"/>
   <pattern id="scanlines" width="3" height="3" patternUnits="userSpaceOnUse"><path d="M0 .5H3" stroke="#fff" stroke-opacity=".06"/></pattern>
   <rect width="${WIDTH}" height="${HEIGHT}" fill="url(#scanlines)"/>
-  <rect x="80" y="72" width="1040" height="1" fill="#ffffff" fill-opacity=".25"/>
-  <g fill="#00eaf2" transform="translate(80 105) scale(11)">${mark()}</g>
-  <text x="80" y="270" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="${titleSize}" font-weight="700" letter-spacing="-1.7">${text(titleLines, 0, 70)}</text>
-  <text x="80" y="${titleLines.length > 2 ? 493 : 450}" fill="#b3b3b9" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400">${text(descriptionLines, 0, 38)}</text>
+  <g fill="#ffffff" transform="translate(80 40) scale(4)">${mark()}</g>
+  <rect x="80" y="108" width="1040" height="1" fill="#ffffff" fill-opacity=".25"/>
+  <text x="80" y="200" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="${titleSize}" font-weight="700" letter-spacing="-1.7">${text(titleLines, 0, titleLeading)}</text>
+  <text x="80" y="${descriptionTop}" fill="#b3b3b9" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="400">${text(descriptionLines, 0, 38)}</text>
   <line x1="80" y1="555" x2="1120" y2="555" stroke="#ffffff" stroke-opacity=".25"/>
   <text x="80" y="592" fill="#00eaf2" font-family="Courier New, monospace" font-size="18" letter-spacing="2.1">SIWE.XYZ</text>
   <text x="1120" y="592" fill="#b3b3b9" font-family="Courier New, monospace" font-size="18" text-anchor="end" letter-spacing="2.1">ERC-4361</text>
