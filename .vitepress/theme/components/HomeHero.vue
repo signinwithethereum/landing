@@ -154,7 +154,6 @@ const { isDark } = useData();
   height: 100%;
   object-fit: cover;
   filter: grayscale(1);
-  transform: scaleX(-1);
 }
 
 .hero-art::after {
@@ -205,10 +204,6 @@ const { isDark } = useData();
       rgba(0, 0, 0, 0.16) 24%,
       #000 66%
     );
-  }
-
-  .hero-art img {
-    transform: none;
   }
 }
 

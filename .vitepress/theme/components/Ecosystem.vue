@@ -2,9 +2,9 @@
 /* Ecosystem directory.
  *
  * Layout follows the editorial mockup: a left-aligned hero (the right cell is
- * intentionally empty, no stats), text filters, a three-up featured strip,
- * and a two-column index. Marks come from data/marks.ts; a letter is used
- * when none is on disk. */
+ * intentionally empty, no stats), text filters, a three-up featured strip, a
+ * four-up notable strip, and a two-column index. Marks come from data/marks.ts;
+ * a letter is used when none is on disk. */
 
 import { computed, ref } from 'vue'
 import { ECOSYSTEM, TYPES, type EcosystemType, type Entry } from '../data/ecosystem'
@@ -14,6 +14,7 @@ const SUBMIT =
   'https://github.com/signinwithethereum/landing-next/edit/main/.vitepress/theme/data/ecosystem.ts'
 
 const FEATURED_NAMES = ['MetaMask', 'Privy', 'Polymarket'] as const
+const NOTABLE_NAMES = ['WalletConnect', 'OpenSea', 'Ambire', 'Safe'] as const
 
 const query = ref('')
 const type = ref<EcosystemType | 'all'>('all')
@@ -27,6 +28,12 @@ const counts = computed(() => ({
 
 const featured = computed(() =>
   FEATURED_NAMES.map((name) => ECOSYSTEM.find((e) => e.name === name)).filter(
+    (e): e is Entry => e != null
+  )
+)
+
+const notable = computed(() =>
+  NOTABLE_NAMES.map((name) => ECOSYSTEM.find((e) => e.name === name)).filter(
     (e): e is Entry => e != null
   )
 )
@@ -141,6 +148,23 @@ function reset() {
       <h2 id="eco-featured-title">Featured</h2>
       <div class="eco-featured">
         <article v-for="e in featured" :key="e.name" class="eco-feature">
+          <span class="eco-feature-mark" aria-hidden="true">
+            <img v-if="mark(e)" :src="mark(e)" alt="" width="72" height="72" />
+            <span v-else class="eco-letter eco-letter--lg">{{ initial(e.name) }}</span>
+          </span>
+          <h3>{{ e.name }}</h3>
+          <p class="eco-kind">{{ label(e.type) }}</p>
+          <a class="eco-view" :href="e.link" rel="noopener noreferrer" target="_blank">
+            View integration <span aria-hidden="true">↗</span>
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <section v-if="browsingDefault" class="eco-block" aria-labelledby="eco-notable-title">
+      <h2 id="eco-notable-title">Notable integrations</h2>
+      <div class="eco-notable">
+        <article v-for="e in notable" :key="e.name" class="eco-feature">
           <span class="eco-feature-mark" aria-hidden="true">
             <img v-if="mark(e)" :src="mark(e)" alt="" width="72" height="72" />
             <span v-else class="eco-letter eco-letter--lg">{{ initial(e.name) }}</span>
@@ -434,6 +458,20 @@ function reset() {
   color: var(--accent-ui);
 }
 
+/* -------------------------------------------------------------- notable */
+
+.eco-notable {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.eco-notable .eco-feature {
+  align-items: center;
+  text-align: center;
+}
+
 /* ------------------------------------------------------------------ list */
 
 .eco-index {
@@ -541,9 +579,24 @@ function reset() {
   text-underline-offset: 3px;
 }
 
+@media (max-width: 899px) {
+  .eco-notable {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .eco-notable .eco-feature:nth-child(2n + 1) {
+    border-left: 0;
+  }
+
+  .eco-notable .eco-feature:nth-child(n + 3) {
+    border-top: 1px solid var(--rule);
+  }
+}
+
 @media (max-width: 639px) {
   .eco-hero,
   .eco-featured,
+  .eco-notable,
   .eco-index {
     grid-template-columns: minmax(0, 1fr);
   }
