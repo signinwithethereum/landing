@@ -49,14 +49,14 @@ export const ECOSYSTEM: Entry[] = [
     link: 'https://metamask.io/',
     type: 'wallet',
     story: '/blog/success-stories/metamask',
-    note: 'Native ERC-4361 support with a purpose-built sign-in screen and domain-mismatch warnings.'
+    note: 'The self-custodial wallet used by tens of millions of people to hold assets and sign in across web3.'
   },
   {
     name: 'Ambire',
     link: 'https://www.ambire.com/',
     type: 'wallet',
     story: '/blog/success-stories/ambire',
-    note: 'Shows a real sign-in screen instead of a raw message, and warns when the site asking is not the site named.'
+    note: 'A self-custodial smart wallet for everyday Ethereum use.'
   },
   {
     name: 'Rainbow',
@@ -66,7 +66,8 @@ export const ECOSYSTEM: Entry[] = [
   {
     name: 'Safe',
     link: 'https://safe.global/',
-    type: 'wallet'
+    type: 'wallet',
+    note: 'A smart-account platform for teams, DAOs, and treasuries.'
   },
   {
     name: 'Ronin Wallet',
@@ -193,12 +194,13 @@ export const ECOSYSTEM: Entry[] = [
     link: 'https://www.privy.io/',
     type: 'tool',
     story: '/blog/success-stories/privy',
-    note: 'SIWE inside the infrastructure that brings an existing wallet into any application.'
+    note: 'Embedded wallets and authentication for consumer apps, from email and passkeys to existing wallets.'
   },
   {
     name: 'WalletConnect',
     link: 'https://walletconnect.com/',
-    type: 'tool'
+    type: 'tool',
+    note: 'A protocol that connects hundreds of wallets to apps.'
   },
   {
     name: 'Wagmi',
@@ -208,7 +210,8 @@ export const ECOSYSTEM: Entry[] = [
   {
     name: 'Viem',
     link: 'https://viem.sh/',
-    type: 'tool'
+    type: 'tool',
+    note: 'Typed tools for creating and verifying SIWE messages.'
   },
   {
     name: 'Ethereum identity kit',
@@ -290,14 +293,14 @@ export const ECOSYSTEM: Entry[] = [
     link: 'https://polymarket.com/',
     type: 'app',
     story: '/blog/success-stories/polymarket',
-    note: 'One SIWE signature anchors the account behind a market with more than thirty million users.'
+    note: 'The largest prediction market in the world, with tens of millions of users trading on real-world events.'
   },
   {
     name: 'OpenSea',
     link: 'https://opensea.io/',
     type: 'app',
     story: '/blog/success-stories/opensea',
-    note: 'Prove control of a wallet and use it as your account, across the marketplace and its APIs.'
+    note: 'The largest marketplace for NFTs and onchain collectibles.'
   },
   {
     name: 'Superfluid',
@@ -523,6 +526,6 @@ export const ECOSYSTEM: Entry[] = [
     link: 'https://openrouter.ai',
     type: 'app',
     story: '/blog/success-stories/openrouter',
-    note: "Lists Sign in with Ethereum beside Google and GitHub: wallet login at the scale of a mainstream API gateway."
+    note: 'A unified API across hundreds of AI models, used by millions of developers to route inference.'
   }
 ]
