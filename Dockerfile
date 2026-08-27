@@ -8,6 +8,11 @@ WORKDIR /app
 ARG APP_HOST=siwe.xyz
 ENV APP_HOST=$APP_HOST
 
+# Where the contact and newsletter forms post. Baked in at build time — Vite
+# inlines import.meta.env.VITE_SIWE_API_URL into the client bundle.
+ARG SIWE_API_URL=https://api.siwe.xyz
+ENV VITE_SIWE_API_URL=$SIWE_API_URL
+
 RUN apt-get update && apt-get install --yes --no-install-recommends librsvg2-bin \
   && rm -rf /var/lib/apt/lists/*
 
