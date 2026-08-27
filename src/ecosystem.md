@@ -1,6 +1,6 @@
 ---
 title: Ecosystem
-description: The wallets, apps, and tools that make sign-in portable.
+description: "2000+ apps and tools using SIWE - too many to keep track of - important ones listed here"
 pageClass: wide overview-rail
 outline: false
 aside: false

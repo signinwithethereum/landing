@@ -11,8 +11,7 @@ import { ECOSYSTEM, TYPES, type EcosystemType, type Entry } from '../data/ecosys
 import { MARKS } from '../data/marks'
 import { PUBLISHED_STORIES } from '../data/stories'
 
-const SUBMIT =
-  'https://github.com/signinwithethereum/landing-next/edit/main/.vitepress/theme/data/ecosystem.ts'
+const SUBMIT = 'https://github.com/signinwithethereum/landing-next/issues/new'
 
 const SPOTLIGHT_NAMES = ['OpenRouter', 'Polymarket', 'MetaMask', 'Privy'] as const
 const STRIP_NAMES = ['WalletConnect', 'Ambire', 'Safe', 'OpenSea'] as const
@@ -90,8 +89,15 @@ function reset() {
   <div class="eco">
     <header class="eco-hero">
       <h1>Ecosystem</h1>
-      <p class="eco-lede">The wallets, apps, and tools that make sign-in portable.</p>
-      <a class="eco-submit" :href="SUBMIT">
+      <p class="eco-lede">
+        2000+ apps and tools using SIWE - too many to track 
+      </p>
+      <a
+        class="eco-submit"
+        :href="SUBMIT"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Submit integration <span aria-hidden="true">↗</span>
       </a>
     </header>
@@ -160,7 +166,13 @@ function reset() {
       <h2 id="eco-notable-title">Notable integrations</h2>
       <div class="eco-board">
         <div class="eco-spotlights">
-          <article v-for="e in spotlights" :key="e.name" class="eco-spot">
+          <component
+            :is="e.story ? 'a' : 'article'"
+            v-for="e in spotlights"
+            :key="e.name"
+            class="eco-spot"
+            :href="e.story || undefined"
+          >
             <span class="eco-spot-mark" aria-hidden="true">
               <img v-if="mark(e)" :src="mark(e)" alt="" width="72" height="72" />
               <span v-else class="eco-letter eco-letter--lg">{{ initial(e.name) }}</span>
@@ -168,11 +180,11 @@ function reset() {
             <div class="eco-spot-body">
               <h3>{{ e.name }}</h3>
               <p v-if="e.note" class="eco-blurb">{{ e.note }}</p>
-              <a v-if="e.story" class="eco-story" :href="e.story">
+              <span v-if="e.story" class="eco-story">
                 View success story <span aria-hidden="true">↗</span>
-              </a>
+              </span>
             </div>
-          </article>
+          </component>
         </div>
         <div class="eco-strip">
           <article v-for="e in strip" :key="e.name" class="eco-chip">
@@ -224,7 +236,6 @@ function reset() {
 <style scoped>
 .eco {
   margin-top: 0;
-  padding-bottom: var(--s8);
   color: var(--ink);
 }
 
@@ -402,6 +413,15 @@ function reset() {
   padding: var(--s6) var(--s5) var(--s5);
 }
 
+a.eco-spot:is(:hover, :focus-visible) h3,
+a.eco-spot:is(:hover, :focus-visible) .eco-story {
+  color: var(--accent-ui);
+}
+
+a.eco-spot:is(:hover, :focus-visible) .eco-blurb {
+  color: var(--ink);
+}
+
 .eco-spot:nth-child(even) {
   border-left: 1px solid var(--rule);
 }
@@ -442,6 +462,7 @@ function reset() {
 .eco-spot h3 {
   font-size: 1.5rem;
   letter-spacing: -0.03em;
+  transition: color 0.15s var(--ease);
 }
 
 .eco-kind {
@@ -463,19 +484,17 @@ function reset() {
 
 .eco-spot .eco-blurb {
   text-wrap: balance;
+  transition: color 0.15s var(--ease);
 }
 
-a.eco-story {
+.eco-story {
   display: inline-flex;
   gap: 0.4em;
   align-items: center;
   margin-top: var(--s4);
   font-size: var(--t-small);
   color: var(--ink);
-}
-
-a.eco-story:hover {
-  color: var(--accent);
+  transition: color 0.15s var(--ease);
 }
 
 .eco-strip {

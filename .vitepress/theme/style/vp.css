@@ -546,6 +546,22 @@ body:has(.overview-rail) .VPNavBar .container {
   }
 }
 
+/* VitePress keeps 128px of bottom padding below 960px, plus a 64px
+ * `.VPDocFooter` even when prev/next and the edit link are empty. The
+ * site footer is already the close of these pages, so that reserve is
+ * just a gap in the rail. */
+.overview-rail .VPDoc {
+  padding-bottom: 0;
+}
+
+.overview-rail .VPDocFooter {
+  display: none;
+}
+
+body:has(.overview-rail) .ft {
+  margin-top: 0;
+}
+
 /* ----------------------------------------------------------- page shell */
 
 /* Pages that draw their own full-width sections opt out of the doc measure. */
