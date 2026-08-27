@@ -55,15 +55,13 @@ const shown = computed(() =>
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--rule);
 }
 
 .bl-list li {
   border-bottom: 1px solid var(--rule);
 }
 
-/* VitePress adds space between adjacent prose list items. These rows need to
- * meet so their left rules form an unbroken guide. */
+/* VitePress adds space between adjacent prose list items. */
 .bl-list li + li {
   margin-top: 0;
 }
@@ -73,7 +71,7 @@ const shown = computed(() =>
   align-items: center;
   gap: var(--s5);
   padding: var(--s5) 0 var(--s5) var(--s4);
-  border-left: 2px solid var(--rule);
+  border-left: 2px solid transparent;
   color: inherit;
   text-decoration: none;
   transition: border-color 0.15s var(--ease);
