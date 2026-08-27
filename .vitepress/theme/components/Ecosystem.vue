@@ -90,7 +90,7 @@ function reset() {
     <header class="eco-hero">
       <h1>Ecosystem</h1>
       <p class="eco-lede">
-        2000+ apps and tools using SIWE - too many to track 
+        In the shadows, behind the scenes, everyone is using SIWE.
       </p>
       <a
         class="eco-submit"
