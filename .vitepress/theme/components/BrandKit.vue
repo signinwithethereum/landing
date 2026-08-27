@@ -8,15 +8,17 @@ import { ref } from 'vue'
 import type { MarkState } from '../mark'
 import Mark from './Mark.vue'
 
+/* The bare mark, ink only: the states that describe themselves in level and
+ * geometry alone. The ones that need the field canvas to say anything —
+ * powerOn, bloom, run — are not here, and the accent is greyed on the stage,
+ * so what runs is the mark and nothing behind it. */
 const WORDMARK_STATES: { id: MarkState | 'rest'; label: string; note: string }[] = [
   { id: 'rest', label: 'Rest', note: 'The mark, lit and still. Everything else is a departure from this.' },
-  { id: 'powerOn', label: 'Power on', note: 'Lines energize, then ink latches in from the left. Once, on arrival.' },
-  { id: 'pending', label: 'Pending', note: 'Lines drop low and brighten under a travelling band. Something is in flight.' },
-  { id: 'scan', label: 'Scan', note: 'A band runs the lines; ink inverts to accent as it crosses. Something is being read.' },
+  { id: 'pending', label: 'Pending', note: 'The ink drops low and brightens under a travelling band. Something is in flight.' },
+  { id: 'scan', label: 'Scan', note: 'A band runs down the rows and the ink dims as it crosses. Something is being read.' },
   { id: 'confirm', label: 'Confirm', note: 'One pass down, leaving the mark lit. Once, on success.' },
-  { id: 'tear', label: 'Tear', note: 'Lines shear by whole columns, drop out, snap back. Something is wrong.' },
-  { id: 'bloom', label: 'Bloom', note: 'Accent grows out of the letterforms and fills the negative space.' },
-  { id: 'run', label: 'Run', note: 'Runners travel each line at its own speed, passing behind the mark.' }
+  { id: 'tear', label: 'Tear', note: 'Rows shear by whole columns, drop out, snap back. Something is wrong.' },
+  { id: 'dissolve', label: 'Dissolve', note: 'Cells leave in random order and come back along the same path.' }
 ]
 
 const ICON_STATES: { id: MarkState | 'rest'; label: string; note: string }[] = [
@@ -27,7 +29,7 @@ const ICON_STATES: { id: MarkState | 'rest'; label: string; note: string }[] = [
   { id: 'sign', label: 'Sign', note: 'One pass down while the glyph travels to the diamond, and it stays there.' }
 ]
 
-const wordmark = ref<(typeof WORDMARK_STATES)[number]['id']>('powerOn')
+const wordmark = ref<(typeof WORDMARK_STATES)[number]['id']>('pending')
 const icon = ref<(typeof ICON_STATES)[number]['id']>('morph')
 
 const SWATCHES = [
@@ -44,7 +46,7 @@ const SWATCHES = [
       <h2 class="t-h3">The wordmark</h2>
       <div class="screen bk-stage">
         <div class="bk-stage-in">
-          <Mark canvas="field" :state="wordmark === 'rest' ? null : (wordmark as any)" />
+          <Mark canvas="mark" :state="wordmark === 'rest' ? null : (wordmark as any)" :background="false" />
         </div>
       </div>
       <div class="bk-states" role="group" aria-label="Wordmark states">
@@ -142,8 +144,13 @@ const SWATCHES = [
   text-wrap: pretty;
 }
 
+/* The mark is 29 cells wide here rather than the field canvas's 33, so the
+ * cell goes up to hold the same presence on the panel. Accent is greyed: the
+ * states that light a cell — the scan band, confirm's pass, the cells coming
+ * back from dissolve — read as level against the ink, not as a second hue. */
 .bk-stage {
-  --u: clamp(4px, 1.1vw, 11px);
+  --u: clamp(5px, 1.3vw, 13px);
+  --accent: var(--screen-dim);
 }
 
 .bk-stage-in {
