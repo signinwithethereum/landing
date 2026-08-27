@@ -2,8 +2,8 @@
 /* Ecosystem directory.
  *
  * Layout follows the editorial mockup: a left-aligned hero (the right cell is
- * intentionally empty, no stats), text filters, a three-up featured strip, a
- * four-up notable strip, and a two-column index. Marks come from data/marks.ts;
+ * intentionally empty, no stats), text filters, a notable board (2x2 spotlights
+ * plus a four-up strip), and a two-column index. Marks come from data/marks.ts;
  * a letter is used when none is on disk. */
 
 import { computed, ref } from 'vue'
@@ -14,8 +14,8 @@ import { PUBLISHED_STORIES } from '../data/stories'
 const SUBMIT =
   'https://github.com/signinwithethereum/landing-next/edit/main/.vitepress/theme/data/ecosystem.ts'
 
-const FEATURED_NAMES = ['MetaMask', 'Privy', 'Polymarket'] as const
-const NOTABLE_NAMES = ['WalletConnect', 'OpenSea', 'Ambire', 'Safe'] as const
+const SPOTLIGHT_NAMES = ['OpenRouter', 'Polymarket', 'MetaMask', 'Privy'] as const
+const STRIP_NAMES = ['WalletConnect', 'Ambire', 'Safe', 'OpenSea'] as const
 
 const query = ref('')
 const type = ref<EcosystemType | 'all' | 'stories'>('all')
@@ -33,14 +33,14 @@ const counts = computed(() => ({
   tool: ECOSYSTEM.filter((e) => e.type === 'tool').length
 }))
 
-const featured = computed(() =>
-  FEATURED_NAMES.map((name) => ECOSYSTEM.find((e) => e.name === name)).filter(
+const spotlights = computed(() =>
+  SPOTLIGHT_NAMES.map((name) => ECOSYSTEM.find((e) => e.name === name)).filter(
     (e): e is Entry => e != null
   )
 )
 
-const notable = computed(() =>
-  NOTABLE_NAMES.map((name) => ECOSYSTEM.find((e) => e.name === name)).filter(
+const strip = computed(() =>
+  STRIP_NAMES.map((name) => ECOSYSTEM.find((e) => e.name === name)).filter(
     (e): e is Entry => e != null
   )
 )
@@ -89,18 +89,14 @@ function reset() {
 <template>
   <div class="eco">
     <header class="eco-hero">
-      <div class="eco-hero-copy">
-        <p class="eco-kicker">ERC&#8209;4361 / Ecosystem</p>
-        <h1>Ecosystem</h1>
-        <p class="eco-lede">The wallets, apps, and tools that make sign-in portable.</p>
-        <a class="eco-submit" :href="SUBMIT">
-          Submit integration <span aria-hidden="true">↗</span>
-        </a>
-      </div>
+      <h1>Ecosystem</h1>
+      <p class="eco-lede">The wallets, apps, and tools that make sign-in portable.</p>
+      <a class="eco-submit" :href="SUBMIT">
+        Submit integration <span aria-hidden="true">↗</span>
+      </a>
     </header>
 
-    <section class="eco-browse" aria-labelledby="eco-browse-title">
-      <h2 id="eco-browse-title">Browse integrations</h2>
+    <section class="eco-browse" aria-label="Browse integrations">
       <div class="eco-controls">
         <div class="eco-filters" role="group" aria-label="Filter ecosystem">
           <button
@@ -160,37 +156,34 @@ function reset() {
       </div>
     </section>
 
-    <section v-if="browsingDefault" class="eco-block" aria-labelledby="eco-featured-title">
-      <h2 id="eco-featured-title">Featured</h2>
-      <div class="eco-featured">
-        <article v-for="e in featured" :key="e.name" class="eco-feature">
-          <span class="eco-feature-mark" aria-hidden="true">
-            <img v-if="mark(e)" :src="mark(e)" alt="" width="72" height="72" />
-            <span v-else class="eco-letter eco-letter--lg">{{ initial(e.name) }}</span>
-          </span>
-          <h3>{{ e.name }}</h3>
-          <p class="eco-kind">{{ label(e.type) }}</p>
-          <a class="eco-view" :href="e.link" rel="noopener noreferrer" target="_blank">
-            View integration <span aria-hidden="true">↗</span>
-          </a>
-        </article>
-      </div>
-    </section>
-
     <section v-if="browsingDefault" class="eco-block" aria-labelledby="eco-notable-title">
       <h2 id="eco-notable-title">Notable integrations</h2>
-      <div class="eco-notable">
-        <article v-for="e in notable" :key="e.name" class="eco-feature">
-          <span class="eco-feature-mark" aria-hidden="true">
-            <img v-if="mark(e)" :src="mark(e)" alt="" width="72" height="72" />
-            <span v-else class="eco-letter eco-letter--lg">{{ initial(e.name) }}</span>
-          </span>
-          <h3>{{ e.name }}</h3>
-          <p class="eco-kind">{{ label(e.type) }}</p>
-          <a class="eco-view" :href="e.link" rel="noopener noreferrer" target="_blank">
-            View integration <span aria-hidden="true">↗</span>
-          </a>
-        </article>
+      <div class="eco-board">
+        <div class="eco-spotlights">
+          <article v-for="e in spotlights" :key="e.name" class="eco-spot">
+            <span class="eco-spot-mark" aria-hidden="true">
+              <img v-if="mark(e)" :src="mark(e)" alt="" width="72" height="72" />
+              <span v-else class="eco-letter eco-letter--lg">{{ initial(e.name) }}</span>
+            </span>
+            <div class="eco-spot-body">
+              <h3>{{ e.name }}</h3>
+              <p v-if="e.note" class="eco-blurb">{{ e.note }}</p>
+              <a v-if="e.story" class="eco-story" :href="e.story">
+                View success story <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </article>
+        </div>
+        <div class="eco-strip">
+          <article v-for="e in strip" :key="e.name" class="eco-chip">
+            <span class="eco-chip-mark" aria-hidden="true">
+              <img v-if="mark(e)" :src="mark(e)" alt="" width="48" height="48" />
+              <span v-else class="eco-letter eco-letter--md">{{ initial(e.name) }}</span>
+            </span>
+            <h3>{{ e.name }}</h3>
+            <p v-if="e.note" class="eco-blurb">{{ e.note }}</p>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -203,21 +196,26 @@ function reset() {
       </p>
 
       <div v-else class="eco-index">
-        <ul v-for="(col, i) in columns" :key="i" class="eco-col">
-          <li v-for="e in col" :key="e.name + e.type">
-            <a class="eco-row" :href="e.link" rel="noopener noreferrer" target="_blank">
-              <span class="eco-row-mark" aria-hidden="true">
-                <img v-if="mark(e)" :src="mark(e)" alt="" width="28" height="28" />
-                <span v-else class="eco-letter">{{ initial(e.name) }}</span>
-              </span>
-              <span class="eco-row-name">{{ e.name }}</span>
-              <span class="eco-row-meta">
-                <span class="eco-kind">{{ label(e.type) }}</span>
-                <span v-if="e.unverified" class="eco-unverified">Unverified</span>
-              </span>
-            </a>
-          </li>
-        </ul>
+        <div v-for="(col, i) in columns" :key="i" class="eco-col">
+          <a
+            v-for="e in col"
+            :key="e.name + e.type"
+            class="eco-row"
+            :href="e.link"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <span class="eco-row-mark" aria-hidden="true">
+              <img v-if="mark(e)" :src="mark(e)" alt="" width="28" height="28" />
+              <span v-else class="eco-letter">{{ initial(e.name) }}</span>
+            </span>
+            <span class="eco-row-name">{{ e.name }}</span>
+            <span class="eco-row-meta">
+              <span class="eco-kind">{{ label(e.type) }}</span>
+              <span v-if="e.unverified" class="eco-unverified">Unverified</span>
+            </span>
+          </a>
+        </div>
       </div>
     </section>
   </div>
@@ -234,18 +232,15 @@ function reset() {
 .eco h2,
 .eco h3,
 .eco p,
-.eco ul,
-.eco a {
+.eco ul {
   margin: 0;
   padding: 0;
   border: 0;
-}
-
-.eco ul {
   list-style: none;
 }
 
 .eco a {
+  margin: 0;
   color: inherit;
   font-weight: 400;
   text-decoration: none;
@@ -254,28 +249,15 @@ function reset() {
 /* ----------------------------------------------------------------- hero */
 
 .eco-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  padding: var(--s7) 0 var(--s8);
-}
-
-.eco-kicker {
-  margin: 0 0 var(--s5);
-  font-family: var(--font-mono);
-  font-size: var(--t-label);
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  color: var(--ink-3);
+  padding: 0 0 var(--s8);
 }
 
 .eco h1 {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 5vw, 3.75rem);
+  font-size: var(--t-h1);
   font-weight: var(--wt-display);
-  line-height: 0.98;
-  letter-spacing: var(--track-display);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--track-h);
 }
 
 .eco-lede {
@@ -303,7 +285,6 @@ function reset() {
 
 /* --------------------------------------------------------------- browse */
 
-.eco-browse h2,
 .eco-block h2 {
   font-family: var(--font-sans);
   font-size: 1.25rem;
@@ -318,7 +299,6 @@ function reset() {
   gap: var(--s4);
   align-items: center;
   justify-content: space-between;
-  margin-top: var(--s4);
   padding-bottom: var(--s2);
 }
 
@@ -394,36 +374,43 @@ function reset() {
   border-color: var(--ink);
 }
 
-/* ------------------------------------------------------------- featured */
+/* ------------------------------------------------------------- notable */
 
 .eco-block {
-  margin-top: var(--s8);
+  margin-top: var(--s5);
 }
 
 .eco-block h2 {
   margin-bottom: var(--s4);
 }
 
-.eco-featured {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+.eco-board {
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
 }
 
-.eco-feature {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  min-height: 280px;
+.eco-spotlights {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.eco-spot {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: var(--s4);
+  align-items: start;
   padding: var(--s6) var(--s5) var(--s5);
 }
 
-.eco-feature + .eco-feature {
+.eco-spot:nth-child(even) {
   border-left: 1px solid var(--rule);
 }
 
-.eco-feature-mark {
+.eco-spot:nth-child(n + 3) {
+  border-top: 1px solid var(--rule);
+}
+
+.eco-spot-mark {
   display: flex;
   width: 72px;
   height: 72px;
@@ -431,20 +418,30 @@ function reset() {
   justify-content: center;
 }
 
-.eco-feature-mark img {
+.eco-spot-mark img {
   display: block;
   width: 72px;
   height: 72px;
   object-fit: contain;
 }
 
-.eco-feature h3 {
-  margin-top: var(--s5);
+.eco-spot-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.eco-spot h3,
+.eco-chip h3 {
   font-family: var(--font-sans);
-  font-size: 1.5rem;
   font-weight: 500;
-  letter-spacing: -0.03em;
   color: var(--ink);
+}
+
+.eco-spot h3 {
+  font-size: 1.5rem;
+  letter-spacing: -0.03em;
 }
 
 .eco-kind {
@@ -456,36 +453,67 @@ function reset() {
   color: var(--ink-3);
 }
 
-.eco-feature .eco-kind {
-  margin-top: var(--s2);
-}
-
-.eco-view {
-  display: inline-flex;
-  gap: 0.35em;
-  align-items: center;
-  margin-top: auto;
-  padding-top: var(--s6);
+.eco-blurb {
+  margin-top: var(--s3);
   font-size: var(--t-small);
+  line-height: 1.45;
   color: var(--ink-2);
+  text-wrap: pretty;
 }
 
-.eco-view:hover {
-  color: var(--accent-ui);
+.eco-spot .eco-blurb {
+  text-wrap: balance;
 }
 
-/* -------------------------------------------------------------- notable */
+a.eco-story {
+  display: inline-flex;
+  gap: 0.4em;
+  align-items: center;
+  margin-top: var(--s4);
+  font-size: var(--t-small);
+  color: var(--ink);
+}
 
-.eco-notable {
+a.eco-story:hover {
+  color: var(--accent);
+}
+
+.eco-strip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
 }
 
-.eco-notable .eco-feature {
+.eco-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--s5);
+}
+
+.eco-chip + .eco-chip {
+  border-left: 1px solid var(--rule);
+}
+
+.eco-chip-mark {
+  display: flex;
+  width: 48px;
+  height: 48px;
   align-items: center;
-  text-align: center;
+  justify-content: center;
+}
+
+.eco-chip-mark img {
+  display: block;
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.eco-chip h3 {
+  margin-top: var(--s4);
+  font-size: 1.125rem;
+  letter-spacing: -0.022em;
 }
 
 /* ------------------------------------------------------------------ list */
@@ -496,21 +524,22 @@ function reset() {
   border-top: 1px solid var(--rule);
 }
 
-.eco-col + .eco-col {
-  border-left: 1px solid var(--rule);
+.eco-col {
+  min-width: 0;
 }
 
-.eco-col li {
-  border-bottom: 1px solid var(--rule);
+.eco-col + .eco-col {
+  border-left: 1px solid var(--rule);
 }
 
 .eco-row {
   display: grid;
   grid-template-columns: 28px minmax(0, 1fr) auto;
-  gap: var(--s3);
+  grid-template-rows: 28px;
+  column-gap: var(--s4);
   align-items: center;
-  min-height: 56px;
-  padding: 0 var(--s4);
+  padding: var(--s4);
+  border-bottom: 1px solid var(--rule);
 }
 
 .eco-row:hover .eco-row-name {
@@ -536,6 +565,7 @@ function reset() {
 .eco-row-name {
   font-size: var(--t-small);
   font-weight: 500;
+  line-height: 1;
   color: var(--ink);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -571,6 +601,12 @@ function reset() {
   line-height: 1;
 }
 
+.eco-letter--md {
+  width: 48px;
+  height: 48px;
+  font-size: 0.9375rem;
+}
+
 .eco-letter--lg {
   width: 72px;
   height: 72px;
@@ -596,34 +632,39 @@ function reset() {
 }
 
 @media (max-width: 899px) {
-  .eco-notable {
+  .eco-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .eco-notable .eco-feature:nth-child(2n + 1) {
+  .eco-chip:nth-child(2n + 1) {
     border-left: 0;
   }
 
-  .eco-notable .eco-feature:nth-child(n + 3) {
+  .eco-chip:nth-child(n + 3) {
     border-top: 1px solid var(--rule);
   }
 }
 
 @media (max-width: 639px) {
-  .eco-hero,
-  .eco-featured,
-  .eco-notable,
+  .eco-spotlights,
+  .eco-strip,
   .eco-index {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .eco-feature {
-    min-height: 0;
+  .eco-spot {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .eco-feature + .eco-feature,
+  .eco-spot:nth-child(even),
+  .eco-chip + .eco-chip,
   .eco-col + .eco-col {
     border-left: 0;
+  }
+
+  .eco-spot + .eco-spot,
+  .eco-chip + .eco-chip,
+  .eco-col + .eco-col {
     border-top: 1px solid var(--rule);
   }
 
