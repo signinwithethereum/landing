@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useData } from 'vitepress'
 import DefaultTheme from 'vitepress/theme-without-fonts'
 
+import CollabMark from './components/CollabMark.vue'
 import NavMark from './components/NavMark.vue'
 import PostMeta from './components/PostMeta.vue'
 import SiteFooter from './components/SiteFooter.vue'
@@ -26,7 +27,10 @@ const isPost = computed(() => {
     </template>
 
     <template #doc-before>
-      <PostMeta v-if="isPost" />
+      <div v-if="isPost" class="doc-lead">
+        <CollabMark layout="inline" />
+        <PostMeta />
+      </div>
     </template>
 
     <template #layout-bottom>
@@ -40,5 +44,16 @@ const isPost = computed(() => {
  * rather than only where there is no sidebar. */
 .VPFooter {
   display: none;
+}
+
+.doc-lead {
+  display: flex;
+  align-items: center;
+  gap: var(--s5);
+  margin: 0 0 var(--s5);
+}
+
+.doc-lead .pm {
+  margin: 0 0 0 auto;
 }
 </style>
