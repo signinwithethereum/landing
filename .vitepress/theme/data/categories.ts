@@ -26,9 +26,10 @@ export const CATEGORIES: Category[] = [
   }
 ]
 
-/* Adding one: make the directory under `src/blog/`, give it an `index.md`
- * carrying `<BlogIndex category="the-slug" />`, and add it here. A category with
- * no posts yet is hidden from the blog index rather than shown with a zero. */
+/* Adding one: make the directory under `src/blog/`, give it an `index.md` with
+ * `pageClass: wide overview-rail` and `<BlogIndex category="the-slug" />`, then
+ * add it here. A category with no posts yet is hidden from the blog index rather
+ * than shown with a zero. */
 
 export function categoryOf(slug: string | undefined): Category | undefined {
   return CATEGORIES.find((c) => c.slug === slug)

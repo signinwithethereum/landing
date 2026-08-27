@@ -3,6 +3,7 @@ title: The standard
 description: Errata, related ERCs, and what conformance to ERC-4361 means in practice.
 outline: false
 aside: false
+pageClass: wide overview-rail
 ---
 
 # The standard

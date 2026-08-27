@@ -3,6 +3,7 @@ title: Success stories
 description: What teams actually built on ERC-4361, in enough detail to be useful.
 outline: false
 aside: false
+pageClass: wide overview-rail
 ---
 
 # Success stories
