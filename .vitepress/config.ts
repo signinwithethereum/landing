@@ -160,10 +160,7 @@ export default defineConfig({
       }
     },
 
-    editLink: {
-      pattern: 'https://github.com/signinwithethereum/landing-next/edit/main/src/:path',
-      text: 'Edit this page on GitHub'
-    },
+    editLink: false,
 
     docFooter: { prev: 'Previous', next: 'Next' }
 
