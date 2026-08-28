@@ -37,10 +37,12 @@ nothing will warn you.
     mark/                the brand engine, vendored — see below
 src/
   index.md               the landing page
+  contact.md             the contact form, posting to the API below
   docs/                  the documentation
   blog/                  posts, one directory per category
   ecosystem/  tools/  brand.md
   public/                fonts, favicon, the three case-study marks
+api/                     the contact/newsletter service — see api/README.md
 ```
 
 `pnpm build` generates a 1200 × 630 PNG for every Markdown page under the
@@ -117,6 +119,13 @@ the same container answers on only to redirect them: `www.siwe.xyz`,
 (the Docusaurus site this replaces). `docs.siwe.xyz` forwards the path
 unchanged to `siwe.xyz`, where the path rules in `nginx.conf` move the old
 documentation URLs under `/docs/`; the mapping therefore lives in one place.
+
+The contact form and the newsletter signup post to a small companion service —
+plain Node plus PostgreSQL, forwarding contact mail via Resend — that lives in
+`api/` and deploys as its own Kamal app (`config/deploy.api.yml`, the
+`kamal:api:*` scripts) on the same server under `API_HOST`. The site build
+bakes `https://API_HOST` in as the endpoint, so point DNS for it at
+`DEPLOY_HOST` before the cutover. See `api/README.md`.
 
 Do not commit `.env.production`. The repository this replaces committed its deploy
 host and registry username.

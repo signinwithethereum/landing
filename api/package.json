@@ -1,0 +1,15 @@
+{
+  "name": "siwe-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The small service behind the contact form and newsletter signup on siwe.xyz.",
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "dev": "node --watch --env-file-if-exists=.env server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "pg": "^8.16.3"
+  }
+}

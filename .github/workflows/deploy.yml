@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   deploy:
-    name: Deploy to production
+    name: Deploy API and site to production
     runs-on: ubuntu-latest
     timeout-minutes: 30
     environment:
@@ -23,9 +23,12 @@ jobs:
       url: https://${{ vars.APP_HOST }}
     env:
       APP_HOST: ${{ vars.APP_HOST }}
+      API_HOST: ${{ vars.API_HOST }}
       DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
       DOCKER_REGISTRY_USERNAME: ${{ vars.DOCKER_REGISTRY_USERNAME }}
       KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
     steps:
       - name: Check out the pushed revision
@@ -39,9 +42,12 @@ jobs:
           missing=()
           for name in \
             APP_HOST \
+            API_HOST \
             DEPLOY_HOST \
             DOCKER_REGISTRY_USERNAME \
             KAMAL_REGISTRY_PASSWORD \
+            POSTGRES_PASSWORD \
+            DATABASE_URL \
             KAMAL_SSH_PRIVATE_KEY \
             SSH_KNOWN_HOSTS
           do
@@ -83,5 +89,8 @@ jobs:
           EOF
           chmod 600 ~/.ssh/config
 
-      - name: Deploy
+      - name: Deploy API
+        run: kamal deploy -c config/deploy.api.yml
+
+      - name: Deploy site
         run: kamal deploy

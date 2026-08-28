@@ -26,7 +26,7 @@ const COLUMNS = [
       { text: 'GitHub', href: 'https://github.com/signinwithethereum' },
       { text: 'X', href: 'https://x.com/signinethereum' },
       { text: 'ERC-4361', href: 'https://eips.ethereum.org/EIPS/eip-4361' },
-      { text: 'contact@siwe.xyz', href: 'mailto:contact@siwe.xyz' }
+      { text: 'Contact', href: '/contact' }
     ]
   }
 ]

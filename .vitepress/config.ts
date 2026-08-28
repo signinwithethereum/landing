@@ -160,8 +160,6 @@ export default defineConfig({
       }
     },
 
-    editLink: false,
-
     docFooter: { prev: 'Previous', next: 'Next' }
 
     /* The site footer is a theme component (SiteFooter.vue) rendered from the
