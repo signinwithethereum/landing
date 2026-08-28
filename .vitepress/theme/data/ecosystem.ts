@@ -175,11 +175,6 @@ export const ECOSYSTEM: Entry[] = [
     type: 'wallet'
   },
   {
-    name: 'Rakuten Wallet',
-    link: 'https://www.rakuten-wallet.co.jp/',
-    type: 'wallet'
-  },
-  {
     name: 'Arculus',
     link: 'https://getarculus.com/',
     type: 'wallet'
@@ -433,11 +428,6 @@ export const ECOSYSTEM: Entry[] = [
     type: 'app'
   },
   {
-    name: 'Paper.ink',
-    link: 'https://paper.ink/',
-    type: 'app'
-  },
-  {
     name: 'GitPOAP',
     link: 'https://www.gitpoap.io/',
     type: 'app'
@@ -448,11 +438,6 @@ export const ECOSYSTEM: Entry[] = [
     type: 'app'
   },
   {
-    name: 'Memory Protocol',
-    link: 'https://memoryproto.co/',
-    type: 'app'
-  },
-  {
     name: 'POAP Drops',
     link: 'https://drops.poap.xyz/',
     type: 'app'
@@ -460,11 +445,6 @@ export const ECOSYSTEM: Entry[] = [
   {
     name: 'Phi',
     link: 'https://phi.box/',
-    type: 'app'
-  },
-  {
-    name: 'Vision',
-    link: 'https://vision.io/',
     type: 'app'
   },
   {
@@ -480,11 +460,6 @@ export const ECOSYSTEM: Entry[] = [
   {
     name: 'Common.xyz',
     link: 'https://common.xyz/',
-    type: 'app'
-  },
-  {
-    name: 'Micro3',
-    link: 'https://micro3.io/',
     type: 'app'
   },
   {

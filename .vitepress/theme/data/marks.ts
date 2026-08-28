@@ -1,8 +1,4 @@
-/* Paths under /integrators/ for ecosystem marks we have on disk.
- *
- * Generated from src/public/integrators/. Five entries still have no file
- * (Rakuten Wallet, Paper.ink, Memory Protocol, Vision, Micro3) and fall back
- * to a letter on the directory page. */
+/* Paths under /integrators/ for ecosystem marks we have on disk. */
 
 export const MARKS: Record<string, string> = {
   MetaMask: '/integrators/metamask.svg',
