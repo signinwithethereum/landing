@@ -37,7 +37,6 @@ env:
     CONTACT_FROM: <%= ENV.fetch("CONTACT_FROM", "siwe.xyz <contact@siwe.xyz>") %>
   secret:
     - DATABASE_URL
-    - RESEND_API_KEY
 
 # Kamal puts the app and its accessories on the shared `kamal` docker network,
 # so the app reaches postgres as `siwe-api-postgres` with no published port.
