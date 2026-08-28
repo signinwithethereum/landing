@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -3 15 15" shape-rendering="crispEdges">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4 -3 15 15">
   <rect x="-4" y="-3" width="15" height="15" fill="#000"/>
   <g fill="#fff">
-    <rect x="1" y="0" width="5" height="1"/>
-    <rect x="0" y="2" width="3" height="1"/>
-    <rect x="1" y="4" width="5" height="1"/>
-    <rect x="4" y="6" width="3" height="1"/>
-    <rect x="1" y="8" width="5" height="1"/>
+    <rect x="1" y="0" width="5" height="1" rx="0.5"/>
+    <rect x="0" y="2" width="3" height="1" rx="0.5"/>
+    <rect x="1" y="4" width="5" height="1" rx="0.5"/>
+    <rect x="4" y="6" width="3" height="1" rx="0.5"/>
+    <rect x="1" y="8" width="5" height="1" rx="0.5"/>
   </g>
 </svg>

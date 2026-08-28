@@ -1,7 +1,8 @@
 <script setup lang="ts">
 /* The wordmark as inline geometry, so it takes `currentColor` and needs no
  * light and dark copy. Cells read straight off brand/wordmark.svg: a 29 x 9
- * grid, ink on rows 0 2 4 6 8, 75 cells. */
+ * grid, ink on rows 0 2 4 6 8, 75 cells. Each run is a pill: rx is half the
+ * cell, so the ends round fully and a one-cell run reads as a dot. */
 
 withDefaults(defineProps<{ title?: string }>(), { title: 'Sign in with Ethereum' })
 
@@ -20,7 +21,6 @@ const CELLS: [number, number, number][] = [
     class="wordmark"
     viewBox="0 0 29 9"
     fill="currentColor"
-    shape-rendering="crispEdges"
     role="img"
     :aria-label="title"
   >
@@ -31,6 +31,7 @@ const CELLS: [number, number, number][] = [
       :y="y"
       :width="w"
       height="1"
+      rx="0.5"
     />
   </svg>
 </template>

@@ -1,12 +1,11 @@
 /* Publish the device pixel ratio to CSS.
  *
- * The mark draws in whole cells and renders with `shape-rendering: crispEdges`,
- * which snaps every edge to a device pixel. That is what keeps it looking like
- * a grid rather than a blurred one — but it only works if a cell *is* a whole
- * number of device pixels. On a fractional ratio (1.8125 is a real one, a
- * scaled display) a 1.5px cell is 2.72 device pixels, so the rasteriser rounds
- * some of the mark's lines to three and others to two, and five lines that are
- * equal by construction come out at visibly different weights.
+ * The mark draws in whole cells, and its bars are pills, so it is rasterised
+ * smooth rather than snapped to the pixel grid. A cell that is not a whole
+ * number of device pixels then lands its edges and its caps mid-pixel, and the
+ * mark goes soft. On a fractional ratio (1.8125 is a real one, a scaled
+ * display) a 1.5px cell is 2.72 device pixels, and the five lines that are
+ * equal by construction pick up visibly different weights.
  *
  * CSS cannot read the ratio, so it is handed one, and `Mark.vue` rounds each
  * cell to the nearest whole device pixel before drawing. The ratio changes when

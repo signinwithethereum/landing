@@ -25,9 +25,11 @@ apart because that is an ink row and its gap, at page scale.
 | [`icon-diamond.svg`](/brand/icon-diamond.svg) | The icon read as a diamond. |
 
 Every file is geometry, not paths: plain `<rect>` elements on integer
-coordinates. Scale them freely; they will never blur and they will never need a
-raster fallback. Set `shape-rendering="crispEdges"` if you are drawing them at a
-size where a cell lands on a half pixel.
+coordinates, each carrying `rx="0.5"` — half a cell, so every run of ink ends in
+a half-round cap and a one-cell run reads as a dot. Scale them freely; they will
+never blur and they will never need a raster fallback. Leave
+`shape-rendering` alone: `crispEdges` snaps the caps away and hands back the
+square ends the radius replaced.
 
 ## Using it
 
@@ -35,8 +37,10 @@ size where a cell lands on a half pixel.
 whatever palette it sits in. That is the intended way to place it. Do not
 introduce a second ink colour, a gradient, or a shadow.
 
-**Do not redraw it.** No outline weights, no rounded cells, no letter-spacing.
-The grid is the identity; a version with the gaps closed is a different mark.
+**Do not redraw it.** No outline weights, no letter-spacing, and no reshaping
+the cells — the radius is half a cell and belongs to the mark; squaring it off
+or rounding it further is a different mark, as is one with the gaps closed. The
+grid is the identity.
 
 **Give it room.** One cell of clear space on every side, minimum. The field
 canvas already carries two.

@@ -15,6 +15,13 @@
  * A state that lights the background writes only where the base is field, so
  * those states are inert on the bare mark rather than wrong on it.
  *
+ * A cell is a path, not a square, so a run of them can end half-round the way
+ * the runs in the SVG files do. Each cell owns exactly its own box and takes a
+ * cap only where its run ends, so cells tile edge to edge and never overlap —
+ * two neighbours at different opacities would otherwise show the overlap as a
+ * bead. The shapes come off the base canvas and never change, so a state still
+ * only writes fill and opacity.
+ *
  * Plain script, no modules, so it works straight off the filesystem.
  *
  *   var mark = SIWE.mount(host);                      // bare mark
@@ -26,6 +33,11 @@
   'use strict';
 
   var OFF = 0, FIELD = 1, INK = 2, ACCENT = 3;
+
+  /* How a cell meets its neighbour: square on the box edge where the run
+     carries on, half-round where it ends, and half a cell past the box where a
+     field line passes under an ink cap. */
+  var JOIN = 0, CAP = 1, UNDER = 2;
   var TONE_FILL = [null, 'var(--field)', 'var(--ink)', 'var(--accent)'];
   var NS = 'http://www.w3.org/2000/svg';
 
@@ -51,6 +63,17 @@
     var h = Math.imul(a + 1, 374761393) ^ Math.imul(b + 1, 668265263);
     h = Math.imul(h ^ (h >>> 13), 1274126177);
     return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+  }
+
+  /* One cell, clockwise from the top left, so both caps sweep the same way. */
+  function cellPath(x, y, l, r) {
+    var a = x + (l === CAP ? 0.5 : l === UNDER ? -0.5 : 0);
+    var b = x + 1 - (r === CAP ? 0.5 : r === UNDER ? -0.5 : 0);
+    return 'M' + a + ' ' + y + 'H' + b
+      + (r === CAP ? 'a.5.5 0 0 1 0 1' : 'V' + (y + 1))
+      + 'H' + a
+      + (l === CAP ? 'a.5.5 0 0 1 0 -1' : 'V' + y)
+      + 'z';
   }
 
   function shift(rows, dx) {
@@ -97,6 +120,32 @@
       }
     }
 
+    /* Cell shapes. A run is a stretch of one kind of ground — ink or not — and
+       it takes a cap at each end. Where a field line runs into ink it reaches
+       half a cell further instead, passing under the cap rather than stopping
+       short of it and leaving a notch; `order` then paints every ink cell after
+       every other one, so the cap lands on top of the line it crosses. */
+    var paths = new Array(n);
+    var order = [];
+    var ink = [];
+    for (i = 0; i < nl; i++) {
+      for (x = 0; x < nw; x++) {
+        var kc = i * nw + x;
+        var isInk = base[kc] === INK;
+        var lInk = x > 0 && base[kc - 1] === INK;
+        var rInk = x < nw - 1 && base[kc + 1] === INK;
+        var lSame = x > 0 && lInk === isInk;
+        var rSame = x < nw - 1 && rInk === isInk;
+        paths[kc] = cellPath(
+          x, spec.lines[i],
+          lSame ? JOIN : lInk && base[kc] === FIELD ? UNDER : CAP,
+          rSame ? JOIN : rInk && base[kc] === FIELD ? UNDER : CAP
+        );
+        (isInk ? ink : order).push(kc);
+      }
+    }
+    order = order.concat(ink);
+
     /* Border path, clockwise from the top left */
     var perim = [];
     for (x = 0; x < nw; x++) perim.push(x);
@@ -107,7 +156,8 @@
     return {
       name: spec.name, w: nw, h: spec.h, lines: spec.lines,
       nw: nw, nl: nl, n: n, hasField: !!spec.hasField,
-      base: base, dist: dist, distMax: distMax, perim: perim
+      base: base, dist: dist, distMax: distMax, perim: perim,
+      paths: paths, order: order
     };
   }
 
@@ -148,7 +198,7 @@
 
     var svg = document.createElementNS(NS, 'svg');
     svg.setAttribute('viewBox', '0 0 ' + cv.w + ' ' + cv.h);
-    svg.setAttribute('shape-rendering', 'crispEdges');
+    svg.setAttribute('shape-rendering', 'geometricPrecision');
     svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
     svg.setAttribute('focusable', 'false');
     svg.setAttribute('aria-hidden', 'true');
@@ -167,24 +217,19 @@
     }
 
     var frag = document.createDocumentFragment();
-    for (var i = 0; i < cv.nl; i++) {
-      for (var x = 0; x < cv.nw; x++) {
-        var k = i * cv.nw + x;
-        var tone = cv.base[k];
-        var rect = document.createElementNS(NS, 'rect');
-        rect.setAttribute('x', x);
-        rect.setAttribute('y', cv.lines[i]);
-        rect.setAttribute('width', 1);
-        rect.setAttribute('height', 1);
-        if (tone !== OFF) rect.style.fill = TONE_FILL[tone];
-        else rect.style.opacity = 0;
-        this.cells[k] = rect;
-        this.tone[k] = tone;
-        this.alpha[k] = 1;
-        this.domFill[k] = tone;
-        this.domAlpha[k] = tone === OFF ? 0 : 1;
-        frag.appendChild(rect);
-      }
+    for (var i = 0; i < cv.n; i++) {
+      var k = cv.order[i];
+      var tone = cv.base[k];
+      var cell = document.createElementNS(NS, 'path');
+      cell.setAttribute('d', cv.paths[k]);
+      if (tone !== OFF) cell.style.fill = TONE_FILL[tone];
+      else cell.style.opacity = 0;
+      this.cells[k] = cell;
+      this.tone[k] = tone;
+      this.alpha[k] = 1;
+      this.domFill[k] = tone;
+      this.domAlpha[k] = tone === OFF ? 0 : 1;
+      frag.appendChild(cell);
     }
     svg.appendChild(frag);
     host.appendChild(svg);

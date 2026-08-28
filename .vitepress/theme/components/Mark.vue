@@ -139,12 +139,12 @@ defineExpose({ mark })
   height: calc(var(--cell) * var(--ch));
 }
 
-/* `crispEdges` snaps every cell edge to a device pixel, so a cell that is not a
- * whole number of them gets rounded — one of the mark's lines to three pixels,
- * the next to two, and lines that are equal by construction stop looking it.
- * Rounding the cell first is what holds them level. The ratio comes from
- * `lib/dpr.ts`; browsers without `round()` keep the unsnapped size, which is
- * the behaviour this replaces. */
+/* The cells are pills, so they antialias rather than snap, and a cell that is
+ * not a whole number of device pixels lands its edges and caps mid-pixel — one
+ * of the mark's lines reads at three pixels, the next at two, and lines that
+ * are equal by construction stop looking it. Rounding the cell first is what
+ * holds them level. The ratio comes from `lib/dpr.ts`; browsers without
+ * `round()` keep the unsnapped size, which is the behaviour this replaces. */
 @supports (width: round(1px, 1px)) {
   .markbox > svg {
     --cell: calc(max(1px, round(var(--u) * var(--dpr, 1), 1px)) / var(--dpr, 1));
