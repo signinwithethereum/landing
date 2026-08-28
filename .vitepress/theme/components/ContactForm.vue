@@ -122,6 +122,7 @@ async function submit() {
 <style scoped>
 .contact {
   margin-top: var(--s6);
+  margin-bottom: var(--s8);
 }
 
 .contact-form {
