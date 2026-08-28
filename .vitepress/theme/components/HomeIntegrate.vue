@@ -1,18 +1,18 @@
 <script setup lang="ts">
 const STEPS = [
   {
-    title: 'Tell us about your app',
-    body: 'Your stack, where sign-in lives today, and what it should do. A few sentences is plenty.'
+    title: "Tell us about your app",
+    body: "Your stack, how user authentication works today, and what your goals are integrating SIWE.",
   },
   {
-    title: 'Get a scoped plan',
-    body: 'We reply with the approach: which library fits, what changes on your backend, and roughly how much work it is.'
+    title: "Get a scoped plan",
+    body: "We'll get back to you with a rough plan: which library fits, what changes on your backend, and how to best integrate this into your app.",
   },
   {
-    title: 'Ship it',
-    body: 'Build on the plan yourself, or have us alongside through review until sign-in runs in production.'
-  }
-]
+    title: "Ship it",
+    body: "Build on the plan yourself, or have us alongside through build and review until SIWE runs in production.",
+  },
+];
 </script>
 
 <template>
@@ -23,13 +23,14 @@ const STEPS = [
         <h2>Need help integrating?</h2>
         <p>
           The team that maintains the SIWE libraries and this site also helps
-          products get sign&#8209;in with Ethereum into production. Tell us
-          where you are and we take it from there.
+          products bring Sign in with Ethereum into production. We're happy to
+          help.
         </p>
         <div class="integrate-cta">
           <a class="btn" href="/contact">Get in touch</a>
           <a class="integrate-alt" href="/docs/quickstart/">
-            Prefer to self&#8209;serve? Quickstart <span aria-hidden="true">&rarr;</span>
+            Prefer to self&#8209;serve? Quickstart
+            <span aria-hidden="true">&rarr;</span>
           </a>
         </div>
       </header>
