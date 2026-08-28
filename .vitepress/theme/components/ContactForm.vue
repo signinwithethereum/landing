@@ -37,7 +37,7 @@ async function submit() {
     <div v-if="state === 'sent'" class="contact-sent" role="status">
       <strong>Message sent.</strong>
       <span>
-        Thanks — it is on its way to the maintainers. Replies come from a
+        Thanks. It is on its way to the maintainers. Replies come from a
         person, by email, to the address you gave.
       </span>
     </div>
@@ -121,7 +121,6 @@ async function submit() {
 
 <style scoped>
 .contact {
-  max-width: 40rem;
   margin-top: var(--s6);
 }
 

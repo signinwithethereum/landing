@@ -45,7 +45,7 @@ async function submit() {
       <div class="newsletter-side">
         <p v-if="state === 'sent'" class="newsletter-sent" role="status">
           <strong>Subscribed.</strong>
-          <span>You are on the list — the next update lands in your inbox.</span>
+          <span>You are on the list. The next update lands in your inbox.</span>
         </p>
 
         <form v-else class="newsletter-form" @submit.prevent="submit">

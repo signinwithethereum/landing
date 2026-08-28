@@ -529,7 +529,10 @@ body:has(.overview-rail) .VPNavBar,
 body:has(.overview-rail) .overview-rail .VPDoc,
 body:has(.overview-rail) .ft {
   width: min(100%, var(--home-page));
-  margin-inline: auto;
+  /* Block margins go with the inline ones: the footer's own `margin-top` would
+   * otherwise open a strip of outer field across the rail, the same way the
+   * homepage zeroes it. Inside the rail the divider does that work. */
+  margin: 0 auto;
   border-inline: 1px solid var(--rule);
   background: var(--home-rail);
 }
@@ -544,6 +547,20 @@ body:has(.overview-rail) .VPNavBar .container {
   body:has(.overview-rail) .ft {
     border-inline: 0;
   }
+}
+
+/* A short page — the contact form, an empty category — leaves the doc shorter
+ * than the viewport, and the rail used to stop at its last line with the outer
+ * field showing through above the footer. `.VPContent` already takes the slack
+ * in the layout column; passing it on to the doc keeps the frame unbroken from
+ * the nav all the way down. */
+body:has(.overview-rail) .VPContent {
+  display: flex;
+  flex-direction: column;
+}
+
+body:has(.overview-rail) .overview-rail .VPDoc {
+  flex: 1;
 }
 
 /* ----------------------------------------------------------- page shell */
