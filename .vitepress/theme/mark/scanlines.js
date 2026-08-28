@@ -19,8 +19,13 @@
  * the runs in the SVG files do. Each cell owns exactly its own box and takes a
  * cap only where its run ends, so cells tile edge to edge and never overlap —
  * two neighbours at different opacities would otherwise show the overlap as a
- * bead. The shapes come off the base canvas and never change, so a state still
- * only writes fill and opacity.
+ * bead.
+ *
+ * A run is whatever is lit at the tick, not what the base canvas holds: the
+ * icon's forms travel across the grid, so a cap frozen at the resting shape
+ * would sit in the middle of a bar as soon as one moved. Caps are therefore
+ * settled in `commit`, alongside fill and opacity, and only a cell whose run
+ * actually changed shape reaches the DOM.
  *
  * Plain script, no modules, so it works straight off the filesystem.
  *
@@ -120,31 +125,20 @@
       }
     }
 
-    /* Cell shapes. A run is a stretch of one kind of ground — ink or not — and
-       it takes a cap at each end. Where a field line runs into ink it reaches
-       half a cell further instead, passing under the cap rather than stopping
-       short of it and leaving a notch; `order` then paints every ink cell after
-       every other one, so the cap lands on top of the line it crosses. */
-    var paths = new Array(n);
+    /* Paint order: every ink cell after every other one, so an ink cap always
+       lands on top of the field line it crosses. A cell only ever reaches under
+       a neighbour the base calls ink, which is what makes the order enough. */
     var order = [];
     var ink = [];
-    for (i = 0; i < nl; i++) {
-      for (x = 0; x < nw; x++) {
-        var kc = i * nw + x;
-        var isInk = base[kc] === INK;
-        var lInk = x > 0 && base[kc - 1] === INK;
-        var rInk = x < nw - 1 && base[kc + 1] === INK;
-        var lSame = x > 0 && lInk === isInk;
-        var rSame = x < nw - 1 && rInk === isInk;
-        paths[kc] = cellPath(
-          x, spec.lines[i],
-          lSame ? JOIN : lInk && base[kc] === FIELD ? UNDER : CAP,
-          rSame ? JOIN : rInk && base[kc] === FIELD ? UNDER : CAP
-        );
-        (isInk ? ink : order).push(kc);
-      }
-    }
+    for (i = 0; i < n; i++) (base[i] === INK ? ink : order).push(i);
     order = order.concat(ink);
+
+    /* y per line, indexed by cell, so `commit` can cut a path without dividing
+       its way back to the line it is on. */
+    var rowY = new Float32Array(n);
+    for (i = 0; i < nl; i++) {
+      for (x = 0; x < nw; x++) rowY[i * nw + x] = spec.lines[i];
+    }
 
     /* Border path, clockwise from the top left */
     var perim = [];
@@ -157,7 +151,7 @@
       name: spec.name, w: nw, h: spec.h, lines: spec.lines,
       nw: nw, nl: nl, n: n, hasField: !!spec.hasField,
       base: base, dist: dist, distMax: distMax, perim: perim,
-      paths: paths, order: order
+      order: order, rowY: rowY
     };
   }
 
@@ -194,6 +188,8 @@
     this.alpha = new Float32Array(cv.n);
     this.domFill = new Uint8Array(cv.n);
     this.domAlpha = new Float32Array(cv.n);
+    this.lit = new Uint8Array(cv.n);
+    this.domCaps = new Int8Array(cv.n);
     this.cells = new Array(cv.n);
 
     var svg = document.createElementNS(NS, 'svg');
@@ -221,7 +217,7 @@
       var k = cv.order[i];
       var tone = cv.base[k];
       var cell = document.createElementNS(NS, 'path');
-      cell.setAttribute('d', cv.paths[k]);
+      this.domCaps[k] = -1;
       if (tone !== OFF) cell.style.fill = TONE_FILL[tone];
       else cell.style.opacity = 0;
       this.cells[k] = cell;
@@ -238,6 +234,10 @@
     this.host = host;
     this.raf = 0;
     this.anim = null;
+
+    /* Fill and opacity are already right; this cuts the cells, so the resting
+       mark reads as bars from the first frame rather than as nothing. */
+    this.commit();
   }
 
   Mark.prototype.begin = function () {
@@ -268,9 +268,23 @@
   Mark.prototype.isInk = function (k) { return this.base[k] === INK; };
 
   Mark.prototype.commit = function () {
-    for (var k = 0; k < this.n; k++) {
-      var tone = this.tone[k];
-      var a = tone === OFF ? 0 : clamp01(this.alpha[k]);
+    var nw = this.nw, base = this.base, k, tone, a;
+
+    /* Pass one settles what is lit and as what, so pass two can ask about a
+       neighbour it has not reached yet. Accent counts as ink — an accent is a
+       bar lit differently, not a bar of its own — while field is its own kind,
+       which is what keeps an ink cap where ink crosses a field line. Quantised
+       alpha decides it, the same value the DOM gets, so a cell lets go of its
+       run exactly when it stops being painted. */
+    for (k = 0; k < this.n; k++) {
+      tone = this.tone[k];
+      a = tone === OFF ? 0 : clamp01(this.alpha[k]);
+      this.lit[k] = Math.round(a * 50) / 50 > 0 ? (tone === FIELD ? FIELD : INK) : OFF;
+    }
+
+    for (k = 0; k < this.n; k++) {
+      tone = this.tone[k];
+      a = tone === OFF ? 0 : clamp01(this.alpha[k]);
       a = Math.round(a * 50) / 50;
       if (tone !== OFF && this.domFill[k] !== tone) {
         this.cells[k].style.fill = TONE_FILL[tone];
@@ -279,6 +293,23 @@
       if (this.domAlpha[k] !== a) {
         this.cells[k].style.opacity = a;
         this.domAlpha[k] = a;
+      }
+
+      /* A dark cell keeps the shape it had — nothing of it shows, and it is
+         asked again on the tick that lights it. */
+      var kind = this.lit[k];
+      if (!kind) continue;
+      var x = k % nw;
+      var l = x > 0 && this.lit[k - 1] === kind ? JOIN
+        : kind === FIELD && x > 0 && this.lit[k - 1] === INK && base[k - 1] === INK
+          && base[k] !== INK ? UNDER : CAP;
+      var r = x < nw - 1 && this.lit[k + 1] === kind ? JOIN
+        : kind === FIELD && x < nw - 1 && this.lit[k + 1] === INK && base[k + 1] === INK
+          && base[k] !== INK ? UNDER : CAP;
+      var caps = l * 3 + r;
+      if (this.domCaps[k] !== caps) {
+        this.cells[k].setAttribute('d', cellPath(x, this.cv.rowY[k], l, r));
+        this.domCaps[k] = caps;
       }
     }
     return this;
