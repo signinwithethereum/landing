@@ -40,8 +40,8 @@ const COLUMNS = [
           <Wordmark />
         </a>
         <p>
-          An open standard for authentication with Ethereum accounts. The
-          libraries and this site are maintained by
+          An open standard for authentication with Ethereum accounts. The libraries and this site
+          are maintained by
           <a href="https://1001.digital">1001.digital</a>.
         </p>
       </div>
@@ -143,5 +143,4 @@ const COLUMNS = [
 .ft-cols a:hover {
   color: var(--ink);
 }
-
 </style>

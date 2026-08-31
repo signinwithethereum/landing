@@ -82,4 +82,4 @@ The specification is public domain and Final, which means it cannot change under
 you. The implementations, the shared
 [test vectors](https://github.com/signinwithethereum/test-vectors) every library
 is checked against, and this site are on
-[GitHub](https://github.com/signinwithethereum/).
+[GitHub](https://github.com/signinwithethereum/website).

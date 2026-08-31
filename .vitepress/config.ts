@@ -86,7 +86,7 @@ export default defineConfig({
       { text: 'Libraries', link: '/docs/libraries/', activeMatch: '^/docs/libraries' },
       { text: 'Ecosystem', link: '/ecosystem', activeMatch: '^/ecosystem' },
       { text: 'Blog', link: '/blog/', activeMatch: '^/blog' },
-      { text: 'GitHub', link: 'https://github.com/signinwithethereum' }
+      { text: 'GitHub', link: 'https://github.com/signinwithethereum/website' }
     ],
 
     sidebar: {

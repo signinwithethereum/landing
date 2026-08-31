@@ -11,7 +11,7 @@ import { ECOSYSTEM, TYPES, type EcosystemType, type Entry } from '../data/ecosys
 import { MARKS } from '../data/marks'
 import { PUBLISHED_STORIES } from '../data/stories'
 
-const SUBMIT = 'https://github.com/signinwithethereum/landing-next/issues/new'
+const SUBMIT = 'https://github.com/signinwithethereum/website/issues/new'
 
 const SPOTLIGHT_NAMES = ['OpenRouter', 'Polymarket', 'MetaMask', 'Privy'] as const
 const STRIP_NAMES = ['WalletConnect', 'Ambire', 'Safe', 'OpenSea'] as const

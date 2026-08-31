@@ -38,5 +38,5 @@ direction of what goes wrong.
 ## Adding one here
 
 Built something for a platform not listed? Open a pull request on
-[the site](https://github.com/signinwithethereum/landing-next), or add yourself to
+[the site](https://github.com/signinwithethereum/website), or add yourself to
 the [ecosystem](/ecosystem), one entry in one file.
