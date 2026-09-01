@@ -45,6 +45,7 @@ accessories:
   postgres:
     image: postgres:17-alpine
     host: <%= ENV["DEPLOY_HOST"] %>
+    port: '127.0.0.1:5461:5432'
     env:
       clear:
         POSTGRES_DB: siwe
