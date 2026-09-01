@@ -26,7 +26,7 @@ The only required variable is `SESSION_SECRET` (at least 32 characters). The def
 | Variable | Required | Purpose |
 |----------|----------|---------|
 | `SESSION_SECRET` | Yes | Encrypts session cookies |
-| `NEXT_PUBLIC_WC_PROJECT_ID` | No | Enables WalletConnect (get one free at [cloud.walletconnect.com](https://cloud.walletconnect.com)) |
+| `NEXT_PUBLIC_WC_PROJECT_ID` | No | Enables WalletConnect (get one free at [dashboard.reown.com](https://dashboard.reown.com)) |
 | `ETH_RPC_URL` | No | Server-side RPC for signature verification and ENS resolution (defaults to a public RPC) |
 | `NEXT_PUBLIC_DOMAIN` | No | Explicit domain for SIWE verification when behind a reverse proxy |
 

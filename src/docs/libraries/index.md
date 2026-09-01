@@ -57,7 +57,7 @@ Pure-Go implementation, a port of the canonical TypeScript library.
 
 -   **Documentation**: [Go library reference](/docs/libraries/go)
 -   **Module**: [`github.com/signinwithethereum/siwe-go`](https://pkg.go.dev/github.com/signinwithethereum/siwe-go)
--   **Platforms**: Go 1.21+ services, CLIs, blockchain infrastructure
+-   **Platforms**: Go 1.24+ services, CLIs, blockchain infrastructure
 -   **Features**: Structured error types with machine-readable codes, EIP-1271 and EIP-6492 support via any go-ethereum–compatible RPC client
 -   **Best for**: Go backends (net/http, Gin, Echo, gRPC), indexers, bots
 

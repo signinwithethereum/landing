@@ -102,9 +102,9 @@ The provider uses a web-based interaction flow for SIWE authentication:
 ## Supported OIDC Features
 
 - Authorization Code flow with PKCE (S256)
-- Dynamic Client Registration ([RFC 7591](https://tools.ietf.org/html/rfc7591))
-- Token Introspection ([RFC 7662](https://tools.ietf.org/html/rfc7662))
-- Token Revocation ([RFC 7009](https://tools.ietf.org/html/rfc7009))
+- Dynamic Client Registration ([RFC 7591](https://datatracker.ietf.org/doc/html/rfc7591))
+- Token Introspection ([RFC 7662](https://datatracker.ietf.org/doc/html/rfc7662))
+- Token Revocation ([RFC 7009](https://datatracker.ietf.org/doc/html/rfc7009))
 - RP-Initiated Logout ([OpenID Connect RP-Initiated Logout](https://openid.net/specs/openid-connect-rpinitiated-1_0.html))
 - UserInfo endpoint
 - RS256 signing algorithm

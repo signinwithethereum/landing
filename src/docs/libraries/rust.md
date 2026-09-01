@@ -18,7 +18,7 @@ Add the crate to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-signinwithethereum = "0.7"
+signinwithethereum = "0.8"
 ```
 
 ### Features
@@ -33,7 +33,7 @@ Enable optional features as needed:
 
 ```toml
 [dependencies]
-signinwithethereum = { version = "0.7", features = ["serde", "alloy"] }
+signinwithethereum = { version = "0.8", features = ["serde", "alloy"] }
 ```
 
 ## API Reference
@@ -48,7 +48,8 @@ The core type representing an [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361
 | --- | --- | --- | --- |
 | `scheme` | `Option<String>` | No | URI scheme of the request origin (e.g. `"https"`) |
 | `domain` | `Authority` | Yes | RFC 3986 authority requesting the signing |
-| `address` | `[u8; 20]` | Yes | Ethereum address (raw bytes, validated as EIP-55) |
+| `address` | `[u8; 20]` | Yes | Ethereum address (raw bytes) |
+| `address_raw` | `Option<String>` | No | Raw address hex (no `0x`) exactly as parsed, set only when the input was not EIP-55 checksummed |
 | `statement` | `Option<String>` | No | Human-readable ASCII assertion |
 | `uri` | `UriString` | Yes | RFC 3986 URI referring to the resource |
 | `version` | `Version` | Yes | Must be `V1` for EIP-4361 |
@@ -59,6 +60,15 @@ The core type representing an [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361
 | `not_before` | `Option<TimeStamp>` | No | When the message becomes valid |
 | `request_id` | `Option<String>` | No | System-specific identifier |
 | `resources` | `Vec<UriString>` | No | List of resource URIs |
+| `warnings` | `Vec<String>` | No | Non-fatal validation warnings (e.g. unchecksummed address) surfaced during parsing |
+
+::: info
+`address_raw` and `warnings` are populated by the parser. When constructing a
+`Message` directly, set `address_raw: None` (the canonical EIP-55 form is then
+used) and `warnings: Vec::new()`. `PartialEq` ignores `warnings` but includes
+`address_raw`, because that field changes how the message serializes and
+therefore what gets hashed for EIP-191.
+:::
 
 #### Parsing
 
@@ -82,12 +92,13 @@ let message: Message = msg.parse().unwrap();
 ```
 
 The parser validates:
-- EIP-55 checksummed address
+- EIP-55 checksummed address (mixed-case addresses must pass the checksum; all-lowercase / all-uppercase are accepted with a warning on `message.warnings`)
 - Alphanumeric nonce (minimum 8 characters)
 - RFC 3339 timestamps
 - RFC 3986 URI and domain
 - Optional `scheme://` prefix per EIP-4361
 - Printable ASCII statement (no control characters)
+- Truly blank separator lines between the address, statement and URI fields, so that no unauthenticated text can be smuggled into a message that still verifies
 
 #### Serialization
 
@@ -364,7 +375,7 @@ This crate is the actively maintained successor to the [`siwe`](https://crates.i
 
 ```diff
 - siwe = "0.6"
-+ signinwithethereum = "0.7"
++ signinwithethereum = "0.8"
 ```
 
 ### Code changes
@@ -380,7 +391,7 @@ If you used the `ethers` feature for EIP-1271 contract wallet verification, swit
 
 ```diff
 - siwe = { version = "0.6", features = ["ethers"] }
-+ signinwithethereum = { version = "0.7", features = ["alloy"] }
++ signinwithethereum = { version = "0.8", features = ["alloy"] }
 ```
 
 And replace the provider in `VerificationOpts`:
@@ -393,13 +404,15 @@ And replace the provider in `VerificationOpts`:
   };
 ```
 
-The `Message` struct now has a `scheme: Option<String>` field. If you construct `Message` values directly (rather than parsing), add it:
+The `Message` struct has gained three fields since v0.6: `scheme` (added in 0.7.0), `warnings` (0.8.0) and `address_raw` (0.8.1). If you construct `Message` values directly (rather than parsing), add them:
 
 ```diff
   let msg = Message {
 +     scheme: None,
       domain: "example.com".parse().unwrap(),
       // ...
++     address_raw: None,
++     warnings: Vec::new(),
   };
 ```
 
@@ -408,6 +421,22 @@ See the [CHANGELOG](https://github.com/signinwithethereum/siwe-rs/blob/main/CHAN
 ## Changelog
 
 See the full [CHANGELOG](https://github.com/signinwithethereum/siwe-rs/blob/main/CHANGELOG.md) for version history.
+
+### v0.8.1 Highlights
+
+- **Fixed verification of uniform-case addresses**: in 0.8.0, messages whose address was all-lowercase or all-uppercase parsed with a warning but silently failed verification, because `Display` always re-serialized the address in EIP-55 form and the EIP-191 hash no longer matched what the signer signed.
+- **New `address_raw` field on `Message`** (breaking): stores the raw address hex as it appeared in the parsed message, and `Display` emits it verbatim so signatures over uniform-case messages verify. Set it to `None` when constructing messages directly.
+
+### v0.8.0 Highlights
+
+- **New `warnings` field on `Message`** (breaking): carries non-fatal parsing warnings. Set it to `Vec::new()` when constructing messages directly. `PartialEq` excludes it.
+- **Unchecksummed addresses accepted with a warning**: all-lowercase and all-uppercase addresses now parse, matching the TypeScript reference implementation. Mixed-case addresses with an invalid checksum are still rejected.
+- **Empty statements distinguished from missing**: the parser now handles all three EIP-4361 states — present, empty and absent — instead of conflating the last two.
+
+### v0.7.1 Highlights
+
+- **Cross-chain contract-wallet verification**: the RPC endpoint's chain ID is now validated against the message before any onchain call.
+- **Blank line injection fixed**: separator lines between the address, statement and URI fields must be truly blank, closing a canonicalization gap where extra unauthenticated lines could be injected into a message that still verified.
 
 ### v0.7.0 Highlights
 

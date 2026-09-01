@@ -94,7 +94,7 @@ Accepts either an [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) formatted 
 | Parameter        | Type       | Required | Description                                                                               |
 | ---------------- | ---------- | -------- | ----------------------------------------------------------------------------------------- |
 | `domain`         | `string`   | Yes       | RFC 4501 DNS authority requesting the signing                                             |
-| `address`        | `string`   | Yes       | Ethereum address (EIP-55 checksum format)                                                 |
+| `address`        | `string`   | Yes       | Ethereum address; EIP-55 checksum format preferred (see below)                            |
 | `uri`            | `string`   | Yes       | RFC 3986 URI referring to the resource                                                    |
 | `version`        | `string`   | Yes       | Must be `"1"` for [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) compliance          |
 | `chainId`        | `number`   | Yes       | EIP-155 Chain ID                                                                          |
@@ -110,6 +110,24 @@ Accepts either an [EIP-4361](https://eips.ethereum.org/EIPS/eip-4361) formatted 
 ::: info
 In v4, `nonce` and `issuedAt` are required when constructing from an object. Use `generateNonce()` and `new Date().toISOString()` respectively.
 :::
+
+The constructed instance also exposes a `warnings: string[]` field (added in
+4.2.0) holding non-fatal validation notes, such as an address that is not
+EIP-55 checksummed. It is always an array; an empty one means the message
+parsed cleanly.
+
+```typescript
+const message = new SiweMessage(messageString)
+message.warnings // => [] or ["line 2: address is not EIP-55 checksummed - 0x…"]
+```
+
+Since 4.2.0, all-lowercase and all-uppercase addresses are accepted rather than
+rejected, and only _mixed-case_ addresses that fail the EIP-55 checksum throw.
+Parsing a string preserves the address exactly as written, so the message still
+hashes to what the wallet signed; constructing from an object normalizes the
+address to its checksummed form. Either way the case is recorded in `warnings`,
+so an application that wants the old strict behavior can check the field and
+reject the message itself.
 
 #### Methods
 
@@ -382,6 +400,7 @@ import { ParsedMessage } from '@signinwithethereum/siwe-parser'
 
 const parsed = new ParsedMessage(messageString)
 console.log(parsed.domain, parsed.address, parsed.chainId)
+console.log(parsed.warnings) // non-fatal notes, e.g. an unchecksummed address
 ```
 
 ## Frontend Integration
@@ -750,7 +769,7 @@ await message.verify({ signature, domain: 'example.com', nonce: storedNonce })
 #### "Invalid signature" Error
 
 - Verify the message string exactly matches what was signed
-- Check that the address is in EIP-55 checksum format
+- Verify the message on the server by parsing the string the client signed, not by rebuilding a `SiweMessage` from fields: constructing from an object rewrites an unchecksummed address into EIP-55 form, which changes the EIP-191 hash and breaks verification
 - Ensure the signature is in the correct format (0x-prefixed hex)
 - For contract wallets, ensure your config includes `checkContractWalletSignature`
 
