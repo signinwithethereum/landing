@@ -29,18 +29,28 @@ builder:
   arch: amd64
   context: api
   dockerfile: api/Dockerfile
+  # Set KAMAL_REMOTE_BUILDER (e.g. ssh://root@$DEPLOY_HOST) to build on the
+  # server instead of this machine — handy without a local Docker daemon.
+  # CI leaves it unset and builds on the runner.
+<% if ENV["KAMAL_REMOTE_BUILDER"].to_s != "" %>
+  remote: <%= ENV["KAMAL_REMOTE_BUILDER"] %>
+<% end %>
 
 env:
   clear:
-    ALLOWED_ORIGINS: https://siwe.xyz,https://<%= ENV["APP_HOST"] %>
+    ALLOWED_ORIGINS: https://siwe.xyz,https://<%= ENV["APP_HOST"] %>,https://<%= ENV.fetch("MONITORING_HOST", "monitor.siwe.xyz") %>
     CONTACT_TO: <%= ENV.fetch("CONTACT_TO", "contact@siwe.xyz") %>
     CONTACT_FROM: <%= ENV.fetch("CONTACT_FROM", "siwe.xyz <contact@siwe.xyz>") %>
   secret:
     - DATABASE_URL
     - RESEND_API_KEY
+    # Bearer token for /admin/*, used by the Grafana dashboards in the
+    # sibling siwe/monitoring repo. Unset disables those endpoints.
+    - ADMIN_TOKEN
 
 # Kamal puts the app and its accessories on the shared `kamal` docker network,
-# so the app reaches postgres as `siwe-api-postgres` with no published port.
+# so the app reaches postgres as `siwe-api-postgres`. The published port below
+# is loopback-only, for desktop SQL clients over an SSH tunnel.
 accessories:
   postgres:
     image: postgres:17-alpine

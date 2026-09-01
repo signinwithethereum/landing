@@ -30,6 +30,7 @@ jobs:
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
       RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
 
     steps:
       - name: Check out the pushed revision
@@ -50,6 +51,7 @@ jobs:
             POSTGRES_PASSWORD \
             DATABASE_URL \
             RESEND_API_KEY \
+            ADMIN_TOKEN \
             KAMAL_SSH_PRIVATE_KEY \
             SSH_KNOWN_HOSTS
           do

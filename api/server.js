@@ -13,16 +13,23 @@
  *   CONTACT_FROM     default "siwe.xyz <contact@siwe.xyz>"; domain must be
  *                    verified in Resend
  *   ALLOWED_ORIGINS  comma-separated, default covers siwe.xyz and local dev
+ *   ADMIN_TOKEN      bearer token for /admin/*; unset disables those endpoints
  */
 
 import { createServer } from 'node:http'
+import { timingSafeEqual } from 'node:crypto'
 
 import {
   pool,
   migrate,
   insertContactMessage,
   markContactForwarded,
-  insertNewsletterSubscriber
+  insertNewsletterSubscriber,
+  setContactHandled,
+  setContactNote,
+  deleteContactMessage,
+  setNewsletterUnsubscribed,
+  deleteNewsletterSubscriber
 } from './db.js'
 import { forwardContactMessage } from './resend.js'
 
@@ -30,11 +37,16 @@ const PORT = Number(process.env.PORT || 8787)
 
 const ALLOWED_ORIGINS = (
   process.env.ALLOWED_ORIGINS ||
-  'https://siwe.xyz,https://next.siwe.xyz,http://localhost:4321'
+  'https://siwe.xyz,https://next.siwe.xyz,https://monitor.siwe.xyz,http://localhost:4321'
 )
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean)
+
+/* The Grafana dashboards in the siwe/monitoring repo send this as a bearer
+ * token. Unset means the /admin endpoints answer 404 like any other unknown
+ * path, so a deploy that forgets the secret exposes nothing. */
+const ADMIN_TOKEN = process.env.ADMIN_TOKEN || ''
 
 /* ------------------------------------------------------------- validation */
 
@@ -101,7 +113,8 @@ function applyCors(req, res) {
     res.setHeader('Access-Control-Allow-Origin', origin)
     res.setHeader('Vary', 'Origin')
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+    /* Authorization is for /admin/*, which Grafana calls from the browser. */
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
     res.setHeader('Access-Control-Max-Age', '86400')
   }
 }
@@ -184,6 +197,71 @@ const ENDPOINTS = {
   '/newsletter': handleNewsletter
 }
 
+/* ------------------------------------------------------------------- admin */
+
+/* Compares in constant time and without leaking the expected length. */
+function validAdminToken(header) {
+  if (!ADMIN_TOKEN) return false
+  if (typeof header !== 'string' || !header.startsWith('Bearer ')) return false
+  const offered = Buffer.from(header.slice(7))
+  const expected = Buffer.from(ADMIN_TOKEN)
+  if (offered.length !== expected.length) return false
+  return timingSafeEqual(offered, expected)
+}
+
+/* Grafana interpolates the row's id straight into the JSON body, so an empty
+ * cell arrives as the literal string rather than a number. */
+function rowId(value) {
+  const id = Number(value)
+  return Number.isInteger(id) && id > 0 ? id : null
+}
+
+const NOT_FOUND = { status: 404, body: { ok: false, error: 'No such row.' } }
+const BAD_ID = { status: 400, body: { ok: false, error: 'A valid row id is required.' } }
+
+async function adminContactHandle(body) {
+  const id = rowId(body.id)
+  if (!id) return BAD_ID
+  const found = await setContactHandled(id, body.handled !== false)
+  return found ? { status: 200, body: { ok: true } } : NOT_FOUND
+}
+
+async function adminContactNote(body) {
+  const id = rowId(body.id)
+  if (!id) return BAD_ID
+  const found = await setContactNote(id, text(body.note, 2000))
+  return found ? { status: 200, body: { ok: true } } : NOT_FOUND
+}
+
+async function adminContactDelete(body) {
+  const id = rowId(body.id)
+  if (!id) return BAD_ID
+  const found = await deleteContactMessage(id)
+  return found ? { status: 200, body: { ok: true } } : NOT_FOUND
+}
+
+async function adminNewsletterUnsubscribe(body) {
+  const id = rowId(body.id)
+  if (!id) return BAD_ID
+  const found = await setNewsletterUnsubscribed(id, body.unsubscribed !== false)
+  return found ? { status: 200, body: { ok: true } } : NOT_FOUND
+}
+
+async function adminNewsletterDelete(body) {
+  const id = rowId(body.id)
+  if (!id) return BAD_ID
+  const found = await deleteNewsletterSubscriber(id)
+  return found ? { status: 200, body: { ok: true } } : NOT_FOUND
+}
+
+const ADMIN_ENDPOINTS = {
+  '/admin/contact/handle': adminContactHandle,
+  '/admin/contact/note': adminContactNote,
+  '/admin/contact/delete': adminContactDelete,
+  '/admin/newsletter/unsubscribe': adminNewsletterUnsubscribe,
+  '/admin/newsletter/delete': adminNewsletterDelete
+}
+
 /* ------------------------------------------------------------------ server */
 
 const server = createServer(async (req, res) => {
@@ -199,6 +277,29 @@ const server = createServer(async (req, res) => {
 
   if (req.method === 'GET' && (path === '/healthz' || path === '/')) {
     respond(res, 200, { ok: true, service: 'siwe-api' })
+    return
+  }
+
+  /* Admin traffic is one authenticated operator clicking buttons in Grafana:
+   * it skips the public rate limit, which would lock them out after five
+   * clicks, and answers before the honeypot check below. */
+  const adminHandler = ADMIN_ENDPOINTS[path]
+  if (adminHandler && ADMIN_TOKEN) {
+    if (req.method !== 'POST') {
+      respond(res, 405, { ok: false, error: 'Method not allowed.' })
+      return
+    }
+    if (!validAdminToken(req.headers.authorization)) {
+      respond(res, 401, { ok: false, error: 'Unauthorized.' })
+      return
+    }
+    try {
+      const { status, body: payload } = await adminHandler(await readJsonBody(req))
+      respond(res, status, payload)
+    } catch (error) {
+      console.error(`POST ${path} failed:`, error)
+      respond(res, 500, { ok: false, error: 'Something went wrong.' })
+    }
     return
   }
 
