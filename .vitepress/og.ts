@@ -5,6 +5,10 @@ import type { SiteConfig } from 'vitepress'
 
 const WIDTH = 1200
 const HEIGHT = 630
+
+/* The home page ships a hand-made card from `public/` rather than a generated
+ * one. */
+const HOME_IMAGE = { url: '/intro.png', width: WIDTH, height: HEIGHT }
 const SITE_NAME = 'Sign in with Ethereum'
 const FALLBACK_DESCRIPTION =
   'Sign in with Ethereum is an open authentication standard for Ethereum accounts.'
@@ -19,8 +23,14 @@ export function routeForPage(page: string) {
 }
 
 export function ogImageForRoute(route: string) {
+  if (route === '/') return HOME_IMAGE
+
   const page = route.replace(/^\//, '')
-  return `/og/${page === '' || page.endsWith('/') ? `${page}index` : page}.png`
+  return {
+    url: `/og/${page.endsWith('/') ? `${page}index` : page}.png`,
+    width: WIDTH,
+    height: HEIGHT
+  }
 }
 
 export async function generateOgImages(config: SiteConfig) {
@@ -44,7 +54,10 @@ export async function generateOgImages(config: SiteConfig) {
   })
 
   for (const { route, title, description } of pages) {
-    const target = path.join(config.outDir, ogImageForRoute(route))
+    /* The home card is a static asset; generating over it would delete it. */
+    if (route === '/') continue
+
+    const target = path.join(config.outDir, ogImageForRoute(route).url)
 
     mkdirSync(path.dirname(target), { recursive: true })
     renderPng(ogSvg(title, description), target)

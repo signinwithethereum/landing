@@ -2,8 +2,8 @@
 layout: page
 pageClass: page-bleed
 title: Sign in with Ethereum
-titleTemplate: An open standard for Ethereum authentication
-description: Sign in with Ethereum (ERC-4361) is an open standard for signing into apps with an Ethereum account. Users sign a readable message and the server verifies it.
+titleTemplate: Open authentication standard
+description: ERC-4361, the open standard for app sign-in with an Ethereum account. Users sign a readable message, the server verifies it.
 ---
 
 <div class="home-page">

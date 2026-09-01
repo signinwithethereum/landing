@@ -7,7 +7,7 @@ import { generateOgImages, ogImageForRoute, routeForPage } from './og.ts'
 
 const HOST = `https://${process.env.APP_HOST ?? 'siwe.xyz'}`
 const DESCRIPTION =
-  'Sign in with Ethereum is an open authentication standard. A user signs a readable message with an Ethereum account and the server verifies it.'
+  'The open standard for app sign-in with an Ethereum account. Users sign a readable message, the server verifies it.'
 
 export default defineConfig({
   srcDir: 'src',
@@ -53,7 +53,8 @@ export default defineConfig({
   transformHead({ page, title, description }) {
     const route = routeForPage(page)
     const url = `${HOST}${route}`
-    const image = `${HOST}${ogImageForRoute(route)}`
+    const card = ogImageForRoute(route)
+    const image = `${HOST}${card.url}`
 
     return [
       ['link', { rel: 'canonical', href: url }],
@@ -61,8 +62,8 @@ export default defineConfig({
       ['meta', { property: 'og:description', content: description }],
       ['meta', { property: 'og:url', content: url }],
       ['meta', { property: 'og:image', content: image }],
-      ['meta', { property: 'og:image:width', content: '1200' }],
-      ['meta', { property: 'og:image:height', content: '630' }],
+      ['meta', { property: 'og:image:width', content: String(card.width) }],
+      ['meta', { property: 'og:image:height', content: String(card.height) }],
       ['meta', { property: 'og:image:type', content: 'image/png' }],
       ['meta', { name: 'twitter:title', content: title }],
       ['meta', { name: 'twitter:description', content: description }],
