@@ -111,10 +111,14 @@ function applyCors(req, res) {
   const origin = req.headers.origin
   if (origin && ALLOWED_ORIGINS.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin)
-    res.setHeader('Vary', 'Origin')
+    res.setHeader('Vary', 'Origin, Access-Control-Request-Headers')
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
-    /* Authorization is for /admin/*, which Grafana calls from the browser. */
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    /* Whatever the preflight asks for, within an already allowlisted origin.
+     * Grafana's action buttons send Authorization plus a handful of its own
+     * x-grafana-* headers, and the set has changed between releases — echoing
+     * the request beats chasing the list. */
+    const requested = req.headers['access-control-request-headers']
+    res.setHeader('Access-Control-Allow-Headers', requested || 'Content-Type, Authorization')
     res.setHeader('Access-Control-Max-Age', '86400')
   }
 }
